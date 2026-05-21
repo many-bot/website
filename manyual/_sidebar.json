@@ -1,0 +1,14 @@
+[
+  {
+    "group": "sobre",
+    "items": [
+      { "file": "manyual.md", "label": "Sobre o ManyBot" }
+    ]
+  },
+  {
+    "group": "comandos",
+    "items": [
+      { "file": "figurinha.md", "label": "figurinha" }
+    ]
+  }
+]

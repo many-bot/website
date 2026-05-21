@@ -1,0 +1,556 @@
+/* ── VARIÁVEIS ────────────────────────────────────────────────────────── */
+:root {
+  --bg:       #0d1117;
+  --bg-2:     #161b22;
+  --bg-3:     #1f2630;
+
+  --border:   #30363d;
+
+  --accent:   #2f81f7;
+  --accent-2: #58a6ff;
+
+  --text:     #e6edf3;
+  --text-2:   #9da7b3;
+  --text-3:   #6e7681;
+
+  --radius:   8px;
+  --sidebar:  240px;
+  --nav-h:    56px;
+}
+
+/* ── RESET ────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── NAV ──────────────────────────────────────────────────────────────── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  height: var(--nav-h);
+  padding: 0 20px;
+  background: rgba(13,17,23,.92);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.nav-brand { display: flex; align-items: center; }
+
+.nav-logo {
+  width: 110px;
+  margin-right: 30px;
+  margin-top: 5px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+}
+
+.nav-links a {
+  display: block;
+  padding: 7px 14px;
+  border-radius: var(--radius);
+  color: var(--text-2);
+  font-size: 14px;
+  text-decoration: none;
+  transition: background .15s, color .15s;
+}
+
+.nav-links a:hover {
+  background: var(--bg-3);
+  color: var(--text);
+}
+
+/* ── NAVEGAÇÃO :target ────────────────────────────────────────────────── */
+/*
+  Todas as sections com class="page" ficam ocultas por padrão.
+  A section cujo #id corresponde ao hash da URL fica visível via :target.
+  Fallback (sem hash): mostra #blog por padrão.
+*/
+
+.page { display: none; }
+
+/* seção ativa via hash */
+.page:target { display: block; }
+
+/* fallback: nenhum hash → mostra blog */
+body:not(:has(.page:target)) #blog { display: block; }
+
+/* nav: destaca o link da seção atual */
+/* usa :has() para detectar qual seção está ativa */
+body:has(#blog:target)      .nav-links a[href="#blog"],
+body:not(:has(.page:target)) .nav-links a[href="#blog"]     { color: var(--accent-2); background: var(--bg-3); }
+body:has(#docs:target)      .nav-links a[href="#docs"]      { color: var(--accent-2); background: var(--bg-3); }
+body:has(#manyual:target)   .nav-links a[href="#manyual"]   { color: var(--accent-2); background: var(--bg-3); }
+body:has(#community:target) .nav-links a[href="#community"] { color: var(--accent-2); background: var(--bg-3); }
+body:has(#fanarts:target)   .nav-links a[href="#community"] { color: var(--accent-2); background: var(--bg-3); }
+
+/* posts do blog e docs também acendem o nav correto */
+[id^="blog-post-"]:target ~ * .nav-links a[href="#blog"]   { color: var(--accent-2); background: var(--bg-3); }
+[id^="docs-"]:target      ~ * .nav-links a[href="#docs"]   { color: var(--accent-2); background: var(--bg-3); }
+[id^="manyual-"]:target   ~ * .nav-links a[href="#manyual"]{ color: var(--accent-2); background: var(--bg-3); }
+
+/* ── TÍTULOS DE PÁGINA ────────────────────────────────────────────────── */
+.page-title {
+  margin-bottom: 24px;
+  color: var(--text);
+  font-size: 26px;
+  font-weight: 700;
+}
+
+/* ── BOTÃO VOLTAR ─────────────────────────────────────────────────────── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 28px;
+  background: none;
+  border: none;
+  color: var(--text-2);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color .15s;
+}
+.back-btn:hover { color: var(--text); }
+
+/* ── BLOG ─────────────────────────────────────────────────────────────── */
+.blog-layout {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 42px 20px;
+}
+
+.blog-list { display: flex; flex-direction: column; }
+
+.blog-item {
+  display: block;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  color: inherit;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+
+.blog-item:hover .blog-item-title { color: var(--accent-2); }
+
+.blog-item-meta   { margin-bottom: 8px; color: var(--text-3); font-size: 12px; }
+.blog-item-title  { margin-bottom: 8px; color: var(--text); font-size: 20px; font-weight: 700; transition: color .15s; }
+.blog-item-excerpt { color: var(--text-2); font-size: 14px; }
+
+/* ── DOCS / MANYUAL ───────────────────────────────────────────────────── */
+.docs-layout {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.docs-sidebar {
+  width: var(--sidebar);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  padding: 28px 0;
+  border-right: 1px solid var(--border);
+}
+
+.sidebar-group        { margin-bottom: 26px; }
+
+.sidebar-group-title {
+  margin-bottom: 8px;
+  padding: 0 16px;
+  color: var(--text-3);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 7px 16px;
+  border-left: 2px solid transparent;
+  color: var(--text-2);
+  font-size: 14px;
+  text-decoration: none;
+  transition: background .15s, border-color .15s, color .15s;
+}
+
+.sidebar-link:hover { background: var(--bg-2); color: var(--text); }
+
+.sidebar-link.active {
+  background: var(--bg-2);
+  border-left-color: var(--accent-2);
+  color: var(--accent-2);
+}
+
+/* active via :target — highlight da sidebar baseado no hash atual */
+/* cada página de doc tem id="[section]-[slug]", a sidebar contém links
+   com href="#[section]-[slug]". Usamos :has para destacar o link correto. */
+
+.docs-content {
+  flex: 1;
+  min-width: 0;
+  padding: 40px;
+}
+
+.page:target {
+  scroll-margin-top: var(--nav-h);
+}
+
+/* ── MARKDOWN ─────────────────────────────────────────────────────────── */
+.md { max-width: 760px; }
+
+.md h1 {
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.md h2 {
+  margin: 36px 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 24px;
+}
+
+.md h3   { margin: 28px 0 10px; font-size: 18px; }
+.md p    { margin-bottom: 16px; color: var(--text-2); }
+
+.md ul,
+.md ol   { margin-bottom: 16px; padding-left: 24px; color: var(--text-2); }
+.md li   { margin-bottom: 6px; }
+
+.md a    { color: var(--accent-2); text-decoration: none; }
+.md a:hover { text-decoration: underline; }
+.md strong { color: var(--text); }
+
+.md code {
+  padding: 2px 6px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 13px;
+}
+
+.md pre {
+  overflow-x: auto;
+  margin-bottom: 18px;
+  padding: 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.md pre code { padding: 0; background: transparent; border: none; }
+
+.md blockquote {
+  margin-bottom: 16px;
+  padding-left: 14px;
+  border-left: 3px solid var(--accent);
+  color: var(--text-2);
+}
+
+.md hr { margin: 28px 0; border: none; border-top: 1px solid var(--border); }
+
+.md table { width: 100%; margin-bottom: 18px; border-collapse: collapse; }
+.md th, .md td { padding: 10px 14px; border: 1px solid var(--border); text-align: left; }
+.md th { background: var(--bg-2); color: var(--text); font-weight: 600; }
+.md td { color: var(--text-2); }
+
+.md img { max-width: 100%; border-radius: var(--radius); }
+
+/* ── COMMUNITY ────────────────────────────────────────────────────────── */
+.community-layout { max-width: 760px; margin: 0 auto; padding: 42px 20px; }
+
+.community-section { margin-bottom: 42px; }
+
+.community-section h2 {
+  margin-bottom: 12px;
+  color: var(--text-3);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+  padding: 14px 16px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color .15s, transform .15s, background .15s;
+}
+
+.link-card:hover { background: var(--bg-3); border-color: var(--accent); transform: translateY(-1px); }
+
+.link-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  flex-shrink: 0;
+  font-size: 18px;
+}
+
+.link-card-body  { flex: 1; min-width: 0; }
+.link-card-title { margin-bottom: 3px; color: var(--text); font-size: 14px; font-weight: 600; }
+.link-card-desc  { color: var(--text-2); font-size: 13px; }
+.link-card-arrow { color: var(--text-3); font-size: 18px; }
+
+/* ── FANARTS ──────────────────────────────────────────────────────────── */
+.fanarts-layout { max-width: 1200px; margin: 0 auto; padding: 42px 20px; }
+
+/* grid estilo masonry com colunas */
+.fanarts-grid {
+  columns: 4 240px;
+  column-gap: 16px;
+}
+
+.fanart-item {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  break-inside: avoid;
+  margin-bottom: 16px;
+  contain: layout;
+}
+
+.fanart-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform .2s, opacity .2s;
+}
+
+.fanart-item:hover img { transform: scale(1.03); opacity: .88; }
+
+.fanart-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 24px 12px 12px;
+  background: linear-gradient(transparent, rgba(0,0,0,.75));
+}
+
+.fanart-author {
+  font-size: 13px;
+  color: white;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fanart-author a {
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,.4);
+}
+
+.fanart-author a:hover {
+  text-decoration-color: white;
+}
+
+.fanart-empty { color: var(--text-3); }
+
+.author-link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,.4);
+}
+
+.author-link:hover {
+  text-decoration-color: white;
+}
+
+/* ── LIGHTBOX ESTÁTICO (fallback sem JS) ──────────────────────────────── */
+.lightbox-static {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(0,0,0,.92);
+}
+
+/* visível via :target */
+.lightbox-static:target { display: flex; }
+
+.lightbox-static figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lightbox-static img {
+  max-width: 92vw;
+  max-height: 80vh;
+  border-radius: var(--radius);
+}
+
+.lightbox-static figcaption {
+  color: white;
+  font-size: 14px;
+}
+
+/* quando JS disponível, esconde os lightboxes estáticos */
+html.js .lightbox-static        { display: none !important; }
+html.js .lightbox-static:target { display: none !important; }
+
+/* ── LIGHTBOX DINÂMICO (com JS) ───────────────────────────────────────── */
+.lightbox-dynamic {
+  display: none; /* sempre oculto sem JS */
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.92);
+}
+
+/* só visível quando JS está presente E lightbox está aberto */
+html.js .lightbox-dynamic.open { display: flex; }
+
+.lightbox-dynamic figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.lightbox-dynamic img {
+  max-width: 92vw;
+  max-height: 80vh;
+  border-radius: var(--radius);
+}
+
+.lightbox-dynamic figcaption {
+  color: white;
+  font-size: 14px;
+}
+
+/* ── BOTÕES DO LIGHTBOX (compartilhados) ──────────────────────────────── */
+.lightbox-close,
+.lightbox-nav {
+  position: absolute;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius);
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.lightbox-close {
+  top: 20px;
+  right: 20px;
+  width: 42px;
+  height: 42px;
+}
+
+.lightbox-nav {
+  top: 50%;
+  width: 46px;
+  height: 60px;
+  transform: translateY(-50%);
+  font-size: 30px;
+}
+
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+
+/* ── LOADING ──────────────────────────────────────────────────────────── */
+.loading { padding: 20px 0; color: var(--text-3); font-size: 14px; }
+
+/* ── MOBILE ───────────────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  nav { padding: 0 14px; }
+  .nav-links a { padding: 6px 10px; }
+
+  .blog-layout,
+  .community-layout,
+  .fanarts-layout { padding: 28px 16px; }
+
+  .docs-layout {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .docs-sidebar {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    height: auto;
+    position: static;
+    overflow-x: auto;
+    padding: 14px 12px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sidebar-group { display: flex; margin-bottom: 0; }
+  .sidebar-group-title { display: none; }
+
+  .sidebar-link {
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+
+  .sidebar-link.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--accent-2);
+  }
+
+  .docs-content { padding: 28px 16px; }
+
+  .fanarts-grid { columns: 2; column-gap: 10px; }
+  .fanart-item  { margin-bottom: 10px; }
+
+  .lightbox-nav { display: none; }
+}
+

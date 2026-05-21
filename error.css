@@ -1,0 +1,90 @@
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+
+  --text: #e6edf3;
+  --text-2: #9da7b3;
+  --text-3: #666666;
+
+  --border: #30363d;
+  --hover: #21262d;
+
+  --radius: 12px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 6px;
+  padding: 24px;
+
+  background: var(--bg);
+  color: var(--text);
+
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    sans-serif;
+
+  text-align: center;
+  text-rendering: optimizeLegibility;
+}
+
+h1 {
+  font-size: clamp(5rem, 18vw, 8rem);
+  line-height: 1;
+  letter-spacing: -4px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+p {
+  color: var(--text-2);
+  margin-bottom: 12px;
+}
+
+.a-back {
+  color: var(--text);
+
+  padding: 10px 18px;
+}
+
+.author {
+  font-size: 15px;
+  margin-top: -40px;
+  margin-bottom: 30px;
+  color: var(--text-3);
+}
+
+.author a {
+  color: var(--text-3);
+}
+
+.logo {
+  margin-top: 18px;
+  height: 42px;
+  opacity: .9;
+}
+
+.many {
+  height: 250px;
+}
