@@ -77,33 +77,24 @@ nav {
 }
 
 /* ── NAVEGAÇÃO :target ────────────────────────────────────────────────── */
-/*
-  Todas as sections com class="page" ficam ocultas por padrão.
-  A section cujo #id corresponde ao hash da URL fica visível via :target.
-  Fallback (sem hash): mostra #blog por padrão.
-*/
-
 .page { display: none; }
 
-/* seção ativa via hash */
 .page:target { display: block; }
 
-/* fallback: nenhum hash → mostra blog */
 body:not(:has(.page:target)) #blog { display: block; }
 
-/* nav: destaca o link da seção atual */
-/* usa :has() para detectar qual seção está ativa */
 body:has(#blog:target)      .nav-links a[href="#blog"],
 body:not(:has(.page:target)) .nav-links a[href="#blog"]     { color: var(--accent-2); background: var(--bg-3); }
 body:has(#docs:target)      .nav-links a[href="#docs"]      { color: var(--accent-2); background: var(--bg-3); }
 body:has(#manyual:target)   .nav-links a[href="#manyual"]   { color: var(--accent-2); background: var(--bg-3); }
+body:has(#plugins:target)   .nav-links a[href="#plugins"]   { color: var(--accent-2); background: var(--bg-3); }
 body:has(#community:target) .nav-links a[href="#community"] { color: var(--accent-2); background: var(--bg-3); }
 body:has(#fanarts:target)   .nav-links a[href="#community"] { color: var(--accent-2); background: var(--bg-3); }
 
-/* posts do blog e docs também acendem o nav correto */
-[id^="blog-post-"]:target ~ * .nav-links a[href="#blog"]   { color: var(--accent-2); background: var(--bg-3); }
-[id^="docs-"]:target      ~ * .nav-links a[href="#docs"]   { color: var(--accent-2); background: var(--bg-3); }
-[id^="manyual-"]:target   ~ * .nav-links a[href="#manyual"]{ color: var(--accent-2); background: var(--bg-3); }
+[id^="blog-post-"]:target ~ * .nav-links a[href="#blog"]    { color: var(--accent-2); background: var(--bg-3); }
+[id^="docs-"]:target      ~ * .nav-links a[href="#docs"]    { color: var(--accent-2); background: var(--bg-3); }
+[id^="manyual-"]:target   ~ * .nav-links a[href="#manyual"] { color: var(--accent-2); background: var(--bg-3); }
+[id^="plugin-"]:target    ~ * .nav-links a[href="#plugins"] { color: var(--accent-2); background: var(--bg-3); }
 
 /* ── TÍTULOS DE PÁGINA ────────────────────────────────────────────────── */
 .page-title {
@@ -201,10 +192,6 @@ body:has(#fanarts:target)   .nav-links a[href="#community"] { color: var(--accen
   border-left-color: var(--accent-2);
   color: var(--accent-2);
 }
-
-/* active via :target — highlight da sidebar baseado no hash atual */
-/* cada página de doc tem id="[section]-[slug]", a sidebar contém links
-   com href="#[section]-[slug]". Usamos :has para destacar o link correto. */
 
 .docs-content {
   flex: 1;
@@ -332,7 +319,6 @@ body:has(#fanarts:target)   .nav-links a[href="#community"] { color: var(--accen
 /* ── FANARTS ──────────────────────────────────────────────────────────── */
 .fanarts-layout { max-width: 1200px; margin: 0 auto; padding: 42px 20px; }
 
-/* grid estilo masonry com colunas */
 .fanarts-grid {
   columns: 4 240px;
   column-gap: 16px;
@@ -411,7 +397,6 @@ body:has(#fanarts:target)   .nav-links a[href="#community"] { color: var(--accen
   background: rgba(0,0,0,.92);
 }
 
-/* visível via :target */
 .lightbox-static:target { display: flex; }
 
 .lightbox-static figure {
@@ -432,13 +417,12 @@ body:has(#fanarts:target)   .nav-links a[href="#community"] { color: var(--accen
   font-size: 14px;
 }
 
-/* quando JS disponível, esconde os lightboxes estáticos */
 html.js .lightbox-static        { display: none !important; }
 html.js .lightbox-static:target { display: none !important; }
 
 /* ── LIGHTBOX DINÂMICO (com JS) ───────────────────────────────────────── */
 .lightbox-dynamic {
-  display: none; /* sempre oculto sem JS */
+  display: none;
   position: fixed;
   inset: 0;
   z-index: 999;
@@ -447,7 +431,6 @@ html.js .lightbox-static:target { display: none !important; }
   background: rgba(0,0,0,.92);
 }
 
-/* só visível quando JS está presente E lightbox está aberto */
 html.js .lightbox-dynamic.open { display: flex; }
 
 .lightbox-dynamic figure {
@@ -554,3 +537,276 @@ html.js .lightbox-dynamic.open { display: flex; }
   .lightbox-nav { display: none; }
 }
 
+
+/* ── PLUGINS ──────────────────────────────────────────────────────────── */
+.plugins-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 42px 20px;
+}
+
+/* grid responsivo de cards */
+.plugins-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+/* ── card de listagem ─────────────────────────────────────────────────── */
+.plugin-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color .15s, background .15s, transform .15s;
+}
+
+.plugin-card:hover {
+  background: var(--bg-3);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.plugin-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.plugin-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.plugin-card-version {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-2);
+  background: rgba(88, 166, 255, .1);
+  border: 1px solid rgba(88, 166, 255, .2);
+  border-radius: 20px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.plugin-card-desc {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.plugin-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.plugin-card-author {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.plugin-card-author a {
+  color: var(--text-3);
+  text-decoration: none;
+  transition: color .15s;
+}
+
+.plugin-card-author a:hover { color: var(--accent-2); }
+
+/* ── tags (categoria) ─────────────────────────────────────────────────── */
+.plugin-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.plugin-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2px 9px;
+  text-transform: lowercase;
+  letter-spacing: .01em;
+}
+
+/* ── página de detalhe (estilo npm) ───────────────────────────────────── */
+.plugin-page-layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px 60px;
+}
+
+.plugin-page-topbar {
+  margin-bottom: 20px;
+}
+
+/* hero: nome + badge + install box */
+.plugin-page-hero {
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.plugin-page-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.plugin-page-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.plugin-page-desc {
+  font-size: 15px;
+  color: var(--text-2);
+  margin-bottom: 22px;
+  line-height: 1.6;
+}
+
+/* caixa de instalação */
+.plugin-install-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 13px;
+}
+
+.plugin-install-label {
+  padding: 8px 12px;
+  background: var(--bg-3);
+  border-right: 1px solid var(--border);
+  color: var(--text-3);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.plugin-install-cmd {
+  padding: 8px 14px;
+  color: var(--accent-2);
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.plugin-install-copy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  border-left: 1px solid var(--border);
+  color: var(--text-3);
+  cursor: pointer;
+  transition: color .15s, background .15s;
+  flex-shrink: 0;
+}
+
+.plugin-install-copy:hover {
+  color: var(--text);
+  background: var(--bg-3);
+}
+
+/* corpo: readme + sidebar de metadados */
+.plugin-page-body {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 32px;
+  align-items: start;
+}
+
+.plugin-page-readme { max-width: 100%; }
+
+/* sidebar de metadados */
+.plugin-page-meta { position: sticky; top: calc(var(--nav-h) + 20px); }
+
+.plugin-meta-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.plugin-meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.plugin-meta-row:last-child { border-bottom: none; }
+
+.plugin-meta-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.plugin-meta-row span:last-child { color: var(--text-2); }
+
+.plugin-meta-row a {
+  color: var(--accent-2);
+  text-decoration: none;
+}
+
+.plugin-meta-row a:hover { text-decoration: underline; }
+
+/* nav: destaca Plugins quando listagem ou detalhe estão abertos */
+body:has(#plugins:target)   .nav-links a[href="#plugins"] { color: var(--accent-2); background: var(--bg-3); }
+[id^="plugin-"]:target    ~ * .nav-links a[href="#plugins"] { color: var(--accent-2); background: var(--bg-3); }
+
+/* ── mobile ───────────────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .plugins-layout { padding: 28px 16px; }
+  .plugins-grid   { grid-template-columns: 1fr; }
+
+  .plugin-page-layout { padding: 24px 16px 48px; }
+  .plugin-page-hero   { padding: 20px 18px; }
+  .plugin-page-name   { font-size: 22px; }
+
+  .plugin-page-body {
+    grid-template-columns: 1fr;
+  }
+
+  .plugin-page-meta { position: static; }
+
+  .plugin-install-box { width: 100%; }
+  .plugin-install-cmd { overflow-x: auto; flex: 1; }
+}

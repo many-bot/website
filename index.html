@@ -21,6 +21,7 @@
     <li><a href="#blog">Blog</a></li>
     <li><a href="#docs">Docs</a></li>
     <li><a href="#manyual">Manyual</a></li>
+    <li><a href="#plugins">Plugins</a></li>
     <li><a href="#community">Comunidade</a></li>
   </ul>
 </nav>
@@ -31,11 +32,51 @@
           <h1 class="page-title">Blog</h1>
           <div class="blog-list">
             
+            <a class="blog-item" href="#blog-post-2026-05-23-update-manymedia.md">
+              <div class="blog-item-meta">23 Mai 2026</div>
+              <div class="blog-item-title">Novo plugin: ManyMedia</div>
+              <div class="blog-item-excerpt">Hoje, um novo plugin foi adicionado ao repositório do ManyPlug, o "ManyMedia".</div>
+            </a>
+
             <a class="blog-item" href="#blog-post-2026-05-19-lancamento.md">
               <div class="blog-item-meta">19 Mai 2026</div>
               <div class="blog-item-title">Lançamento da nossa página!</div>
               <div class="blog-item-excerpt">A página do ManyBot foi oficialmente lançada... finalmente!</div>
             </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="blog-post-2026-05-23-update-manymedia.md">
+        <div class="blog-layout">
+          <a class="back-btn" href="#blog">← Voltar</a>
+          <div class="md">
+            <h1>Novo plugin: ManyMedia</h1>
+<p>Hoje, um novo plugin foi adicionado ao repositório do ManyPlug, o &quot;ManyMedia&quot;. </p>
+<p>Esse plugin visa unificar os plugins &quot;video&quot; e &quot;audio&quot; em apenas um só, além de resolver diversos bugs que os antigos tinham ao baixar vídeos do Reddit e Instagram.</p>
+<blockquote>
+<p>Importante: caso esteja com algum desses plugins instalados e deseja utilizar o ManyMedia, é recomendado removê-los antes disso para evitar conflitos.</p>
+</blockquote>
+<p>O plugin estará recebendo mais atualizações em breve para garantir compatibilidade absoluta com qualquer link de qualquer rede social da Internet.</p>
+<p>Os comandos para utilizá-lo continua sendo o mesmo de &quot;video&quot; e &quot;audio&quot;. Exemplo:</p>
+<pre><code>!video https://example.com/...
+</code></pre>
+<p>e:</p>
+<pre><code>!audio https://example.com/...
+</code></pre>
+<hr>
+<p>Para fazer a instalação do plugin no seu projeto ManyBot, use o seguinte comando:</p>
+<pre><code>manyplug install manymedia
+</code></pre>
+<p>E ative:</p>
+<pre><code>manyplug enable manymedia
+</code></pre>
+<blockquote>
+<p>Verifique dependencias antes de usar.</p>
+</blockquote>
+<hr>
+<p>Mais informações em: <a href="#plugin-manymedia">ManyMedia</a></p>
+
           </div>
         </div>
       </section>
@@ -158,6 +199,751 @@
 <p>Manual de outros plug-ins em breve.</p>
 </blockquote>
 </main>
+        </div>
+      </section>
+
+      <section class="page" id="plugins">
+        <div class="plugins-layout">
+          <h1 class="page-title">Plugins</h1>
+          <div class="plugins-grid">
+            
+     <a class="plugin-card" href="#plugin-adivinhacao">
+  <div class="plugin-card-header">
+    <span class="plugin-card-name">adivinhacao</span>
+    <span class="plugin-card-version">v1.0.0</span>
+  </div>
+
+  <div class="plugin-card-desc">Number guessing game for Manybot.</div>
+
+  <div class="plugin-card-footer">
+    <span class="plugin-card-author">
+            por <span data-url="https://www.stxerr.dev">SyntaxError</span>
+          </span>
+
+    <div class="plugin-tags"><span class="plugin-tag">games</span></div>
+  </div>
+</a>
+
+     <a class="plugin-card" href="#plugin-figurinha">
+  <div class="plugin-card-header">
+    <span class="plugin-card-name">figurinha</span>
+    <span class="plugin-card-version">v1.2.1</span>
+  </div>
+
+  <div class="plugin-card-desc">Sticker creation plugin for Manybot.</div>
+
+  <div class="plugin-card-footer">
+    <span class="plugin-card-author">
+            por <span data-url="https://www.stxerr.dev">SyntaxError</span>
+          </span>
+
+    <div class="plugin-tags"><span class="plugin-tag">media</span></div>
+  </div>
+</a>
+
+     <a class="plugin-card" href="#plugin-forca">
+  <div class="plugin-card-header">
+    <span class="plugin-card-name">forca</span>
+    <span class="plugin-card-version">v1.0.0</span>
+  </div>
+
+  <div class="plugin-card-desc">Hangman game for Manybot.</div>
+
+  <div class="plugin-card-footer">
+    <span class="plugin-card-author">
+            por <span data-url="https://www.stxerr.dev">SyntaxError</span>
+          </span>
+
+    <div class="plugin-tags"><span class="plugin-tag">games</span></div>
+  </div>
+</a>
+
+     <a class="plugin-card" href="#plugin-many-ai">
+  <div class="plugin-card-header">
+    <span class="plugin-card-name">many-ai</span>
+    <span class="plugin-card-version">v1.1.0</span>
+  </div>
+
+  <div class="plugin-card-desc">Chat with an AI model through Groq API!</div>
+
+  <div class="plugin-card-footer">
+    <span class="plugin-card-author">
+            por <span data-url="https://www.stxerr.dev">SyntaxError</span>
+          </span>
+
+    <div class="plugin-tags"><span class="plugin-tag">utility</span></div>
+  </div>
+</a>
+
+     <a class="plugin-card" href="#plugin-manymedia">
+  <div class="plugin-card-header">
+    <span class="plugin-card-name">manymedia</span>
+    <span class="plugin-card-version">v1.0.0</span>
+  </div>
+
+  <div class="plugin-card-desc">Download videos and audio from any link.</div>
+
+  <div class="plugin-card-footer">
+    <span class="plugin-card-author">
+            por <span data-url="https://www.stxerr.dev">SyntaxError</span>
+          </span>
+
+    <div class="plugin-tags"><span class="plugin-tag">media</span></div>
+  </div>
+</a>
+
+     <a class="plugin-card" href="#plugin-mcb-server">
+  <div class="plugin-card-header">
+    <span class="plugin-card-name">mcb-server</span>
+    <span class="plugin-card-version">v1.1.0</span>
+  </div>
+
+  <div class="plugin-card-desc">Shows when someone enter in your Minecraft Server</div>
+
+  <div class="plugin-card-footer">
+    <span class="plugin-card-author">
+            por <span data-url="https://www.stxerr.dev">SyntaxError</span>
+          </span>
+
+    <div class="plugin-tags"><span class="plugin-tag">utility</span></div>
+  </div>
+</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- plugin: adivinhacao -->
+      <section class="page" id="plugin-adivinhacao">
+        <div class="plugin-page-layout">
+
+          <div class="plugin-page-topbar">
+            <a class="back-btn" href="#plugins">← Plugins</a>
+          </div>
+
+          <div class="plugin-page-hero">
+            <div class="plugin-page-title-row">
+              <h1 class="plugin-page-name">adivinhacao</h1>
+              <span class="plugin-card-version">v1.0.0</span>
+              <span class="plugin-tag">games</span>
+            </div>
+            <p class="plugin-page-desc">Number guessing game for Manybot.</p>
+            <div class="plugin-install-box">
+              <span class="plugin-install-label">instalar</span>
+              <code class="plugin-install-cmd">manyplug install adivinhacao</code>
+              <button class="plugin-install-copy" onclick="navigator.clipboard.writeText('manyplug install adivinhacao')" title="Copiar">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="plugin-page-body">
+            <main class="plugin-page-readme md">
+              <h1>Adivinhacao</h1>
+<p>Number guessing game for Manybot. The bot picks a random number and players try to guess it.</p>
+<h2>Features</h2>
+<ul>
+<li><strong>Random number generation</strong>: Bot picks a number between 1 and 100</li>
+<li><strong>Hint system</strong>: Tells players if their guess is higher or lower</li>
+<li><strong>Multiple games</strong>: Each chat has its own independent game state</li>
+<li><strong>Simple commands</strong>: Easy to start and stop games</li>
+</ul>
+<h2>Usage</h2>
+<h3>Start a game</h3>
+<pre><code>!adivinhação começar
+</code></pre>
+<p>The bot will pick a random number between 1 and 100.</p>
+<h3>Make a guess</h3>
+<pre><code>42
+</code></pre>
+<p>Just send any number. The bot will respond with:</p>
+<ul>
+<li>&quot;Higher&quot; if the secret number is greater</li>
+<li>&quot;Lower&quot; if the secret number is smaller</li>
+<li>&quot;Correct!&quot; when you guess the right number</li>
+</ul>
+<h3>Stop a game</h3>
+<pre><code>!adivinhação parar
+</code></pre>
+<p>Cancels the active game.</p>
+<h3>Show help</h3>
+<pre><code>!adivinhação
+</code></pre>
+<p>Displays available commands.</p>
+<h2>Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>!adivinhação</code></td>
+<td>Show help menu</td>
+</tr>
+<tr>
+<td><code>!adivinhação começar</code></td>
+<td>Start a new guessing game</td>
+</tr>
+<tr>
+<td><code>!adivinhação parar</code></td>
+<td>Stop the current game</td>
+</tr>
+</tbody></table>
+<h2>Configuration</h2>
+<p>No configuration required. The game works out of the box.</p>
+<h2>Localization</h2>
+<p>Available in:</p>
+<ul>
+<li>Portuguese (<code>locale/pt.json</code>)</li>
+</ul>
+
+            </main>
+            <aside class="plugin-page-meta">
+              <div class="plugin-meta-card">
+                <div class="plugin-meta-row"><span class="plugin-meta-label">Versão</span><span>1.0.0</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Categoria</span><span>games</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Autor</span><span><a href="https://www.stxerr.dev" target="_blank" rel="noopener">SyntaxError</a></span></div>
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- plugin: figurinha -->
+      <section class="page" id="plugin-figurinha">
+        <div class="plugin-page-layout">
+
+          <div class="plugin-page-topbar">
+            <a class="back-btn" href="#plugins">← Plugins</a>
+          </div>
+
+          <div class="plugin-page-hero">
+            <div class="plugin-page-title-row">
+              <h1 class="plugin-page-name">figurinha</h1>
+              <span class="plugin-card-version">v1.2.1</span>
+              <span class="plugin-tag">media</span>
+            </div>
+            <p class="plugin-page-desc">Sticker creation plugin for Manybot.</p>
+            <div class="plugin-install-box">
+              <span class="plugin-install-label">instalar</span>
+              <code class="plugin-install-cmd">manyplug install figurinha</code>
+              <button class="plugin-install-copy" onclick="navigator.clipboard.writeText('manyplug install figurinha')" title="Copiar">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="plugin-page-body">
+            <main class="plugin-page-readme md">
+              <h1>Figurinha</h1>
+<p>Sticker creation plugin for Manybot. Convert images, videos, and GIFs into WhatsApp stickers with automatic optimization.</p>
+<h2>Features</h2>
+<ul>
+<li><strong>Direct mode</strong>: Send <code>!figurinha</code> with attached media or reply to media to create stickers instantly</li>
+<li><strong>Session mode</strong>: Start a session to collect multiple media files, then generate all stickers at once</li>
+<li><strong>Automatic optimization</strong>: Resizes images to 512x512, converts videos/GIFs to animated stickers</li>
+<li><strong>Quality adjustment</strong>: Automatically reduces quality if sticker exceeds 900KB limit</li>
+<li><strong>Batch processing</strong>: Collect up to 30 media files in a session before generating</li>
+</ul>
+<h2>Usage</h2>
+<h3>Quick mode (single sticker)</h3>
+<pre><code>!figurinha [attached image/video]
+!figurinha [reply to media]
+</code></pre>
+<p>Creates one sticker immediately from the attached or replied media.</p>
+<p><strong>Preserve transparency</strong>: Send PNG as document to keep the background transparent:</p>
+<ol>
+<li>Attach as <strong>Document</strong> (not image)</li>
+<li>Select your <code>.png</code> file</li>
+<li>Send with <code>!figurinha</code> command</li>
+</ol>
+<h3>Session mode (multiple stickers)</h3>
+<pre><code>!figurinha                          # Start session
+[send multiple images/videos/GIFs]  # Collect media
+!figurinha criar                    # Generate all stickers
+</code></pre>
+<h3>Stop session</h3>
+<pre><code>!figurinha parar                    # Cancel active session
+</code></pre>
+<h2>Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>!figurinha</code></td>
+<td>Start new session or create sticker from attached/replied media</td>
+</tr>
+<tr>
+<td><code>!figurinha criar</code></td>
+<td>Generate stickers from collected session media</td>
+</tr>
+<tr>
+<td><code>!figurinha parar</code></td>
+<td>Stop and clear active session</td>
+</tr>
+</tbody></table>
+<h2>Requirements</h2>
+<ul>
+<li>FFmpeg installed on the system</li>
+<li>Node.js environment with Manybot plugin support</li>
+</ul>
+<h2>Dependencies</h2>
+<ul>
+<li><code>wa-sticker-formatter</code> - WhatsApp sticker formatting library</li>
+<li><code>ffmpeg</code> - Video/image processing (system dependency)</li>
+</ul>
+<h2>Localization</h2>
+<p>Available in:</p>
+<ul>
+<li>English (<code>locale/en.json</code>)</li>
+<li>Portuguese (<code>locale/pt.json</code>)</li>
+<li>Spanish (<code>locale/es.json</code>)</li>
+</ul>
+
+            </main>
+            <aside class="plugin-page-meta">
+              <div class="plugin-meta-card">
+                <div class="plugin-meta-row"><span class="plugin-meta-label">Versão</span><span>1.2.1</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Categoria</span><span>media</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Autor</span><span><a href="https://www.stxerr.dev" target="_blank" rel="noopener">SyntaxError</a></span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Dependências</span><span>wa-sticker-formatter</span></div>
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- plugin: forca -->
+      <section class="page" id="plugin-forca">
+        <div class="plugin-page-layout">
+
+          <div class="plugin-page-topbar">
+            <a class="back-btn" href="#plugins">← Plugins</a>
+          </div>
+
+          <div class="plugin-page-hero">
+            <div class="plugin-page-title-row">
+              <h1 class="plugin-page-name">forca</h1>
+              <span class="plugin-card-version">v1.0.0</span>
+              <span class="plugin-tag">games</span>
+            </div>
+            <p class="plugin-page-desc">Hangman game for Manybot.</p>
+            <div class="plugin-install-box">
+              <span class="plugin-install-label">instalar</span>
+              <code class="plugin-install-cmd">manyplug install forca</code>
+              <button class="plugin-install-copy" onclick="navigator.clipboard.writeText('manyplug install forca')" title="Copiar">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="plugin-page-body">
+            <main class="plugin-page-readme md">
+              <h1>Forca</h1>
+<p>Hangman game for Manybot. Classic word guessing game with themed categories.</p>
+<h2>Features</h2>
+<ul>
+<li><strong>Multiple categories</strong>: Animals, countries, programming languages, games, and more</li>
+<li><strong>6 lives</strong>: Classic hangman rules</li>
+<li><strong>Group-friendly</strong>: Multiple players can participate in the same game</li>
+<li><strong>Visual progress</strong>: Shows guessed letters and remaining blanks</li>
+<li><strong>40+ words</strong>: Large word bank across 10+ themes</li>
+</ul>
+<h2>Word Categories</h2>
+<ul>
+<li>Programming Languages (python, javascript, java)</li>
+<li>Animals (dog, cat, elephant, giraffe)</li>
+<li>Musical Instruments (guitar, piano, drums, violin)</li>
+<li>Sports (soccer, basketball, swimming, tennis)</li>
+<li>Countries (brazil, japan, canada, france)</li>
+<li>Planets (mars, venus, jupiter, saturn)</li>
+<li>Games (minecraft, fortnite, roblox, amongus)</li>
+<li>Flowers (rose, sunflower, tulip, orchid)</li>
+<li>Objects (scissors, notebook, computer, phone)</li>
+<li>Celestial Bodies (moon, sun, star, comet)</li>
+<li>Nature (ocean, mountain)</li>
+</ul>
+<h2>Usage</h2>
+<h3>Start a game</h3>
+<pre><code>!forca start
+</code></pre>
+<p>The bot picks a random word and shows the theme and blanks.</p>
+<h3>Guess a letter</h3>
+<pre><code>a
+</code></pre>
+<p>Send a single letter to guess. The bot will respond with:</p>
+<ul>
+<li>Which letters were revealed (if any)</li>
+<li>Remaining lives</li>
+<li>Current word progress</li>
+</ul>
+<h3>Stop a game</h3>
+<pre><code>!forca stop
+</code></pre>
+<p>Cancels the active game.</p>
+<h3>Show help</h3>
+<pre><code>!forca
+</code></pre>
+<p>Displays available commands.</p>
+<h2>Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>!forca</code></td>
+<td>Show help menu</td>
+</tr>
+<tr>
+<td><code>!forca start</code></td>
+<td>Start a new hangman game</td>
+</tr>
+<tr>
+<td><code>!forca stop</code></td>
+<td>Stop the current game</td>
+</tr>
+<tr>
+<td><code>[a-z]</code></td>
+<td>Send any letter to guess</td>
+</tr>
+</tbody></table>
+<h2>Game Rules</h2>
+<ul>
+<li>6 lives total</li>
+<li>Wrong guesses lose 1 life</li>
+<li>Game ends when:<ul>
+<li>Word is completely revealed (win)</li>
+<li>All lives are lost (lose)</li>
+</ul>
+</li>
+</ul>
+<h2>Configuration</h2>
+<p>No configuration required. The game works out of the box.</p>
+<h2>Localization</h2>
+<p>Available in:</p>
+<ul>
+<li>English (<code>locale/en.json</code>)</li>
+<li>Portuguese (<code>locale/pt.json</code>)</li>
+<li>Spanish (<code>locale/es.json</code>)</li>
+</ul>
+
+            </main>
+            <aside class="plugin-page-meta">
+              <div class="plugin-meta-card">
+                <div class="plugin-meta-row"><span class="plugin-meta-label">Versão</span><span>1.0.0</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Categoria</span><span>games</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Autor</span><span><a href="https://www.stxerr.dev" target="_blank" rel="noopener">SyntaxError</a></span></div>
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- plugin: many-ai -->
+      <section class="page" id="plugin-many-ai">
+        <div class="plugin-page-layout">
+
+          <div class="plugin-page-topbar">
+            <a class="back-btn" href="#plugins">← Plugins</a>
+          </div>
+
+          <div class="plugin-page-hero">
+            <div class="plugin-page-title-row">
+              <h1 class="plugin-page-name">many-ai</h1>
+              <span class="plugin-card-version">v1.1.0</span>
+              <span class="plugin-tag">utility</span>
+            </div>
+            <p class="plugin-page-desc">Chat with an AI model through Groq API!</p>
+            <div class="plugin-install-box">
+              <span class="plugin-install-label">instalar</span>
+              <code class="plugin-install-cmd">manyplug install many-ai</code>
+              <button class="plugin-install-copy" onclick="navigator.clipboard.writeText('manyplug install many-ai')" title="Copiar">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="plugin-page-body">
+            <main class="plugin-page-readme md">
+              <h1>many-ai</h1>
+<p>AI agent for ManyBot using Groq API.</p>
+<h2>How to set up</h2>
+<ul>
+<li>Access: <a href="https://console.groq.com">https://console.groq.com</a></li>
+<li>Log in (GitHub or Google).</li>
+<li>Click on &quot;Create API key&quot;.</li>
+<li>Copy the key and paste it into &quot;GROQ_API_KEY&quot; in the settings (manybot.conf).</li>
+</ul>
+<p>It is also possible for this agent to perform internet searches; for this, you need two API keys to ensure that the search is successful and accurate (optional):</p>
+<ul>
+<li><p>Tavily:</p>
+<ul>
+<li>Access: <a href="https://app.tavily.com/home">https://app.tavily.com/home</a>.</li>
+<li>Log in.</li>
+<li>In &quot;API Keys&quot;, click to add a new one (&quot;+&quot;).</li>
+<li>Copy and paste into &quot;TAVILY_API_KEY&quot;.</li>
+</ul>
+</li>
+<li><p>Serper:</p>
+<ul>
+<li>Access: <a href="https://serper.dev/dashboard">https://serper.dev/dashboard</a></li>
+<li>Click on &quot;API Keys&quot; in the upper right corner.</li>
+<li>Click on &quot;Create New Key&quot;.</li>
+<li>Copy and paste into &quot;SERPER_API_KEY&quot;.</li>
+</ul>
+</li>
+</ul>
+<p>manybot.conf should look like this:</p>
+<pre><code>GROQ_API_KEY=gsk_...
+TAVILY_API_KEY=tvly-dev-...
+SERPER_API_KEY=abc1234...
+
+PLUGINS=[
+many-ai,
+]
+</code></pre>
+<h2>How to use</h2>
+<p>On any chat, everyone that send &quot;<prefix>ai <prompt>&quot; will be automatically answered by the AI.</p>
+<p>Like:</p>
+<pre><code>&gt; !ai search me the news?
+&lt; A portal to Equestria has been found today in Xique-Xique Bahia, in Brazil.
+</code></pre>
+
+            </main>
+            <aside class="plugin-page-meta">
+              <div class="plugin-meta-card">
+                <div class="plugin-meta-row"><span class="plugin-meta-label">Versão</span><span>1.1.0</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Licença</span><span>MIT</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Categoria</span><span>utility</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Autor</span><span><a href="https://www.stxerr.dev" target="_blank" rel="noopener">SyntaxError</a></span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Dependências</span><span>sqlite3</span></div>
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- plugin: manymedia -->
+      <section class="page" id="plugin-manymedia">
+        <div class="plugin-page-layout">
+
+          <div class="plugin-page-topbar">
+            <a class="back-btn" href="#plugins">← Plugins</a>
+          </div>
+
+          <div class="plugin-page-hero">
+            <div class="plugin-page-title-row">
+              <h1 class="plugin-page-name">manymedia</h1>
+              <span class="plugin-card-version">v1.0.0</span>
+              <span class="plugin-tag">media</span>
+            </div>
+            <p class="plugin-page-desc">Download videos and audio from any link.</p>
+            <div class="plugin-install-box">
+              <span class="plugin-install-label">instalar</span>
+              <code class="plugin-install-cmd">manyplug install manymedia</code>
+              <button class="plugin-install-copy" onclick="navigator.clipboard.writeText('manyplug install manymedia')" title="Copiar">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="plugin-page-body">
+            <main class="plugin-page-readme md">
+              <h1>ManyMedia</h1>
+<p>Download videos and audio from YouTube, Reddit, Instagram, and other yt-dlp supported sites — either sending the file directly to chat or uploading to a storage server and sharing the link.</p>
+<h2>Features</h2>
+<ul>
+<li><strong>Multi-site support</strong>: YouTube, Reddit, Instagram, SoundCloud, TikTok, and any other yt-dlp compatible site</li>
+<li><strong>Audio extraction</strong>: Downloads and extracts MP3 at best quality</li>
+<li><strong>Flexible delivery</strong>: Send file directly to chat, or upload to a storage server and reply with the link</li>
+<li><strong>Upload retry</strong>: Failed uploads are retried up to 4 times with a 3-second delay</li>
+<li><strong>Queued processing</strong>: Downloads run in a queue to prevent resource contention</li>
+<li><strong>Automatic cleanup</strong>: Temporary files removed after delivery</li>
+</ul>
+<h2>Requirements</h2>
+<ul>
+<li><code>yt-dlp</code> installed and available in <code>PATH</code></li>
+<li><code>cookies.txt</code> file in the project root (required for YouTube and some other sites)</li>
+<li><code>instaloader</code> installed for Instagram downloads (optional, required only fort download Instagram vídeos)</li>
+</ul>
+<h2>Usage</h2>
+<pre><code>!video https://youtube.com/watch?v=...
+!video https://www.reddit.com/r/...
+!video https://www.instagram.com/reel/...
+!audio https://youtube.com/watch?v=...
+</code></pre>
+<h2>Configuration</h2>
+<p>Add to <code>manybot.conf</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>UPL_MEDIA_TO_SRV</code></td>
+<td><code>no</code></td>
+<td>Set to <code>yes</code> to upload to the storage server and reply with a link instead of sending the file directly</td>
+</tr>
+<tr>
+<td><code>MEDIA_SRV_API_KEY</code></td>
+<td>—</td>
+<td>API key for the storage server (required when <code>UPL_MEDIA_TO_SRV=yes</code>)</td>
+</tr>
+<tr>
+<td><code>INSTALOADER_PATH</code></td>
+<td><code>instaloader</code></td>
+<td>Absolute path to the <code>instaloader</code> binary, or just <code>instaloader</code> if it is on <code>PATH</code></td>
+</tr>
+<tr>
+<td><code>INSTALOADER_USER</code></td>
+<td>—</td>
+<td>Instagram username whose saved session instaloader will use to authenticate</td>
+</tr>
+</tbody></table>
+<h3>Example</h3>
+<pre><code class="language-env">UPL_MEDIA_TO_SRV=yes
+MEDIA_SRV_API_KEY=your_api_key_here
+
+INSTALOADER_PATH=/home/youruser/.local/bin/instaloader
+INSTALOADER_USER=your_instagram_username
+</code></pre>
+<p>When <code>UPL_MEDIA_TO_SRV=no</code> (default), the file is sent directly to the chat with no external upload.<br>When <code>UPL_MEDIA_TO_SRV=yes</code>, the file is uploaded to <code>https://api.stxerr.dev/upload</code> and the reply contains the download link.</p>
+<blockquote>
+<p>Make sure to have your API key to use upload. If you don&#39;t have one, request it by sending an email to <a href="mailto:me@stxerr.dev">me@stxerr.dev</a>.</p>
+</blockquote>
+<h2>Instagram Setup</h2>
+<p>Instagram downloads require <code>instaloader</code> and a saved login session.</p>
+<p><strong>1. Install instaloader</strong></p>
+<pre><code class="language-bash">pip install instaloader
+</code></pre>
+<p><strong>2. Save a session</strong> (run once, then instaloader reuses it automatically)</p>
+<pre><code class="language-bash">instaloader --login your_instagram_username
+</code></pre>
+<p>The session file is stored at <code>~/.config/instaloader/session-&lt;username&gt;</code>. As long as it exists, instaloader will authenticate without prompting for a password again.</p>
+<p><strong>3. Find the binary path</strong> (if it is not on <code>PATH</code>)</p>
+<pre><code class="language-bash">which instaloader
+# or, if installed via pip --user:
+python3 -m site --user-base   # binary is under &lt;user-base&gt;/bin/instaloader
+</code></pre>
+<p>Set <code>INSTALOADER_PATH</code> to the full path returned above, or leave it as <code>instaloader</code> if <code>which</code> finds it directly.</p>
+<h2>Localization</h2>
+<p>Available in:</p>
+<ul>
+<li>English (<code>locale/en.json</code>)</li>
+<li>Portuguese (<code>locale/pt.json</code>)</li>
+<li>Spanish (<code>locale/es.json</code>)</li>
+</ul>
+
+            </main>
+            <aside class="plugin-page-meta">
+              <div class="plugin-meta-card">
+                <div class="plugin-meta-row"><span class="plugin-meta-label">Versão</span><span>1.0.0</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Categoria</span><span>media</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Autor</span><span><a href="https://www.stxerr.dev" target="_blank" rel="noopener">SyntaxError</a></span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Deps. externas</span><span>yt-dlp, instaloader</span></div>
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- plugin: mcb-server -->
+      <section class="page" id="plugin-mcb-server">
+        <div class="plugin-page-layout">
+
+          <div class="plugin-page-topbar">
+            <a class="back-btn" href="#plugins">← Plugins</a>
+          </div>
+
+          <div class="plugin-page-hero">
+            <div class="plugin-page-title-row">
+              <h1 class="plugin-page-name">mcb-server</h1>
+              <span class="plugin-card-version">v1.1.0</span>
+              <span class="plugin-tag">utility</span>
+            </div>
+            <p class="plugin-page-desc">Shows when someone enter in your Minecraft Server</p>
+            <div class="plugin-install-box">
+              <span class="plugin-install-label">instalar</span>
+              <code class="plugin-install-cmd">manyplug install mcb-server</code>
+              <button class="plugin-install-copy" onclick="navigator.clipboard.writeText('manyplug install mcb-server')" title="Copiar">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="plugin-page-body">
+            <main class="plugin-page-readme md">
+              <h1>mcb-server</h1>
+<p>Minecraft Bedrock server monitor for ManyBot. Notifies when players join or leave.</p>
+<h2>Installation</h2>
+<pre><code class="language-bash">manyplug install mcb-server
+</code></pre>
+<h2>Configuration</h2>
+<p>Add to your <code>manybot.conf</code>:</p>
+<pre><code>MC_GROUP_ID=5566999999999@g.us    # WhatsApp group to send notifications
+MC_LOG_FILE=/var/log/minecraft/server.log   # Path to your Minecraft server log
+</code></pre>
+<h3>Setting up the log file (systemd)</h3>
+<p>To enable logging for your Minecraft Bedrock server via systemd, add the following to your service file:</p>
+<pre><code class="language-ini">[Service]
+StandardOutput=append:/var/log/minecraft/server.log
+StandardError=append:/var/log/minecraft/server.log
+</code></pre>
+<p>Then restart your service:</p>
+<pre><code class="language-bash">sudo systemctl restart minecraft-bedrock
+</code></pre>
+<h2>Features</h2>
+<ul>
+<li><strong>Auto notifications</strong>: Sends messages when players connect/disconnect</li>
+<li><strong>Player list</strong>: See who&#39;s currently online</li>
+</ul>
+<h2>Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>!players</code></td>
+<td>List players currently online</td>
+</tr>
+</tbody></table>
+<h2>Example</h2>
+<pre><code>!players
+🎮 Players online (2):
+- Steve
+- Alex
+</code></pre>
+
+            </main>
+            <aside class="plugin-page-meta">
+              <div class="plugin-meta-card">
+                <div class="plugin-meta-row"><span class="plugin-meta-label">Versão</span><span>1.1.0</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Licença</span><span>MIT</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Categoria</span><span>utility</span></div>
+<div class="plugin-meta-row"><span class="plugin-meta-label">Autor</span><span><a href="https://www.stxerr.dev" target="_blank" rel="noopener">SyntaxError</a></span></div>
+              </div>
+            </aside>
+          </div>
+
         </div>
       </section>
 
@@ -391,7 +1177,7 @@
                   loading="lazy"
                 >
                 <div class="fanart-overlay">
-                  <span class="fanart-author"><span class="author-link" data-url="https://instagram.com/maryy016jj" onclick="event.stopPropagation();window.open(this.dataset.url,'_blank')">maryy016j</span></span>
+                  <span class="fanart-author"><span class="author-link" data-url="https://instagram.com/maryy016j" onclick="event.stopPropagation();window.open(this.dataset.url,'_blank')">maryy016j</span></span>
                 </div>
               </a>
 
@@ -675,7 +1461,7 @@
         <a class="lightbox-nav lightbox-prev" href="#fanart-14" aria-label="Anterior">‹</a>
         <figure>
           <img src="fanarts/2026-04-03T23-21-maryy016j.jpg" alt="Fanart por maryy016j">
-          <figcaption>por <span class="author-link" data-url="https://instagram.com/maryy016jj" onclick="event.stopPropagation();window.open(this.dataset.url,'_blank')">maryy016j</span></figcaption>
+          <figcaption>por <span class="author-link" data-url="https://instagram.com/maryy016j" onclick="event.stopPropagation();window.open(this.dataset.url,'_blank')">maryy016j</span></figcaption>
         </figure>
         <a class="lightbox-nav lightbox-next" href="#fanart-16" aria-label="Próxima">›</a>
       </div>
@@ -801,7 +1587,7 @@
         <button class="lightbox-nav lightbox-next" id="lb-next" aria-label="Próxima">›</button>
       </div>
 
-      <script>window.__FANARTS__=[{"file":"2026-05-16T00-53-mistmoon.ink.jpg","author":"mistmoon.ink","authorUrl":"https://instagram.com/mistmoon.ink","date":"2026-05-16T03:53:00.000Z"},{"file":"2026-04-30T20-13-mistmoon.ink.jpg","author":"mistmoon.ink","authorUrl":"https://instagram.com/mistmoon.ink","date":"2026-04-30T23:13:00.000Z"},{"file":"2026-04-09T00-07-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-09T03:07:00.000Z"},{"file":"2026-04-08T22-36-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-09T01:36:00.000Z"},{"file":"2026-04-08T21-54-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-09T00:54:00.000Z"},{"file":"2026-04-08T21-23-karrie.soft.jpg","author":"karrie.soft","authorUrl":"https://www.tiktok.com/@karrie.soft","date":"2026-04-09T00:23:00.000Z"},{"file":"2026-04-08T20-12-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-08T23:12:00.000Z"},{"file":"2026-04-08T19-21-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-08T22:21:00.000Z"},{"file":"2026-04-07T21-16-josematheuzin57.jpg","author":"josematheuzin57","authorUrl":"https://instagram.com/josematheuzin57","date":"2026-04-08T00:16:00.000Z"},{"file":"2026-04-07T17-21-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-07T20:21:00.000Z"},{"file":"2026-04-07T13-55-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-07T16:55:00.000Z"},{"file":"2026-04-07T06-17-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-07T09:17:00.000Z"},{"file":"2026-04-04T18-56-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-04T21:56:00.000Z"},{"file":"2026-04-04T16-04-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-04T19:04:00.000Z"},{"file":"2026-04-04T13-42-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-04T16:42:00.000Z"},{"file":"2026-04-03T23-21-maryy016j.jpg","author":"maryy016j","authorUrl":"https://instagram.com/maryy016jj","date":"2026-04-04T02:21:00.000Z"},{"file":"2026-04-03T18-07-vicktoria.jpg","author":"vicktoria","authorUrl":"https://cara.app/vicktoria","date":"2026-04-03T21:07:00.000Z"},{"file":"2026-04-03T17-21-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T20:21:00.000Z"},{"file":"2026-04-03T16-16-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T19:16:00.000Z"},{"file":"2026-04-03T11-53-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T14:53:00.000Z"},{"file":"2026-04-02T23-29-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T02:29:00.000Z"},{"file":"2026-04-02T23-02-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T02:02:00.000Z"},{"file":"2026-04-02T22-38-Divine.alineCK.jpg","author":"Divine.alineCK","authorUrl":null,"date":"2026-04-03T01:38:00.000Z"},{"file":"2026-04-02T22-15-Twily.jpg","author":"Twily","authorUrl":null,"date":"2026-04-03T01:15:00.000Z"},{"file":"2026-04-02T21-50-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T00:50:00.000Z"},{"file":"2026-04-02T21-31-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T00:31:00.000Z"},{"file":"2026-04-02T14-25-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-02T17:25:00.000Z"}];</script>
+      <script>window.__FANARTS__=[{"file":"2026-05-16T00-53-mistmoon.ink.jpg","author":"mistmoon.ink","authorUrl":"https://instagram.com/mistmoon.ink","date":"2026-05-16T03:53:00.000Z"},{"file":"2026-04-30T20-13-mistmoon.ink.jpg","author":"mistmoon.ink","authorUrl":"https://instagram.com/mistmoon.ink","date":"2026-04-30T23:13:00.000Z"},{"file":"2026-04-09T00-07-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-09T03:07:00.000Z"},{"file":"2026-04-08T22-36-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-09T01:36:00.000Z"},{"file":"2026-04-08T21-54-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-09T00:54:00.000Z"},{"file":"2026-04-08T21-23-karrie.soft.jpg","author":"karrie.soft","authorUrl":"https://www.tiktok.com/@karrie.soft","date":"2026-04-09T00:23:00.000Z"},{"file":"2026-04-08T20-12-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-08T23:12:00.000Z"},{"file":"2026-04-08T19-21-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-08T22:21:00.000Z"},{"file":"2026-04-07T21-16-josematheuzin57.jpg","author":"josematheuzin57","authorUrl":"https://instagram.com/josematheuzin57","date":"2026-04-08T00:16:00.000Z"},{"file":"2026-04-07T17-21-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-07T20:21:00.000Z"},{"file":"2026-04-07T13-55-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-07T16:55:00.000Z"},{"file":"2026-04-07T06-17-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-07T09:17:00.000Z"},{"file":"2026-04-04T18-56-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-04T21:56:00.000Z"},{"file":"2026-04-04T16-04-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-04T19:04:00.000Z"},{"file":"2026-04-04T13-42-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-04T16:42:00.000Z"},{"file":"2026-04-03T23-21-maryy016j.jpg","author":"maryy016j","authorUrl":"https://instagram.com/maryy016j","date":"2026-04-04T02:21:00.000Z"},{"file":"2026-04-03T18-07-vicktoria.jpg","author":"vicktoria","authorUrl":"https://cara.app/vicktoria","date":"2026-04-03T21:07:00.000Z"},{"file":"2026-04-03T17-21-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T20:21:00.000Z"},{"file":"2026-04-03T16-16-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T19:16:00.000Z"},{"file":"2026-04-03T11-53-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T14:53:00.000Z"},{"file":"2026-04-02T23-29-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T02:29:00.000Z"},{"file":"2026-04-02T23-02-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T02:02:00.000Z"},{"file":"2026-04-02T22-38-Divine.alineCK.jpg","author":"Divine.alineCK","authorUrl":null,"date":"2026-04-03T01:38:00.000Z"},{"file":"2026-04-02T22-15-Twily.jpg","author":"Twily","authorUrl":null,"date":"2026-04-03T01:15:00.000Z"},{"file":"2026-04-02T21-50-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T00:50:00.000Z"},{"file":"2026-04-02T21-31-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-03T00:31:00.000Z"},{"file":"2026-04-02T14-25-martinsriciatigeovana@gmail.com.jpg","author":"martinsriciatigeovana@gmail.com","authorUrl":null,"date":"2026-04-02T17:25:00.000Z"}];</script>
 
 <script src="script.js"></script>
 </body>

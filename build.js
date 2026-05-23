@@ -2,8 +2,9 @@
 
 "use strict";
 
-const fs   = require("fs");
-const path = require("path");
+const fs    = require("fs");
+const path  = require("path");
+const https = require("https");
 const { marked } = require("marked");
 
 // ── CONFIG ────────────────────────────────────────────────────────────────
@@ -26,6 +27,202 @@ function readMd(filepath) {
 function readDir(dir, ext) {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir).filter(f => f.endsWith(ext)).sort();
+}
+
+// Parseia "Nome <email> (https://url)" → { name, url }
+function parseAuthor(raw) {
+  if (!raw) return { name: "", url: "" };
+  const urlMatch  = raw.match(/\(([^)]+)\)\s*$/);
+  const nameMatch = raw.match(/^([^<(]+)/);
+  return {
+    name: nameMatch ? nameMatch[1].trim() : raw,
+    url:  urlMatch  ? urlMatch[1].trim()  : ""
+  };
+}
+
+function fetchJson(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, res => {
+      if (res.statusCode !== 200) {
+        reject(new Error(`HTTP ${res.statusCode} ao buscar ${url}`));
+        res.resume();
+        return;
+      }
+      let data = "";
+      res.on("data", chunk => data += chunk);
+      res.on("end", () => {
+        try { resolve(JSON.parse(data)); }
+        catch (e) { reject(new Error(`JSON inválido: ${e.message}`)); }
+      });
+    }).on("error", reject);
+  });
+}
+
+// ── MANYPLUG ──────────────────────────────────────────────────────────────
+
+const REGISTRY_URL  = "https://git.stxerr.dev/manyplug-repo.git/plain/registry.json";
+const README_BASE   = "https://git.stxerr.dev/manyplug-repo.git/plain";
+
+function fetchText(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, res => {
+      if (res.statusCode !== 200) {
+        reject(new Error(`HTTP ${res.statusCode}`));
+        res.resume();
+        return;
+      }
+      let data = "";
+      res.on("data", chunk => data += chunk);
+      res.on("end", () => resolve(data));
+    }).on("error", reject);
+  });
+}
+
+async function buildPlugins() {
+  let plugins = [];
+
+  try {
+    console.log(`   buscando registry remoto...`);
+    const parsed = await fetchJson(REGISTRY_URL);
+    const raw = parsed.plugins || parsed;
+    plugins = Array.isArray(raw)
+      ? raw
+      : Object.entries(raw).map(([id, p]) => ({ id, ...p }));
+  } catch (err) {
+    console.warn(`   ⚠️  falha ao buscar registry: ${err.message}`);
+  }
+
+  const empty = `
+      <section class="page" id="plugins">
+        <div class="plugins-layout">
+          <h1 class="page-title">Plugins</h1>
+          <p style="color:var(--text-3);font-size:14px;">Nenhum plugin ainda.</p>
+        </div>
+      </section>`;
+
+  if (!plugins.length) return empty;
+
+  // busca todos os READMEs em paralelo; falha silenciosa por plugin
+  console.log(`   ${plugins.length} plugin(s) — buscando READMEs...`);
+  const readmes = await Promise.all(
+    plugins.map(p =>
+      fetchText(`${README_BASE}/${p.id || p.name}/README.md`)
+        .then(md => marked.parse(md))
+        .catch(() => null)          // sem README → null
+    )
+  );
+
+  console.log(`   READMEs: ${readmes.filter(Boolean).length}/${plugins.length} encontrado(s)`);
+
+  // ── listagem ─────────────────────────────────────────────────────────────
+  const cards = plugins.map(p => {
+    const id     = `plugin-${slugify(p.id || p.name || "")}`;
+    const author = parseAuthor(p.author);
+    const cats   = [p.category].filter(Boolean).map(t =>
+      `<span class="plugin-tag">${t}</span>`).join("");
+    return `
+     <a class="plugin-card" href="#${id}">
+  <div class="plugin-card-header">
+    <span class="plugin-card-name">${p.name || p.id}</span>
+    ${p.version ? `<span class="plugin-card-version">v${p.version}</span>` : ""}
+  </div>
+
+  ${p.description ? `<div class="plugin-card-desc">${p.description}</div>` : ""}
+
+  <div class="plugin-card-footer">
+    ${
+      author.name
+        ? `<span class="plugin-card-author">
+            por ${
+              author.url
+                ? `<span data-url="${author.url}">${author.name}</span>`
+                : author.name
+            }
+          </span>`
+        : ""
+    }
+
+    ${cats ? `<div class="plugin-tags">${cats}</div>` : ""}
+  </div>
+</a>`;
+  }).join("\n");
+
+  const listSection = `
+      <section class="page" id="plugins">
+        <div class="plugins-layout">
+          <h1 class="page-title">Plugins</h1>
+          <div class="plugins-grid">
+            ${cards}
+          </div>
+        </div>
+      </section>`;
+
+  // ── páginas de detalhe (estilo npm) ──────────────────────────────────────
+  const detailSections = plugins.map((p, i) => {
+    const id     = `plugin-${slugify(p.id || p.name || "")}`;
+    const author = parseAuthor(p.author);
+    const readme = readmes[i];
+
+    const cats = [p.category].filter(Boolean).map(t =>
+      `<span class="plugin-tag">${t}</span>`).join("");
+
+    // sidebar de metadados
+    const deps    = Object.keys(p.dependencies || {});
+    const extDeps = Object.keys(p.externalDependencies || {});
+
+    const metaRows = [
+      p.version  && `<div class="plugin-meta-row"><span class="plugin-meta-label">Versão</span><span>${p.version}</span></div>`,
+      p.license  && `<div class="plugin-meta-row"><span class="plugin-meta-label">Licença</span><span>${p.license}</span></div>`,
+      p.category && `<div class="plugin-meta-row"><span class="plugin-meta-label">Categoria</span><span>${p.category}</span></div>`,
+      author.name && `<div class="plugin-meta-row"><span class="plugin-meta-label">Autor</span><span>${author.url ? `<a href="${author.url}" target="_blank" rel="noopener">${author.name}</a>` : author.name}</span></div>`,
+      deps.length    && `<div class="plugin-meta-row"><span class="plugin-meta-label">Dependências</span><span>${deps.join(", ")}</span></div>`,
+      extDeps.length && `<div class="plugin-meta-row"><span class="plugin-meta-label">Deps. externas</span><span>${extDeps.join(", ")}</span></div>`,
+    ].filter(Boolean).join("\n");
+
+    // conteúdo principal: README ou fallback minimalista
+    const mainContent = readme || `<p style="color:var(--text-3)">Nenhum README disponível para este plugin.</p>`;
+
+    return `
+      <!-- plugin: ${p.name || p.id} -->
+      <section class="page" id="${id}">
+        <div class="plugin-page-layout">
+
+          <div class="plugin-page-topbar">
+            <a class="back-btn" href="#plugins">← Plugins</a>
+          </div>
+
+          <div class="plugin-page-hero">
+            <div class="plugin-page-title-row">
+              <h1 class="plugin-page-name">${p.name || p.id}</h1>
+              ${p.version ? `<span class="plugin-card-version">v${p.version}</span>` : ""}
+              ${cats}
+            </div>
+            ${p.description ? `<p class="plugin-page-desc">${p.description}</p>` : ""}
+            <div class="plugin-install-box">
+              <span class="plugin-install-label">instalar</span>
+              <code class="plugin-install-cmd">manyplug install ${p.name || p.id}</code>
+              <button class="plugin-install-copy" onclick="navigator.clipboard.writeText('manyplug install ${p.name || p.id}')" title="Copiar">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="plugin-page-body">
+            <main class="plugin-page-readme md">
+              ${mainContent}
+            </main>
+            <aside class="plugin-page-meta">
+              <div class="plugin-meta-card">
+                ${metaRows}
+              </div>
+            </aside>
+          </div>
+
+        </div>
+      </section>`;
+  }).join("\n");
+
+  return listSection + "\n" + detailSections;
 }
 
 // ── BLOG ──────────────────────────────────────────────────────────────────
@@ -73,7 +270,6 @@ function buildBlog() {
               <div class="blog-item-excerpt">${p.excerpt}</div>
             </a>`).join("\n");
 
-  // lista principal
   const listSection = `
       <section class="page" id="blog">
         <div class="blog-layout">
@@ -84,7 +280,6 @@ function buildBlog() {
         </div>
       </section>`;
 
-  // uma section por post — voltar aponta para #blog
   const postSections = posts.map(p => `
       <section class="page" id="${p.id}">
         <div class="blog-layout">
@@ -133,7 +328,6 @@ function buildSection(dirName) {
 
   console.log(`   ${allItems.length} arquivo(s) em ${dirName}/`);
 
-  // sidebar com item ativo destacado
   function makeSidebar(activeId) {
     let html = "";
     let lastGroup = null;
@@ -159,7 +353,6 @@ function buildSection(dirName) {
       : `<p style="color:var(--text-3)">Arquivo não encontrado: ${file}</p>`;
   }
 
-  // section "capa" da seção = mesma que a primeira página
   const first   = allItems[0];
   const firstId = `${dirName}-${slugify(first.file)}`;
 
@@ -172,7 +365,6 @@ function buildSection(dirName) {
         </div>
       </section>`;
 
-  // uma section por arquivo
   const pageSections = allItems.map(item => {
     const id = `${dirName}-${slugify(item.file)}`;
     return `
@@ -206,11 +398,7 @@ function parseFanartFilename(file) {
   if (!match) return null;
 
   const [, ts, author] = match;
-
-  // transforma "2026-04-02T14-25" → "2026-04-02T14:25:00"
   const iso = ts.replace("T", "T").replace(/-(\d{2})$/, ":$1") + ":00";
-
-  const date = new Date(iso);
 
   return {
     file,
@@ -232,12 +420,12 @@ function buildFanarts() {
       </section>`;
 
   const dir = path.join(SRC, "fanarts");
-  
+
   if (!fs.existsSync(dir)) {
     console.warn("fanarts/ não existe");
     return empty;
   }
-  
+
   let fanarts = fs.readdirSync(dir)
     .filter(f => {
       if (/\.(png|webp|jpeg)$/i.test(f)) {
@@ -249,12 +437,11 @@ function buildFanarts() {
     .map(parseFanartFilename)
     .filter(Boolean)
     .sort((a, b) => b.date - a.date);
-  
+
   if (!fanarts.length) return empty;
 
   console.log(`   ${fanarts.length} fanart(s) encontrada(s)`);
 
-  // grid: cada item é link para lightbox estático (fallback) E tem data-index para JS
   const gridItems = fanarts.map((art, i) => `
               <a class="fanart-item" href="#fanart-${i}" data-index="${i}">
                 <img
@@ -267,8 +454,6 @@ function buildFanarts() {
                 </div>
               </a>`).join("\n");
 
-  // lightboxes estáticos — um por fanart, visíveis via :target
-  // ocultos via CSS quando html.js (JS disponível)
   const staticLightboxes = fanarts.map((art, i) => {
     const prev = (i - 1 + fanarts.length) % fanarts.length;
     const next = (i + 1) % fanarts.length;
@@ -403,6 +588,7 @@ function buildHTML(sections) {
     <li><a href="#blog">Blog</a></li>
     <li><a href="#docs">Docs</a></li>
     <li><a href="#manyual">Manyual</a></li>
+    <li><a href="#plugins">Plugins</a></li>
     <li><a href="#community">Comunidade</a></li>
   </ul>
 </nav>
@@ -416,7 +602,7 @@ ${sections.join("\n")}
 
 // ── MAIN ──────────────────────────────────────────────────────────────────
 
-function main() {
+async function main() {
   console.log("🔨 ManyBot build iniciado...\n");
 
   const distDir = path.join(SRC, "dist");
@@ -431,6 +617,9 @@ function main() {
   console.log("📖 Manyual...");
   const manyualHTML = buildSection("manyual");
 
+  console.log("🔌 Plugins...");
+  const pluginsHTML = await buildPlugins();
+
   console.log("🤝 Community...");
   const communityHTML = buildCommunity();
 
@@ -438,7 +627,7 @@ function main() {
   const fanartsHTML = buildFanarts();
 
   console.log("\n🏗️  Montando index.html...");
-  const html = buildHTML([blogHTML, docsHTML, manyualHTML, communityHTML, fanartsHTML]);
+  const html = buildHTML([blogHTML, docsHTML, manyualHTML, pluginsHTML, communityHTML, fanartsHTML]);
 
   fs.writeFileSync(OUT, html, "utf8");
 
@@ -446,4 +635,7 @@ function main() {
   console.log(`✅ Build completo → dist/index.html (${kb} KB)\n`);
 }
 
-main();
+main().catch(err => {
+  console.error("❌ Build falhou:", err);
+  process.exit(1);
+});
