@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plugin — ManyBot</title>
+  <meta name="description" content="ManyBot — bot para WhatsApp livre, extensível e sem depender de nuvem.">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/assets/favicon.png">
+  <!-- marked para renderizar o README -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.0/marked.min.js"></script>
+
+</head>
+<body>
+<!-- NAV -->
+<main><div class="container">
+  <a class="back-link" href="/plugins/">← plugins</a>
+  <div id="plugin-root"><div class="empty-notice">carregando...</div></div>
+</div></main>
+<!-- FOOTER -->
+
+<script>
+(function () {
+  var API = "https://api.manybot.stxerr.dev";
+
+  var slug = "PLUGIN_SLUG";
+
+  function authorName(raw) {
+    if (!raw) return null;
+    return raw.split("<")[0].trim() || raw;
+  }
+
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function renderMeta(p) {
+    var rows = [
+      ["Versão",       escHtml(p.version  || "—")],
+      ["Categoria",    escHtml(p.category || "—")],
+      p.license ? ["Licença", escHtml(p.license)] : null,
+      p.author  ? ["Autor",   escHtml(authorName(p.author))] : null,
+    ].filter(Boolean);
+
+    var deps = Object.keys(p.dependencies || {});
+    if (deps.length) rows.push(["Dependências", deps.map(escHtml).join(", ")]);
+
+    return '<div class="plugin-meta-card">'
+      + rows.map(function (r) {
+          return '<div class="plugin-meta-row">'
+            + '<span class="plugin-meta-label">' + r[0] + '</span>'
+            + '<span>' + r[1] + '</span>'
+            + '</div>';
+        }).join("")
+      + '</div>';
+  }
+
+  function renderHero(p, hearts) {
+    var install = "manyplug install " + p.slug;
+    return '<div class="plugin-page-hero">'
+      + '<div class="plugin-page-title-row">'
+      + '<h1 class="plugin-page-name">' + escHtml(p.name) + '</h1>'
+      + '<span class="plugin-card-version">v' + escHtml(p.version || "?") + '</span>'
+      + '<span class="plugin-tag">' + escHtml(p.category || "") + '</span>'
+      + '<button id="heart-btn" class="plugin-heart-btn" aria-label="Curtir">'
+      + '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'
+      + '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>'
+      + '</svg>'
+      + '<span id="heart-count">' + hearts + '</span>'
+      + '</button>'
+      + '</div>'
+      + '<p class="plugin-page-desc">' + escHtml(p.description || "") + '</p>'
+      + '<div class="plugin-install-box">'
+      + '<span class="plugin-install-label">instalar</span>'
+      + '<code class="plugin-install-cmd">' + escHtml(install) + '</code>'
+      + '<button class="plugin-install-copy" onclick="navigator.clipboard.writeText(\'' + escHtml(install) + '\')" title="Copiar">'
+      + '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>'
+      + '</button>'
+      + '</div>'
+      + '</div>';
+  }
+
+  function renderComments(comments) {
+    var list = comments.length
+      ? comments.map(function (c) {
+          return '<div class="comment-item">'
+            + '<div class="comment-meta">'
+            + '<span class="comment-author">' + escHtml(c.author) + '</span>'
+            + '<span class="comment-date">' + c.created_at.slice(0, 10) + '</span>'
+            + '</div>'
+            + '<div class="comment-body">' + escHtml(c.body) + '</div>'
+            + '</div>';
+        }).join("")
+      : '<div class="empty-notice">nenhum comentário ainda.</div>';
+
+    return '<div class="comments-section">'
+      + '<div class="contribute-section"><h2>comentários</h2></div>'
+      + list
+      + '<form class="comment-form" id="comment-form">'
+      + '<input type="text" name="author" placeholder="seu nome" maxlength="64" required autocomplete="off">'
+      + '<textarea name="body" placeholder="seu comentário..." maxlength="2000" required rows="4"></textarea>'
+      + '<input type="text" name="_hp" style="display:none" tabindex="-1" autocomplete="off">'
+      + '<button type="submit" class="btn btn-ghost btn-sm">enviar</button>'
+      + '<span id="comment-status" class="muted" style="font-size:11px"></span>'
+      + '</form>'
+      + '</div>';
+  }
+
+  async function load() {
+    var root = document.getElementById("plugin-root");
+
+    var plugin, hearts = 0, comments = [];
+    try {
+      var [rp, rh, rc] = await Promise.all([
+        fetch(API + "/plugins/" + slug),
+        fetch(API + "/plugins/" + slug + "/hearts"),
+        fetch(API + "/plugins/" + slug + "/comments"),
+      ]);
+      if (!rp.ok) throw new Error(rp.status);
+      plugin   = await rp.json();
+      if (rh.ok) { var hd = await rh.json(); hearts = hd.hearts; }
+      if (rc.ok) comments = await rc.json();
+    } catch (e) {
+      root.innerHTML = '<div class="empty-notice">plugin não encontrado.</div>';
+      return;
+    }
+
+    document.title = plugin.name + " — ManyBot";
+
+    var readme = plugin.readme
+      ? '<div class="md">' + marked.parse(plugin.readme) + '</div>'
+      : '<div class="empty-notice">sem README.</div>';
+
+    root.innerHTML = renderHero(plugin, hearts)
+      + '<div class="plugin-page-body">'
+      + '<div class="plugin-page-readme">' + readme + '</div>'
+      + '<aside class="plugin-page-meta">' + renderMeta(plugin) + '</aside>'
+      + '</div>'
+      + renderComments(comments);
+
+    // Coração
+    document.getElementById("heart-btn").addEventListener("click", async function () {
+      this.disabled = true;
+      try {
+        var r = await fetch(API + "/plugins/" + slug + "/hearts", { method: "POST" });
+        if (r.ok) {
+          var d = await r.json();
+          document.getElementById("heart-count").textContent = d.hearts;
+          this.classList.add("hearted");
+        }
+      } catch (_) {}
+      this.disabled = false;
+    });
+
+    // Comentário
+    document.getElementById("comment-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      var status = document.getElementById("comment-status");
+      var data = Object.fromEntries(new FormData(this));
+      status.textContent = "enviando...";
+      try {
+        var r = await fetch(API + "/plugins/" + slug + "/comments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        var d = await r.json();
+        if (r.ok) {
+          status.textContent = "comentário enviado!";
+          this.reset();
+          // Adiciona o novo comentário na lista sem recarregar
+          var section = this.closest(".comments-section");
+          var empty = section.querySelector(".empty-notice");
+          if (empty) empty.remove();
+          var item = document.createElement("div");
+          item.className = "comment-item";
+          item.innerHTML = '<div class="comment-meta">'
+            + '<span class="comment-author">' + escHtml(d.author) + '</span>'
+            + '<span class="comment-date">' + d.created_at.slice(0, 10) + '</span>'
+            + '</div><div class="comment-body">' + escHtml(d.body) + '</div>';
+          this.before(item);
+        } else {
+          status.textContent = d.error || "erro ao enviar.";
+        }
+      } catch (_) {
+        status.textContent = "erro ao enviar.";
+      }
+    });
+  }
+
+  load();
+}());
+</script>
+</body>
+</html>

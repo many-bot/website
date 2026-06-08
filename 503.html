@@ -1,17 +1,74 @@
-<!-- 503.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Erro 503 (servidor indisponível)</title>
-  <link rel="stylesheet" href="error.css">
+  <title>em manutenção — ManyBot</title>
+  <link rel="icon" href="/assets/favicon.png">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d0f; --bg-2: #141418; --border: #2e2e38;
+      --text: #d4d0c8; --text-2: #8c8a84; --text-3: #5a5856;
+      --accent: #7c6aff; --red: #c94e4e; --yellow: #d4b44e;
+      --font-mono: "Courier New", Courier, monospace;
+      --font-ui: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-ui); font-size: 14px;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .error-box {
+      max-width: 480px; width: 100%;
+      border: 1px solid var(--border);
+      padding: 2rem;
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .error-code {
+      font-family: var(--font-mono); font-size: 3rem;
+      color: var(--yellow); line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .error-title {
+      font-family: var(--font-mono); font-size: 1rem;
+      color: var(--text); margin-bottom: .75rem;
+    }
+    .error-desc {
+      font-size: 12px; color: var(--text-2); line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .error-links { display: flex; gap: .5rem; flex-wrap: wrap; }
+    a.btn {
+      display: inline-block; font-family: var(--font-mono); font-size: 11px;
+      padding: 4px 12px; text-decoration: none; border: 1px solid;
+    }
+    .btn-ghost { border-color: var(--border); color: var(--text-2); }
+    .btn-ghost:hover { border-color: var(--text-2); color: var(--text); }
+    .error-footer {
+      margin-top: 2rem; font-family: var(--font-mono); font-size: 10px;
+      color: var(--text-3); text-align: center;
+    }
+    .error-footer a { color: var(--text-3); text-decoration: none; }
+    .error-footer a:hover { color: var(--text); }
+  </style>
 </head>
 <body>
-  <img class="many" src="/assets/many-broxa.png">
-  <p class="author">Arte por <a href="https://instagram.com/mistmoon.ink">mistmoon.ink</a></p>
-  <h2>Algo deu errado.</h2>
-  <p>503 | Alguém provavelmente tropeçou nos cabos</p>
-  <a href="/">Voltar para o início</a>
+  <div class="error-box">
+    <div class="error-content">
+      <div class="error-code">503</div>
+      <div class="error-title">em manutenção</div>
+      <p class="error-desc">O site está temporariamente fora do ar para manutenção. Volta em breve.</p>
+      <div class="error-links">
+        <a class="btn btn-ghost" href="/">← início</a>
+      </div>
+    </div>
+    <img src="/assets/many-broxa.png" alt="Many" style="width:220px;">
+  </div>
+  <div class="error-footer">
+    <a href="/">manybot</a> · <a href="/docs/">docs</a> · <a href="https://github.com/many-bot/webpage/issues" target="_blank" rel="noopener">reportar problema</a>
+  </div>
 </body>
 </html>

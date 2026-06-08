@@ -1,3 +1,9 @@
+---
+title: Lançamento da nossa página!
+date: 2026-05-19
+excerpt: A página do ManyBot foi oficialmente lançada... finalmente!
+---
+
 # Lançamento da nossa página!
 
 A página do ManyBot foi oficialmente lançada... finalmente!

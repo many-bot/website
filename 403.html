@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>página não encontrada — ManyBot</title>
+  <title>acesso negado — ManyBot</title>
   <link rel="icon" href="/assets/favicon.png">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,7 +29,7 @@
     }
     .error-code {
       font-family: var(--font-mono); font-size: 3rem;
-      color: var(--text-3); line-height: 1;
+      color: var(--yellow); line-height: 1;
       margin-bottom: 1rem;
     }
     .error-title {
@@ -58,12 +58,11 @@
 <body>
   <div class="error-box">
     <div class="error-content">
-      <div class="error-code">404</div>
-      <div class="error-title">página não encontrada</div>
-      <p class="error-desc">A página que você procura não existe ou foi movida.</p>
+      <div class="error-code">403</div>
+      <div class="error-title">acesso negado</div>
+      <p class="error-desc">Você não tem permissão para acessar este recurso.</p>
       <div class="error-links">
         <a class="btn btn-ghost" href="/">← início</a>
-        <a class="btn btn-ghost" href="/docs/">docs</a>
       </div>
     </div>
     <img src="/assets/many-broxa.png" alt="Many" style="width:220px;">

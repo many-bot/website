@@ -1,0 +1,55 @@
+<nav id="nav">
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/">home</a></li>
+    <li><a href="/blog/">blog</a></li>
+    <li><a href="/docs/">docs</a></li>
+    <li><a href="/plugins/">plugins</a></li>
+    <li><a href="/fanarts/">fanarts</a></li>
+  </ul>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<script>
+(function(){
+  // active link
+  var links = document.querySelectorAll(".nav-links a");
+  var path  = location.pathname;
+  for (var i = 0; i < links.length; i++) {
+    var href = links[i].getAttribute("href");
+    if (href !== "/" && path.startsWith(href)) {
+      links[i].classList.add("active");
+      break;
+    }
+  }
+
+  // hambúrguer
+  var btn  = document.getElementById("nav-hamburger");
+  var menu = document.getElementById("nav-links");
+  if (!btn || !menu) return;
+  btn.addEventListener("click", function(e){
+    e.stopPropagation();
+    var open = menu.classList.toggle("open");
+    btn.setAttribute("aria-expanded", String(open));
+  });
+  document.addEventListener("click", function(e){
+    if (menu.classList.contains("open") && !menu.contains(e.target) && e.target !== btn){
+      menu.classList.remove("open");
+      btn.setAttribute("aria-expanded","false");
+    }
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape"){
+      menu.classList.remove("open");
+      btn.setAttribute("aria-expanded","false");
+    }
+  });
+}());
+
+document.addEventListener("DOMContentLoaded", function(){
+  document.querySelectorAll('.md a[href^="http"]').forEach(function(a){
+    a.target = "_blank";
+    a.rel = "noopener";
+  });
+});
+</script>
