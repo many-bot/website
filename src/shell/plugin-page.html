@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plugin — ManyBot</title>
-  <meta name="description" content="ManyBot — bot para WhatsApp livre, extensível e sem depender de nuvem.">
+  <title>ManyPlug</title>
+  <meta name="description" content="ManyBot - Apenas bot para WhatsApp.">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="icon" href="/assets/favicon.png">
   <!-- marked para renderizar o README -->
@@ -22,7 +22,6 @@
 <script>
 (function () {
   var API = "https://api.manybot.stxerr.dev";
-
   var slug = "PLUGIN_SLUG";
 
   function authorName(raw) {
@@ -38,8 +37,8 @@
 
   function renderMeta(p) {
     var rows = [
-      ["Versão",       escHtml(p.version  || "—")],
-      ["Categoria",    escHtml(p.category || "—")],
+      ["Versão",    escHtml(p.version  || "—")],
+      ["Categoria", escHtml(p.category || "—")],
       p.license ? ["Licença", escHtml(p.license)] : null,
       p.author  ? ["Autor",   escHtml(authorName(p.author))] : null,
     ].filter(Boolean);
@@ -57,19 +56,13 @@
       + '</div>';
   }
 
-  function renderHero(p, hearts) {
+  function renderHero(p) {
     var install = "manyplug install " + p.slug;
     return '<div class="plugin-page-hero">'
       + '<div class="plugin-page-title-row">'
       + '<h1 class="plugin-page-name">' + escHtml(p.name) + '</h1>'
       + '<span class="plugin-card-version">v' + escHtml(p.version || "?") + '</span>'
       + '<span class="plugin-tag">' + escHtml(p.category || "") + '</span>'
-      + '<button id="heart-btn" class="plugin-heart-btn" aria-label="Curtir">'
-      + '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'
-      + '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>'
-      + '</svg>'
-      + '<span id="heart-count">' + hearts + '</span>'
-      + '</button>'
       + '</div>'
       + '<p class="plugin-page-desc">' + escHtml(p.description || "") + '</p>'
       + '<div class="plugin-install-box">'
@@ -96,7 +89,7 @@
       : '<div class="empty-notice">nenhum comentário ainda.</div>';
 
     return '<div class="comments-section">'
-      + '<div class="contribute-section"><h2>comentários</h2></div>'
+      + '<div class="contribute-section"><h2>comentários (' + comments.length + ')</h2></div>'
       + list
       + '<form class="comment-form" id="comment-form">'
       + '<input type="text" name="author" placeholder="seu nome" maxlength="64" required autocomplete="off">'
@@ -111,48 +104,32 @@
   async function load() {
     var root = document.getElementById("plugin-root");
 
-    var plugin, hearts = 0, comments = [];
+    var plugin, comments = [];
     try {
-      var [rp, rh, rc] = await Promise.all([
+      var [rp, rc] = await Promise.all([
         fetch(API + "/plugins/" + slug),
-        fetch(API + "/plugins/" + slug + "/hearts"),
         fetch(API + "/plugins/" + slug + "/comments"),
       ]);
       if (!rp.ok) throw new Error(rp.status);
       plugin   = await rp.json();
-      if (rh.ok) { var hd = await rh.json(); hearts = hd.hearts; }
       if (rc.ok) comments = await rc.json();
     } catch (e) {
       root.innerHTML = '<div class="empty-notice">plugin não encontrado.</div>';
       return;
     }
 
-    document.title = plugin.name + " — ManyBot";
+    document.title = plugin.name + " - ManyPlug";
 
     var readme = plugin.readme
       ? '<div class="md">' + marked.parse(plugin.readme) + '</div>'
       : '<div class="empty-notice">sem README.</div>';
 
-    root.innerHTML = renderHero(plugin, hearts)
+    root.innerHTML = renderHero(plugin)
       + '<div class="plugin-page-body">'
       + '<div class="plugin-page-readme">' + readme + '</div>'
       + '<aside class="plugin-page-meta">' + renderMeta(plugin) + '</aside>'
       + '</div>'
       + renderComments(comments);
-
-    // Coração
-    document.getElementById("heart-btn").addEventListener("click", async function () {
-      this.disabled = true;
-      try {
-        var r = await fetch(API + "/plugins/" + slug + "/hearts", { method: "POST" });
-        if (r.ok) {
-          var d = await r.json();
-          document.getElementById("heart-count").textContent = d.hearts;
-          this.classList.add("hearted");
-        }
-      } catch (_) {}
-      this.disabled = false;
-    });
 
     // Comentário
     document.getElementById("comment-form").addEventListener("submit", async function (e) {
@@ -170,7 +147,6 @@
         if (r.ok) {
           status.textContent = "comentário enviado!";
           this.reset();
-          // Adiciona o novo comentário na lista sem recarregar
           var section = this.closest(".comments-section");
           var empty = section.querySelector(".empty-notice");
           if (empty) empty.remove();
@@ -193,5 +169,4 @@
   load();
 }());
 </script>
-</body>
 </html>

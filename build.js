@@ -4,7 +4,8 @@
 
 import fs from "fs";
 import path from "path";
-import { marked } from "marked";
+import MarkdownIt from "markdown-it";
+import anchor from "markdown-it-anchor";
 import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,6 +13,21 @@ const __dirname = path.dirname(__filename);
 
 const SRC = "src";
 const DIST = "dist";
+
+const normalize = text =>
+  text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+const md = new MarkdownIt();
+md.use(anchor, {
+  slugify: s =>
+    normalize(s)
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/[\s_]+/g, "-"),
+});
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -112,7 +128,7 @@ function buildDocs() {
 
   for (const src of files) {
     const slug = path.basename(src, ".md");
-    const body = marked.parse(read(src));
+    const body = md.render(read(src));
     const sidebarHtml = buildSidebar(sidebar, slug);
 
     const html = template
@@ -139,7 +155,7 @@ function buildBlog() {
   for (const src of files) {
     const slug           = path.basename(src, ".md");
     const { meta, body } = parseFrontmatter(read(src));
-    const content        = marked.parse(body);
+    const content        = md.render(body);
 
     const html = template
       .replace("<!-- NAV -->",     nav)

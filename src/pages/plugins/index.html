@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ManyPlug - Repositório de plugins do ManyBot</title>
+  <meta name="description" content="Explore o repositório de plugins do ManyBot e expanda as capacidades do seu bot.">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/assets/favicon.png">
+</head>
+<body>
+<!-- NAV -->
+<main><div class="container">
+  <div class="page-header">
+    <h1>ManyPlug</h1>
+    <p>Plugins disponíveis no <a href="https://github.com/many-bot/manyplug-repo" target="_blank" rel="noopener">repositório do ManyPlug</a>.</p>
+  </div>
+
+  <div id="plugins-grid" class="plugins-grid">
+    <div class="empty-notice">carregando plugins...</div>
+  </div>
+</div></main>
+<!-- FOOTER -->
+
+<script>
+(function () {
+  var API = "https://api.manybot.stxerr.dev";
+
+  function authorName(raw) {
+    if (!raw) return null;
+    return raw.split("<")[0].trim() || raw;
+  }
+
+  function renderCard(p) {
+    var author = authorName(p.author);
+    return '<a class="plugin-card" href="/plugins/' + p.slug + '/">'
+      + '<div class="plugin-card-header">'
+      + '<span class="plugin-card-name">' + p.name + '</span>'
+      + '<span class="plugin-card-version">v' + (p.version || '?') + '</span>'
+      + '</div>'
+      + '<div class="plugin-card-desc">' + (p.description || '') + '</div>'
+      + '<div class="plugin-card-footer">'
+      + (author ? '<span class="plugin-card-author">por ' + author + '</span>' : '')
+      + '<span class="plugin-tag">' + (p.category || '') + '</span>'
+      + '</div>'
+      + '</a>';
+  }
+
+  async function load() {
+    var grid = document.getElementById("plugins-grid");
+    var plugins;
+    try {
+      var res = await fetch(API + "/plugins");
+      if (!res.ok) throw new Error(res.status);
+      plugins = await res.json();
+    } catch (e) {
+      grid.innerHTML = '<div class="empty-notice">erro ao carregar plugins.</div>';
+      return;
+    }
+    grid.innerHTML = plugins.map(renderCard).join("");
+  }
+
+  load();
+}());
+</script>
+</body>
+</html>
