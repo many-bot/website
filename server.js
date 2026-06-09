@@ -13,6 +13,9 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/fanarts', express.static(path.join(__dirname, 'fanarts')));
+app.get('/rss.xml', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'rss.xml'));
+});
 
 const errorPage = (code) =>
   path.join(process.cwd(),`${code}.html`);
