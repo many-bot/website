@@ -265,6 +265,60 @@ function buildPlugins() {
   console.log(`plugins: ${Object.keys(registry.plugins).length} páginas geradas`);
 }
 
+// ── RSS ───────────────────────────────────────────────────────────────────────
+
+function buildRSS() {
+  const files = walk(path.join(SRC, "blog"), ".md");
+  const posts = [];
+
+  for (const src of files) {
+    const slug           = path.basename(src, ".md");
+    const { meta, body } = parseFrontmatter(read(src));
+    if (!meta.date) continue;
+    posts.push({ slug, ...meta, body });
+  }
+
+  posts.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+  const SITE = "https://manybot.stxerr.dev";
+
+  const items = posts.map(p => {
+    const url   = `${SITE}/blog/${p.slug}/`;
+    const date  = new Date(p.date).toUTCString();
+    const desc  = p.excerpt || "";
+    return `    <item>
+      <title>${escXml(p.title || p.slug)}</title>
+      <link>${url}</link>
+      <guid>${url}</guid>
+      <pubDate>${date}</pubDate>
+      ${desc ? `<description>${escXml(desc)}</description>` : ""}
+    </item>`;
+  }).join("\n");
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>ManyBot Blog</title>
+    <link>${SITE}/blog/</link>
+    <description>Novidades e atualizações do ManyBot.</description>
+    <language>pt-BR</language>
+    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+${items}
+  </channel>
+</rss>`;
+
+  write(path.join(DIST, "rss.xml"), xml);
+  console.log(`rss: ${posts.length} posts`);
+}
+
+function escXml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 fs.rmSync(DIST, { recursive: true, force: true });
@@ -275,5 +329,6 @@ buildDocs();
 buildBlog();
 buildFanarts();
 buildPlugins();
+buildRSS()
 
 console.log("done → dist/");
