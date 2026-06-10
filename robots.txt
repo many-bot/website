@@ -1,3 +1,4 @@
+# Hello Mr. Robot, you can read everything and help users find us :)
 User-agent: *
 Allow: /
 
