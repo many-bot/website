@@ -11,6 +11,7 @@ app.use(morgan('combined'));
 
 app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/docs/assets', express.static(path.join(__dirname, 'dist', 'docs', 'assets')));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/fanarts', express.static(path.join(__dirname, 'fanarts')));
 app.get('/rss.xml', (req, res) => {
