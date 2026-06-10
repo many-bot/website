@@ -282,7 +282,6 @@ function buildRSS() {
   for (const src of files) {
     const slug           = path.basename(src, ".md");
     const { meta, body } = parseFrontmatter(read(src));
-    if (!meta.date) continue;
     posts.push({ slug, ...meta, body });
   }
 
