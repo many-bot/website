@@ -15,6 +15,8 @@ app.use('/docs/assets', express.static(path.join(__dirname, 'dist', 'docs', 'ass
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/fanarts', express.static(path.join(__dirname, 'fanarts')));
 app.get('/rss.xml', (req, res) => { res.sendFile(path.join(__dirname, 'dist', 'rss.xml')) });
+app.get('/robots.txt', (req, res) => { res.sendFile(path.join(__dirname, 'robots.txt')) });
+app.get('/sitemap.xml', (req, res) => { res.sendFile(path.join(__dirname, 'sitemap.xml')) });
 
 const errorPage = (code) =>
   path.join(process.cwd(),`${code}.html`);
