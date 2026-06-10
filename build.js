@@ -162,13 +162,14 @@ function buildBlog() {
   for (const src of files) {
     const slug           = path.basename(src, ".md");
     const { meta, body } = parseFrontmatter(read(src));
+    const date = meta.date || new Date(Date.now()).toUTCString();
     const content        = md.render(body);
 
     const html = template
       .replace("<!-- NAV -->",     nav)
       .replace("<!-- FOOTER -->",  footer)
       .replace("<!-- TITLE -->",   meta.title || slug)
-      .replace("<!-- DATE -->",    meta.date  || "")
+      .replace("<!-- DATE -->",    date  || "")
       .replace("<!-- CONTENT -->", `<div class="md">${content}</div>`);
 
     write(path.join(DIST, "blog", slug, "index.html"), html);
