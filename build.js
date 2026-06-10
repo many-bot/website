@@ -126,6 +126,13 @@ function buildDocs() {
   const template = read(path.join(SRC, "shell", "docs.html"));
   const files    = walk(path.join(SRC, "docs"), ".md");
 
+  const assets = path.join(SRC, "docs", "assets");
+  const distAssets = path.join(DIST, "docs", path.basename(assets));
+
+  fs.cp(assets, distAssets, { recursive: true }, (err) => {
+    if (err) throw err;
+  });
+
   for (const src of files) {
     const slug = path.basename(src, ".md");
     const body = md.render(read(src));
