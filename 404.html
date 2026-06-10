@@ -53,6 +53,19 @@
     }
     .error-footer a { color: var(--text-3); text-decoration: none; }
     .error-footer a:hover { color: var(--text); }
+    @media (max-width: 600px) {
+      .error-box {
+        flex-direction: column-reverse;
+        align-items: center;
+        text-align: center;
+      }
+      .error-box img {
+        width: 160px;
+      }
+      .error-links {
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
