@@ -291,7 +291,7 @@ function buildRSS() {
 
   const items = posts.map(p => {
     const url   = `${SITE}/blog/${p.slug}/`;
-    const date  = new Date(p.date).toUTCString();
+    const date = new Date(p.date ?? Date.now()).toUTCString();
     const desc  = p.excerpt || "";
     return `    <item>
       <title>${escXml(p.title || p.slug)}</title>
