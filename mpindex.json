@@ -1,31 +1,31 @@
 {
   "plugins": {
-    "syntaxerror/manymedia": {
-      "repo": "https://github.com/syntaxerror/manymedia.many"
+    "synt-xerror/manymedia": {
+      "repo": "https://github.com/synt-xerror/manymedia.many"
     },
 
-    "syntaxerror/adivinhacao": {
-      "repo": "https://github.com/syntaxerror/adivinhacao.many"
+    "synt-xerror/adivinhacao": {
+      "repo": "https://github.com/synt-xerror/adivinhacao.many"
     },
 
-    "syntaxerror/figurinha": {
-      "repo": "https://github.com/syntaxerror/figurinha.many"
+    "synt-xerror/figurinha": {
+      "repo": "https://github.com/synt-xerror/figurinha.many"
     },
 
-    "syntaxerror/forca": {
-      "repo": "https://github.com/syntaxerror/manybot-forca.many"
+    "synt-xerror/forca": {
+      "repo": "https://github.com/synt-xerror/manybot-forca.many"
     },
 
-    "syntaxerror/many-ai": {
-      "repo": "https://github.com/syntaxerror/many-ai.many"
+    "synt-xerror/many-ai": {
+      "repo": "https://github.com/synt-xerror/many-ai.many"
     },
 
-    "syntaxerror/mcb-server": {
-      "repo": "https://github.com/syntaxerror/mcb-server.many"
+    "synt-xerror/mcb-server": {
+      "repo": "https://github.com/synt-xerror/mcb-server.many"
     },
 
-    "syntaxerror/counting": {
-      "repo": "https://github.com/syntaxerror/counting.many"
+    "synt-xerror/counting": {
+      "repo": "https://github.com/synt-xerror/counting.many"
     }
   }
 }
