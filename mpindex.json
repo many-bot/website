@@ -1,0 +1,31 @@
+{
+  "plugins": {
+    "syntaxerror/manymedia": {
+      "repo": "https://github.com/syntaxerror/manymedia.many"
+    },
+
+    "syntaxerror/adivinhacao": {
+      "repo": "https://github.com/syntaxerror/adivinhacao.many"
+    },
+
+    "syntaxerror/figurinha": {
+      "repo": "https://github.com/syntaxerror/figurinha.many"
+    },
+
+    "syntaxerror/forca": {
+      "repo": "https://github.com/syntaxerror/manybot-forca.many"
+    },
+
+    "syntaxerror/many-ai": {
+      "repo": "https://github.com/syntaxerror/many-ai.many"
+    },
+
+    "syntaxerror/mcb-server": {
+      "repo": "https://github.com/syntaxerror/mcb-server.many"
+    },
+
+    "syntaxerror/counting": {
+      "repo": "https://github.com/syntaxerror/counting.many"
+    }
+  }
+}

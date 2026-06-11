@@ -17,6 +17,7 @@ app.use('/fanarts', express.static(path.join(__dirname, 'fanarts')));
 app.get('/rss.xml', (req, res) => { res.sendFile(path.join(__dirname, 'dist', 'rss.xml')) });
 app.get('/robots.txt', (req, res) => { res.sendFile(path.join(__dirname, 'robots.txt')) });
 app.get('/sitemap.xml', (req, res) => { res.sendFile(path.join(__dirname, 'sitemap.xml')) });
+app.get('/manyplug/mpindex.json', (req, res) => { res.sendFile(path.join(__dirname, 'mpindex.json')) });
 
 const errorPage = (code) =>
   path.join(process.cwd(),`${code}.html`);
