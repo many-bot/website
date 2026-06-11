@@ -1,7 +1,13 @@
 ---
+date: 2026-06-11
 title: Baileys e ManyBot
 excerpt: Planos para migração do whatsapp-web.js para Baileys
+image: https://manybot.stxerr.dev/blog_manybot-and-baileys.png
 ---
+
+# Baileys e ManyBot
+
+![Baileys e ManyBot](/assets/blog_manybot-and-baileys.png)
 
 Caso não saiba, o ManyBot é baseado na biblioteca [whatsapp-web.js](https://wwebjs.dev/), que emula o
 WhatsApp Web dentro de um navegador *headless* (sem UI, controlável por código) baseado em 

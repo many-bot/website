@@ -153,7 +153,6 @@ function buildDocs() {
 }
 
 // ── Blog ──────────────────────────────────────────────────────────────────────
-
 function buildBlog() {
   const template = read(path.join(SRC, "shell", "post.html"));
   const files    = walk(path.join(SRC, "blog"), ".md");
@@ -162,14 +161,21 @@ function buildBlog() {
   for (const src of files) {
     const slug           = path.basename(src, ".md");
     const { meta, body } = parseFrontmatter(read(src));
-    const date = meta.date || new Date(Date.now()).toUTCString();
     const content        = md.render(body);
+
+    if (!meta.date) {
+      const today = new Date().toISOString().slice(0, 10);
+      const raw = read(src);
+      write(src, raw.replace(/^---/, `---\ndate: ${today}`));
+      meta.date = today;
+      console.log(`rss: injetou date em ${slug}`);
+    }
 
     const html = template
       .replace("<!-- NAV -->",     nav)
       .replace("<!-- FOOTER -->",  footer)
       .replace("<!-- TITLE -->",   meta.title || slug)
-      .replace("<!-- DATE -->",    date  || "")
+      .replace("<!-- DATE -->",    meta.date  || "")
       .replace("<!-- CONTENT -->", `<div class="md">${content}</div>`);
 
     write(path.join(DIST, "blog", slug, "index.html"), html);
@@ -182,7 +188,7 @@ function buildBlog() {
   const listItems = posts.map(p => `
     <li>
       <a class="blog-item" href="/blog/${p.slug}/">
-        <div class="blog-item-date">${p.date || ""}</div>
+        <div class="blog-item-date">${p.date || date}</div>
         <div class="blog-item-title">${p.title || p.slug}</div>
         ${p.excerpt ? `<div class="blog-item-excerpt">${p.excerpt}</div>` : ""}
       </a>
@@ -285,13 +291,14 @@ function buildRSS() {
     posts.push({ slug, ...meta, body });
   }
 
-  posts.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  posts.sort((a, b) => new Date(b.date ?? 0) - new Date(a.date ?? 0));
 
   const SITE = "https://manybot.stxerr.dev";
 
   const items = posts.map(p => {
     const url   = `${SITE}/blog/${p.slug}/`;
     const date = new Date(p.date ?? Date.now()).toUTCString();
+    const image = p.image ?? "";
     const desc  = p.excerpt || "";
     return `    <item>
       <title>${escXml(p.title || p.slug)}</title>
@@ -299,11 +306,15 @@ function buildRSS() {
       <guid>${url}</guid>
       <pubDate>${date}</pubDate>
       ${desc ? `<description>${escXml(desc)}</description>` : ""}
+      <media:content
+        url="${image}"
+        medium="image" />
     </item>`;
   }).join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0">
+<rss version="2.0"
+     xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
     <title>ManyBot Blog</title>
     <link>${SITE}/blog/</link>
