@@ -1,31 +1,59 @@
 {
   "plugins": {
-    "synt-xerror/manymedia": {
-      "repo": "https://github.com/synt-xerror/manymedia.many"
-    },
-
     "synt-xerror/adivinhacao": {
-      "repo": "https://github.com/synt-xerror/adivinhacao.many"
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/adivinhacao.many"
+        }
+      }
     },
 
     "synt-xerror/figurinha": {
-      "repo": "https://github.com/synt-xerror/figurinha.many"
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/figurinha.many"
+        }
+      }
     },
 
     "synt-xerror/forca": {
-      "repo": "https://github.com/synt-xerror/manybot-forca.many"
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/manybot-forca.many"
+        }
+      }
     },
 
     "synt-xerror/many-ai": {
-      "repo": "https://github.com/synt-xerror/many-ai.many"
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/many-ai.many"
+        }
+      }
     },
 
     "synt-xerror/mcb-server": {
-      "repo": "https://github.com/synt-xerror/mcb-server.many"
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/mcb-server.many"
+        }
+      }
     },
 
     "synt-xerror/counting": {
-      "repo": "https://github.com/synt-xerror/counting.many"
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/counting.many"
+        }
+      }
+    },
+
+    "synt-xerror/manymedia": {
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/manymedia.many"
+        }
+      }
     }
   }
 }
