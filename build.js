@@ -262,10 +262,10 @@ function buildFanarts() {
 // ── Plugins ───────────────────────────────────────────────────────────────────
 
 function buildPlugins() {
-  const registryPath = path.join(SRC, "plugins", "registry.json");
+  const registryPath = path.join(__dirname, "mpindex.json");
   const templatePath = path.join(SRC, "shell", "plugin-page.html");
 
-  if (!fs.existsSync(registryPath)) { console.log("plugins: registry.json não encontrado, pulando"); return; }
+  if (!fs.existsSync(registryPath)) { console.log("plugins: mpindex.json não encontrado, pulando"); return; }
   if (!fs.existsSync(templatePath)) { console.log("plugins: plugin-page.html não encontrado, pulando"); return; }
 
   const registry = JSON.parse(read(registryPath));
@@ -273,7 +273,7 @@ function buildPlugins() {
 
   for (const slug of Object.keys(registry.plugins)) {
     const html = injectShell(template).replace(/PLUGIN_SLUG/g, slug);
-    write(path.join(DIST, "plugins", slug, "index.html"), html);
+    write(path.join(DIST, "plugins", ...slug.split("/"), "index.html"), html);
   }
 
   console.log(`plugins: ${Object.keys(registry.plugins).length} páginas geradas`);
