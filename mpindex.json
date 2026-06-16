@@ -5,7 +5,9 @@
         "github": {
           "master": "https://github.com/synt-xerror/adivinhacao.many"
         }
-      }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/adivinhacao.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/adivinhacao.many/refs/heads/master/README.md"
     },
 
     "synt-xerror/figurinha": {
@@ -13,15 +15,19 @@
         "github": {
           "master": "https://github.com/synt-xerror/figurinha.many"
         }
-      }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/figurinha.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/figurinha.many/refs/heads/master/README.md"
     },
 
     "synt-xerror/forca": {
       "repos": {
         "github": {
-          "master": "https://github.com/synt-xerror/manybot-forca.many"
+          "master": "https://github.com/synt-xerror/forca.many"
         }
-      }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/forca.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/forca.many/refs/heads/master/README.md"
     },
 
     "synt-xerror/many-ai": {
@@ -29,7 +35,9 @@
         "github": {
           "master": "https://github.com/synt-xerror/many-ai.many"
         }
-      }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/many-ai.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/many-ai.many/refs/heads/master/README.md"
     },
 
     "synt-xerror/mcb-server": {
@@ -37,7 +45,9 @@
         "github": {
           "master": "https://github.com/synt-xerror/mcb-server.many"
         }
-      }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/mcb-server.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/mcb-server.many/refs/heads/master/README.md"
     },
 
     "synt-xerror/counting": {
@@ -45,7 +55,9 @@
         "github": {
           "master": "https://github.com/synt-xerror/counting.many"
         }
-      }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/counting.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/counting.many/refs/heads/master/README.md"
     },
 
     "synt-xerror/manymedia": {
@@ -53,7 +65,9 @@
         "github": {
           "master": "https://github.com/synt-xerror/manymedia.many"
         }
-      }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/manymedia.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/manymedia.many/refs/heads/master/README.md"
     }
   }
 }
