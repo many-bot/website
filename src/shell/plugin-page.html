@@ -24,11 +24,6 @@
   var API = "https://api.manybot.stxerr.dev";
   var slug = "PLUGIN_SLUG";
 
-  function authorName(raw) {
-    if (!raw) return null;
-    return raw.split("<")[0].trim() || raw;
-  }
-
   function escHtml(s) {
     return String(s)
       .replace(/&/g, "&amp;").replace(/</g, "&lt;")
@@ -40,7 +35,7 @@
       ["Versão",    escHtml(p.version  || "—")],
       ["Categoria", escHtml(p.category || "—")],
       p.license ? ["Licença", escHtml(p.license)] : null,
-      p.author  ? ["Autor",   escHtml(authorName(p.author))] : null,
+      p.author.name  ? ["Autor",   escHtml(p.author.name)] : null,
     ].filter(Boolean);
 
     var deps = Object.keys(p.dependencies || {});
@@ -57,7 +52,7 @@
   }
 
   function renderHero(p) {
-    var install = "manyplug install " + p.slug;
+    var install = "manyplug install " + p.key;
     return '<div class="plugin-page-hero">'
       + '<div class="plugin-page-title-row">'
       + '<h1 class="plugin-page-name">' + escHtml(p.name) + '</h1>'
