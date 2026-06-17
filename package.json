@@ -2,7 +2,9 @@
   "type": "module",
   "dependencies": {
     "express": "^5.2.1",
+    "highlight.js": "^11.11.1",
     "markdown-it": "^14.2.0",
+    "markdown-it-anchor": "^9.2.0",
     "marked": "^18.0.5",
     "morgan": "^1.11.0"
   }

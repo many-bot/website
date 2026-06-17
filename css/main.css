@@ -336,7 +336,7 @@ footer { border-top: 1px solid var(--border); background: var(--bg-2); margin-to
     background: var(--bg-2); border-bottom: 1px solid var(--border); z-index: 99;
   }
   .nav-links.open li { width: 100%; }
-  .nav-links.open a { height: auto; line-height: 1; padding: .75rem 1rem; border-right: none; border-bottom: 1px solid var(--border); }
+  .nav-links.open a { height: auto; line-height: 1; padding: .75rem 1rem; border-right: none; border-bottom: 1px solid var(--border); font-size: 15px; }
   .nav-links.open li:first-child a { border-left: none; }
   .nav-hamburger { display: flex; }
 
@@ -416,7 +416,11 @@ footer { border-top: 1px solid var(--border); background: var(--bg-2); margin-to
   .hero-name { font-size: 1.7rem; }
   .home-cards { grid-template-columns: 1fr; }
   .home-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .home-card-label { font-size: 14px; }
+  .home-card p { font-size: 13px; }
+  .home-honest p { font-size: 14px; }
   .home-card:last-child { border-bottom: none; }
+  .hero-tagline { font-size: 15px; }
 }
 
 /* ── Fanarts ─────────────────────────────────────────────────────────────── */

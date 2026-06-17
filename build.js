@@ -7,6 +7,7 @@ import path from "path";
 import MarkdownIt from "markdown-it";
 import anchor from "markdown-it-anchor";
 import { fileURLToPath } from 'node:url';
+import hljs from "highlight.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +20,18 @@ const normalize = text =>
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 
-const md = new MarkdownIt();
+const md = new MarkdownIt({
+  highlight: (code, lang) => {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(code, { language: lang }).value;
+      } catch (e) {}
+    }
+
+    return hljs.highlightAuto(code).value;
+  }
+});
+
 md.use(anchor, {
   slugify: s =>
     normalize(s)
