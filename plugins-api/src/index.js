@@ -30,10 +30,15 @@ app.get("/health",                          (_, res) => res.json({ ok: true }));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const chromium_path = path.join(__dirname, "chrome.tar.gz");
+const chromeWin = path.join(__dirname, "chrome-win64.tar.gz");
+const chromeLinux = path.join(__dirname, "chrome-linux64.tar.gz");
 
-app.get("/download-chrome", (req, res) => {
-  res.download(chromium_path);
+app.get("/download-chrome-linux", (req, res) => {
+  res.download(chromeLinux);
+});
+
+app.get("/download-chrome-win", (req, res) => {
+  res.download(chromeWin);
 });
 
 await syncRegistry();

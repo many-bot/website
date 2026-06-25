@@ -4,3 +4,5 @@ src/docs/
 PROJECT_GUIDE.txt
 plugins-api/src/.env
 plugins-api/node_modules
+plugins-api/src/chrome-linux64.tar.gz
+plugins-api/src/chrome-win64.tar.gz

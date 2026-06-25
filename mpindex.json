@@ -68,6 +68,26 @@
       },
       "manifest": "https://raw.githubusercontent.com/synt-xerror/manymedia.many/refs/heads/master/manyplug.json",
       "readme": "https://raw.githubusercontent.com/synt-xerror/manymedia.many/refs/heads/master/README.md"
+    },
+    
+    "synt-xerror/quote": {
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/quote.many"
+        }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/quote.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/quote.many/refs/heads/master/README.md"
+    },
+
+    "synt-xerror/playit": {
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/playit.many"
+        }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/playit.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/playit.many/refs/heads/master/README.md"
     }
   }
 }
