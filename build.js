@@ -349,6 +349,34 @@ function escXml(str) {
     .replace(/"/g, "&quot;");
 }
 
+function buildSitemap() {
+  const SITE = "https://manybot.org";
+
+  const pages = walk(DIST, ".html");
+
+  const urls = pages.map(file => {
+    let url = path.relative(DIST, file)
+      .replace(/index\.html$/, "")
+      .replace(/\\/g, "/");
+
+    if (!url.startsWith("/")) url = "/" + url;
+
+    return `  <url>
+    <loc>${SITE}${url}</loc>
+  </url>`;
+  }).join("\n");
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls}
+</urlset>`;
+
+  write(path.join(__dirname, "sitemap.xml"), xml);
+
+  console.log(`sitemap: ${pages.length} páginas`);
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 fs.rmSync(DIST, { recursive: true, force: true });
@@ -359,6 +387,7 @@ buildDocs();
 buildBlog();
 buildFanarts();
 buildPlugins();
-buildRSS()
+buildRSS();
+buildSitemap();
 
 console.log("done → dist/");
