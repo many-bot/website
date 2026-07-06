@@ -1,68 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://manybot.stxerr.dev/</loc>
+    <loc>https://manybot.stxerr.dev/blog/baileys/</loc>
   </url>
-
   <url>
     <loc>https://manybot.stxerr.dev/blog/</loc>
   </url>
-
-  <url>
-    <loc>https://manybot.stxerr.dev/blog/novo-visual/</loc>
-  </url>
-
-  <url>
-    <loc>https://manybot.stxerr.dev/blog/update-manymedia/</loc>
-  </url>
-
   <url>
     <loc>https://manybot.stxerr.dev/blog/lancamento/</loc>
   </url>
-
+  <url>
+    <loc>https://manybot.stxerr.dev/blog/manyplug-repo-deprecated/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/blog/novo-visual/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/blog/update-manymedia/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/docs/about-plugins/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/docs/api-reference/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/docs/getting-started/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/docs/how-to-make-a-plugin/</loc>
+  </url>
   <url>
     <loc>https://manybot.stxerr.dev/docs/</loc>
   </url>
-
   <url>
-    <loc>https://manybot.stxerr.dev/docs/primeiros-passos/</loc>
+    <loc>https://manybot.stxerr.dev/docs/manyplug-cli/</loc>
   </url>
-
   <url>
-    <loc>https://manybot.stxerr.dev/plugins/</loc>
+    <loc>https://manybot.stxerr.dev/docs/official-bot-about/</loc>
   </url>
-  
   <url>
-    <loc>https://manybot.stxerr.dev/plugins/adivinhacao/</loc>
+    <loc>https://manybot.stxerr.dev/docs/official-bot-commands/</loc>
   </url>
-  
   <url>
-    <loc>https://manybot.stxerr.dev/plugins/counting/</loc>
+    <loc>https://manybot.stxerr.dev/docs/terms-and-privacy/</loc>
   </url>
-  
-  <url>
-    <loc>https://manybot.stxerr.dev/plugins/forca/</loc>
-  </url>
-  
-  <url>
-    <loc>https://manybot.stxerr.dev/plugins/figurinha/</loc>
-  </url>
-  
-  <url>
-    <loc>https://manybot.stxerr.dev/plugins/manymedia/</loc>
-  </url>
-
-  <url>
-    <loc>https://manybot.stxerr.dev/plugins/many-ai/</loc>
-  </url>
-
-  <url>
-    <loc>https://manybot.stxerr.dev/plugins/mcb-server/</loc>
-  </url>
-
   <url>
     <loc>https://manybot.stxerr.dev/fanarts/</loc>
   </url>
-
+  <url>
+    <loc>https://manybot.stxerr.dev/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/synt-xerror/adivinhacao/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/synt-xerror/counting/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/synt-xerror/figurinha/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/synt-xerror/forca/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/synt-xerror/many-ai/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/synt-xerror/manymedia/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/synt-xerror/mcb-server/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/synt-xerror/playit/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.stxerr.dev/plugins/synt-xerror/quote/</loc>
+  </url>
 </urlset>
