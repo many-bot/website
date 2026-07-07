@@ -21,8 +21,9 @@
 
 <script>
 (function () {
-  var API = "https://api.manybot.stxerr.dev";
-  var slug = "PLUGIN_SLUG";
+  var API = "https://api.manybot.org";
+  var pathParts = window.location.pathname.split('/').filter(Boolean);
+  var slug = pathParts.slice(-2).join('/');
 
   function escHtml(s) {
     return String(s)
