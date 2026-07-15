@@ -30,6 +30,11 @@ app.get("/health",                          (_, res) => res.json({ ok: true }));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.get("/", (req, res) => {  
+  const indexhtml = path.join(__dirname, "index.html")
+  res.sendFile(indexhtml);
+});
+
 const chromeWin = path.join(__dirname, "chrome-win64.tar.gz");
 const chromeLinux = path.join(__dirname, "chrome-linux64.tar.gz");
 
@@ -41,7 +46,18 @@ app.get("/download-chrome-win", (req, res) => {
   res.download(chromeWin);
 });
 
-await syncRegistry();
-setInterval(syncRegistry, SYNC_INTERVAL_MS);
+try {
+    await syncRegistry();
+} catch (err) {
+    console.error("Initial registry sync failed:", err);
+}
+
+setInterval(async () => {
+    try {
+        await syncRegistry();
+    } catch (err) {
+        console.error("Registry sync failed:", err);
+    }
+}, SYNC_INTERVAL_MS);
 
 app.listen(PORT, () => console.log(`ManyPlug API listening ${PORT}`));
