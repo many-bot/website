@@ -20,10 +20,37 @@
     <loc>https://manybot.org/blog/update-manymedia/</loc>
   </url>
   <url>
-    <loc>https://manybot.org/docs/about-plugins/</loc>
+    <loc>https://manybot.org/docs/00-index/</loc>
   </url>
   <url>
-    <loc>https://manybot.org/docs/api-reference/</loc>
+    <loc>https://manybot.org/docs/01-plugins-basic/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/02-ctx-overview/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/03-ctx-messaging/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/04-ctx-chat-admin-me/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/05-ctx-contacts/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/06-ctx-events/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/07-ctx-polls/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/08-ctx-utilities/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/09-common-patterns/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/about-plugins/</loc>
   </url>
   <url>
     <loc>https://manybot.org/docs/getting-started/</loc>
