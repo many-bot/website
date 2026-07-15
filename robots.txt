@@ -1,5 +1,4 @@
-# Hello Mr. Robot, you can read everything and help users find us :)
 User-agent: *
 Allow: /
 
-Sitemap: https://manybot.stxerr.dev/sitemap.xml
+Sitemap: https://manybot.org/sitemap.xml
