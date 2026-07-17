@@ -1,4 +1,8 @@
-# Tudo o que você precisa saber sobre o ManyBot v5.2 e ManyPlug v2.4
+---
+date: 2026-07-17
+title: Tudo o que você precisa saber sobre o ManyBot v5.2 e ManyPlug v2.4
+excerpt: Essa foi uma atualização das grandes, e aqui abaixo você vai saber tudo sobre ela.
+---
 
 Essa foi uma atualização das grandes, e aqui abaixo você vai saber tudo sobre ela.
 
