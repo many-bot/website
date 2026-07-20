@@ -127,6 +127,21 @@ function buildSidebar(sidebar, currentSlug) {
   return html;
 }
 
+function buildDocsSingleFile(sidebar, files) {
+  const bySlug = new Map(files.map(f => [path.basename(f, ".md"), f]));
+  let combined = "";
+  for (const group of sidebar) {
+    combined += `\n\n# ${group.label}\n`;
+    for (const item of group.items) {
+      const src = bySlug.get(item.slug);
+      if (!src) continue;
+      combined += `\n\n## ${item.label}\n\n`;
+      combined += read(src);
+    }
+  }
+  write(path.join(DIST, "docs", "all.md"), combined.trim() + "\n");
+}
+
 function buildDocs() {
   const sidebarJson = path.join(SRC, "docs", "sidebar.json");
   if (!fs.existsSync(sidebarJson)) {
@@ -138,12 +153,18 @@ function buildDocs() {
   const template = read(path.join(SRC, "shell", "docs.html"));
   const files    = walk(path.join(SRC, "docs"), ".md");
 
+  const labelBySlug = new Map(
+    sidebar.flatMap(g => g.items.map(i => [i.slug, i.label]))
+  );
+
   for (const src of files) {
     const slug = path.basename(src, ".md");
     const body = md.render(read(src));
     const sidebarHtml = buildSidebar(sidebar, slug);
+    const title = (labelBySlug.get(slug) || slug) + " - ManyBot Docs";
 
     const html = template
+      .replace("<!-- TITLE -->",   title)
       .replace("<!-- NAV -->",     nav)
       .replace("<!-- FOOTER -->",  footer)
       .replace("<!-- SIDEBAR -->", sidebarHtml)
@@ -154,6 +175,7 @@ function buildDocs() {
       : path.join(DIST, "docs", slug, "index.html");
     write(dest, html);
   }
+  buildDocsSingleFile(sidebar, files);
   console.log(`docs: ${files.length} arquivos`);
 }
 
