@@ -98,6 +98,16 @@
       },
       "manifest": "https://raw.githubusercontent.com/synt-xerror/welcome.many/refs/heads/master/manyplug.json",
       "readme": "https://raw.githubusercontent.com/synt-xerror/welcome.many/refs/heads/master/README.md"
+    },
+
+    "synt-xerror/meme-generator": {
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/meme-generator.many"
+        }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/meme-generator.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/meme-generator.many/refs/heads/master/README.md"
     }
   }
 }
