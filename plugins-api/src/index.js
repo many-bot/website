@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const app  = express();
 const PORT = process.env.PORT || 3002;
-const SYNC_INTERVAL_MS = (parseInt(process.env.SYNC_INTERVAL_HOURS) || 6) * 60 * 60 * 1000;
+const SYNC_INTERVAL_MS = (parseInt(process.env.SYNC_INTERVAL_MINUTES) || 10) * 60 * 1000;
 
 app.set("trust proxy", 1);
 app.use(express.json());
