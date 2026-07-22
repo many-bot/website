@@ -88,6 +88,16 @@
       },
       "manifest": "https://raw.githubusercontent.com/synt-xerror/playit.many/refs/heads/master/manyplug.json",
       "readme": "https://raw.githubusercontent.com/synt-xerror/playit.many/refs/heads/master/README.md"
+    },
+
+    "synt-xerror/welcome": {
+      "repos": {
+        "github": {
+          "master": "https://github.com/synt-xerror/welcome.many"
+        }
+      },
+      "manifest": "https://raw.githubusercontent.com/synt-xerror/welcome.many/refs/heads/master/manyplug.json",
+      "readme": "https://raw.githubusercontent.com/synt-xerror/welcome.many/refs/heads/master/README.md"
     }
   }
 }

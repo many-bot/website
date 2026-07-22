@@ -44,12 +44,6 @@
     <loc>https://manybot.org/docs/05-ctx-contacts/</loc>
   </url>
   <url>
-    <loc>https://manybot.org/docs/06-ctx-events/</loc>
-  </url>
-  <url>
-    <loc>https://manybot.org/docs/07-ctx-polls/</loc>
-  </url>
-  <url>
     <loc>https://manybot.org/docs/08-ctx-utilities/</loc>
   </url>
   <url>
@@ -60,6 +54,9 @@
   </url>
   <url>
     <loc>https://manybot.org/docs/best-practices/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/config/</loc>
   </url>
   <url>
     <loc>https://manybot.org/docs/getting-started/</loc>
@@ -75,9 +72,6 @@
   </url>
   <url>
     <loc>https://manybot.org/docs/official-bot-about/</loc>
-  </url>
-  <url>
-    <loc>https://manybot.org/docs/official-bot-commands/</loc>
   </url>
   <url>
     <loc>https://manybot.org/docs/terms-and-privacy/</loc>
@@ -117,5 +111,8 @@
   </url>
   <url>
     <loc>https://manybot.org/plugins/synt-xerror/quote/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/plugins/synt-xerror/welcome/</loc>
   </url>
 </urlset>
