@@ -1,0 +1,68 @@
+/* ── Markdown ─────────────────────────────────────────────────────────────── */
+.md {
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.md h1 {
+  font-family: var(--font-mono);
+  font-size: 1.8em;
+  color: var(--text); margin: 0 0 1rem; border-bottom: 1px solid var(--border); padding-bottom: .5rem;
+}
+.md h2 {
+  font-family: var(--font-mono);
+  font-size: 1.4em;
+  color: var(--text); margin: 2rem 0 .75rem;
+}
+.md h3 {
+  font-family: var(--font-mono);
+  font-size: 1.15em;
+  color: var(--text-2); margin: 1.5rem 0 .5rem;
+}
+.md h2::before { content: "## "; color: var(--text-3); }
+.md h3::before { content: "### "; color: var(--text-3); }
+
+.md p,
+.md li,
+.md td {
+  font-size: 1em;
+}
+.md p  { margin: .75rem 0; color: var(--text-2); line-height: 1.7; }
+.md a  { color: var(--link); }
+.md strong { color: var(--text); font-weight: bold; }
+
+.md code,
+.md pre code,
+.md blockquote,
+.md table {
+  font-size: 0.95em;
+}
+.md code {
+  font-family: var(--font-mono);
+  background: var(--bg-3); border: 1px solid var(--border);
+  padding: 1px 5px; color: var(--green);
+}
+.md pre {
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent-2);
+  padding: 1rem; overflow-x: auto; margin: 1rem 0;
+}
+.md pre code { background: none; border: none; padding: 0; color: var(--text); line-height: 1.6; }
+.md blockquote { border-left: 3px solid var(--yellow); padding: .5rem 1rem; margin: 1rem 0; background: var(--bg-2); color: var(--text-2); }
+.md blockquote p { margin: 0; color: inherit; }
+.md ul, .md ol { padding-left: 1.5rem; margin: .75rem 0; }
+.md li { color: var(--text-2); margin: .25rem 0; }
+.md hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+.md th {
+  font-size: 0.85em;
+}
+.md table { display: block; overflow-x: auto; max-width: 100%; }
+.md th { background: var(--bg-3); border: 1px solid var(--border); padding: .4rem .75rem; text-align: left; font-family: var(--font-mono); color: var(--text-2); text-transform: uppercase; }
+.md td { border: 1px solid var(--border); padding: .4rem .75rem; color: var(--text-2); }
+
+.md a[href^="http"]::after {
+  content: " ↗";
+  font-size: 10px;
+  opacity: 0.6;
+}

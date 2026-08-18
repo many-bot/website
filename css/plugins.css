@@ -1,0 +1,40 @@
+/* ── Plugins ─────────────────────────────────────────────────────────────── */
+.plugins-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  border: 1px solid var(--border);
+}
+.plugin-card {
+  display: flex; flex-direction: column; gap: .4rem;
+  padding: .85rem 1rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  text-decoration: none; color: inherit;
+}
+.plugin-card:hover { background: var(--bg-2); }
+.plugin-card-header { display: flex; align-items: baseline; gap: .5rem; }
+.plugin-card-name    { font-family: var(--font-mono); font-size: 14px; color: var(--text); }
+.plugin-card-version { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); }
+.plugin-card-desc    { font-size: 13px; color: var(--text-2); line-height: 1.5; flex: 1; }
+.plugin-card-footer  { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; margin-top: auto; }
+.plugin-card-author  { font-size: 11px; color: var(--text-3); }
+.plugin-tag          { font-family: var(--font-mono); font-size: 11px; border: 1px solid var(--border); padding: 1px 6px; color: var(--text-3); }
+
+.plugin-page-hero    { padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+.plugin-page-title-row { display: flex; align-items: baseline; gap: .75rem; flex-wrap: wrap; margin-bottom: .5rem; }
+.plugin-page-name    { font-family: var(--font-mono); font-size: 1.3rem; color: var(--text); }
+.plugin-page-desc    { font-size: 15px; color: var(--text-2); margin-top: .5rem; }
+
+.plugin-install-box  { display: inline-flex; align-items: center; border: 1px solid var(--border); margin-top: 1rem; overflow: hidden; }
+.plugin-install-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); padding: 5px 8px; background: var(--bg-3); border-right: 1px solid var(--border); }
+.plugin-install-cmd   { font-family: var(--font-mono); font-size: 13px; color: var(--green); padding: 5px 10px; }
+.plugin-install-copy  { padding: 5px 8px; color: var(--text-3); border-left: 1px solid var(--border); }
+.plugin-install-copy:hover { color: var(--text); background: var(--bg-3); }
+
+.plugin-page-body    { display: flex; gap: 2rem; align-items: flex-start; }
+.plugin-page-readme  { min-width: 0; overflow: hidden; }
+.plugin-page-meta    { width: 200px; flex-shrink: 0; }
+.plugin-meta-card    { border: 1px solid var(--border); }
+.plugin-meta-row     { display: flex; flex-direction: column; padding: .5rem .75rem; border-bottom: 1px solid var(--border); font-size: 12px; }
+.plugin-meta-row:last-child { border-bottom: none; }
+.plugin-meta-label   { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 2px; }

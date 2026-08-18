@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doações - ManyBot</title>
+  <meta name="description" content="Apoie o ManyBot com Pix ou Bitcoin. O projeto é 100% gratuito e open-source.">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="icon" href="/assets/favicon.png">
+</head>
+<body>
+<!-- NAV -->
+<main><div class="container">
+  <div class="page-header">
+    <h1>Doações</h1>
+    <p>O ManyBot é e sempre vai ser gratuito e open-source. Doações são opcionais e ajudam a cobrir hospedagem e o tempo de quem mantém o projeto. ❤️</p>
+  </div>
+
+  <div class="donate-cards">
+    <div class="donate-card">
+      <div class="donate-card-title">Pix</div>
+      <code class="donate-value" data-copy="SUA_CHAVE_PIX_AQUI">manybot@pm.me</code>
+      <button class="btn btn-ghost btn-sm donate-copy">copiar</button>
+    </div>
+    <div class="donate-card">
+      <div class="donate-card-title">Bitcoin</div>
+      <code class="donate-value" data-copy="SEU_ENDERECO_BTC_AQUI">bc1qcq8uudkus6w896rc47psf6yt43twxlwxsfwesd</code>
+      <button class="btn btn-ghost btn-sm donate-copy">copiar</button>
+    </div>
+  </div>
+
+  <p class="muted section-lead">Não pode ou não quer doar? Sem problema, <a href="/colabore/">colaborar com código</a> também ajuda :)</p>
+</div></main>
+<!-- FOOTER -->
+<script>
+document.querySelectorAll(".donate-copy").forEach(function(btn){
+  btn.addEventListener("click", function(){
+    var value = btn.previousElementSibling.dataset.copy;
+    navigator.clipboard.writeText(value);
+    var original = btn.textContent;
+    btn.textContent = "copiado!";
+    setTimeout(function(){ btn.textContent = original; }, 1500);
+  });
+});
+</script>
+</body>
+</html>

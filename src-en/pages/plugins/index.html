@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ManyPlug - Repositório de plugins do ManyBot</title>
-  <meta name="description" content="Explore o repositório de plugins do ManyBot e expanda as capacidades do seu bot.">
+  <title>ManyPlug - ManyBot plugin repository</title>
+  <meta name="description" content="Browse the ManyBot plugin repository and extend your bot's capabilities.">
   <link rel="stylesheet" href="/css/main.css">
   <link rel="icon" href="/assets/favicon.png">
 </head>
@@ -13,11 +13,11 @@
 <main><div class="container">
   <div class="page-header">
     <h1>ManyPlug</h1>
-    <p>Plugins do ManyBot. Instale com o <a href="/manyplug/">ManyPlug</a> - <a href="/docs/how-to-make-a-plugin">Como fazer um plugin</a></p>
+    <p>ManyBot plugins. Install with <a href="/en/manyplug/">ManyPlug</a> - <a href="/docs/how-to-make-a-plugin">How to build a plugin (PT)</a></p>
   </div>
 
   <div id="plugins-grid" class="plugins-grid">
-    <div class="empty-notice">carregando plugins...</div>
+    <div class="empty-notice">loading plugins...</div>
   </div>
 </div></main>
 <!-- FOOTER -->
@@ -41,7 +41,7 @@
       + '</div>'
       + '<div class="plugin-card-desc">' + escHtml(p.description || '') + '</div>'
       + '<div class="plugin-card-footer">'
-      + (author ? '<span class="plugin-card-author">por ' + escHtml(author) + '</span>' : '')
+      + (author ? '<span class="plugin-card-author">by ' + escHtml(author) + '</span>' : '')
       + '<span class="plugin-tag">' + escHtml(p.category || '') + '</span>'
       + '</div>'
       + '</a>';
@@ -55,7 +55,7 @@
       if (!res.ok) throw new Error(res.status);
       plugins = await res.json();
     } catch (e) {
-      grid.innerHTML = '<div class="empty-notice">erro ao carregar plugins.</div>';
+      grid.innerHTML = '<div class="empty-notice">failed to load plugins.</div>';
       return;
     }
     grid.innerHTML = plugins.map(renderCard).join("");

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// build.js — ManyBot static site generator
+// build.js — ManyBot static site generator (multi-locale)
 // Uso: node build.js
 
 import fs from "fs";
@@ -12,8 +12,15 @@ import hljs from "highlight.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const SRC = "src";
-const DIST = "dist";
+const ROOT_DIST = "dist";
+
+// Locales: "pt" is the default (served at /), "en" is served under /en/.
+// Each locale's src dir mirrors the same structure (shell/, pages/, docs/, blog/, data/).
+// A locale is skipped gracefully if its src dir or shell files don't exist yet.
+const LOCALES = [
+  { code: "pt", src: "src",    dist: ROOT_DIST,         lang: "pt-BR" },
+  { code: "en", src: "src-en", dist: `${ROOT_DIST}/en`, lang: "en"    },
+];
 
 const normalize = text =>
   text
@@ -87,39 +94,110 @@ function parseFrontmatter(raw) {
   return { meta, body: match[2] };
 }
 
-// ── Shell ─────────────────────────────────────────────────────────────────────
+// ── Shared data / templating (single source pra fatos repetidos nos docs) ─────
+//
+// Sintaxe suportada dentro de <locale>/docs/**/*.md:
+//   {{links.algumaChave}}       → valor de <locale>/data/shared.json
+//   {{requirements.algumaChave}}
+//   {{categoriesTable}}         → tabela md gerada de shared.json#categories
+//   {{categoriesInline}}        → lista inline `valor`, `valor`, ...
+//   {{> _partials/arquivo.md}}  → inclui conteúdo de <locale>/docs/_partials/arquivo.md
+//
+// Propositalmente um whitelist (não um {{qualquerCoisa}} genérico) pra não
+// colidir com exemplos de i18n nos próprios docs, tipo {{nome}}/{{name}}.
 
-const nav    = read(path.join(SRC, "shell", "nav.html"));
-const footer = read(path.join(SRC, "shell", "footer.html"));
+const SITE = "https://manybot.org";
 
-function injectShell(html) {
-  return html
-    .replace("<!-- NAV -->", nav)
-    .replace("<!-- FOOTER -->", footer);
+const LOCALE_SCRIPT = `<script>
+(function(){var p=location.pathname;if(p==="/docs/"||p.startsWith("/docs/")||p.startsWith("/en/docs/"))return;var e=p.startsWith("/en/")||p==="/en";var l=localStorage.getItem("manybot_lang");if(!l){var n=(navigator.language||"").split("-")[0];l=n==="en"?"en":"pt";localStorage.setItem("manybot_lang",l)}if(l==="en"&&!e){location.href="/en"+(p==="/"?"/":p)}else if(l==="pt"&&e){location.href=p.replace(/^\\/en/,"")||"/"}}())
+<\/script>`;
+
+function addHreflang(html, canonicalPath) {
+  const links = [
+    `<link rel="alternate" hreflang="pt-BR" href="${SITE}${canonicalPath}">`,
+    `<link rel="alternate" hreflang="en" href="${SITE}/en${canonicalPath}">`,
+    `<link rel="alternate" hreflang="x-default" href="${SITE}${canonicalPath}">`,
+  ];
+  return html.replace("</head>", `    ${links.join("\n    ")}\n  </head>`);
 }
 
-// ── Pages ─────────────────────────────────────────────────────────────────────
-
-function buildPages() {
-  const pages = walk(path.join(SRC, "pages"), ".html");
-  for (const src of pages) {
-    const rel  = path.relative(path.join(SRC, "pages"), src);
-    const dest = path.join(DIST, rel);
-    write(dest, injectShell(read(src)));
-  }
-  console.log(`pages: ${pages.length} arquivos`);
+function addLocaleScript(html) {
+  return html.replace("</head>", `${LOCALE_SCRIPT}\n  </head>`);
 }
 
-// ── Docs ──────────────────────────────────────────────────────────────────────
+function getPath(obj, key) {
+  return key.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
+}
 
-function buildSidebar(sidebar, currentSlug) {
+function renderCategoriesTable(categories) {
+  let out = "| Valor | Quando usar |\n|---|---|\n";
+  for (const c of categories) out += `| \`${c.value}\` | ${c.description} |\n`;
+  return out.trim();
+}
+
+function renderCategoriesInline(categories) {
+  return categories.map(c => `\`${c.value}\``).join(", ");
+}
+
+// Remove sintaxe markdown básica pra gerar texto puro pro índice de busca dos docs.
+function stripMarkdown(text) {
+  return text
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/!\[[^\]]*]\([^)]*\)/g, " ")
+    .replace(/\[([^\]]+)]\([^)]*\)/g, "$1")
+    .replace(/^#+\s*/gm, "")
+    .replace(/[*_>#-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function applyTemplate(text, SRC, SHARED) {
+  text = text.replace(/\{\{>\s*([^\s}]+?)\s*\}\}/g, (_, rel) => {
+    const partialPath = path.join(SRC, "docs", rel);
+    if (!fs.existsSync(partialPath)) {
+      console.warn(`template: partial não encontrado: ${rel}`);
+      return `<!-- partial não encontrado: ${rel} -->`;
+    }
+    return read(partialPath).trim();
+  });
+
+  text = text.replace(/\{\{categoriesTable\}\}/g, () => renderCategoriesTable(SHARED.categories));
+  text = text.replace(/\{\{categoriesInline\}\}/g, () => renderCategoriesInline(SHARED.categories));
+
+  text = text.replace(/\{\{(links\.\w+|requirements\.\w+)\}\}/g, (match, key) => {
+    const value = getPath(SHARED, key);
+    if (value === undefined) {
+      console.warn(`template: variável não encontrada: {{${key}}}`);
+      return match;
+    }
+    return value;
+  });
+
+  return text;
+}
+
+// ── Docs sidebar ────────────────────────────────────────────────────────────
+
+const DOCS_SEARCH_STRINGS = {
+  pt: { placeholder: "Buscar na documentação…", empty: "Nenhum resultado encontrado." },
+  en: { placeholder: "Search the docs…",        empty: "No results found." },
+};
+
+function buildSidebar(sidebar, currentSlug, base, code) {
+  const t = DOCS_SEARCH_STRINGS[code] || DOCS_SEARCH_STRINGS.pt;
   let html = '<aside class="docs-sidebar">';
+  html += `<div class="docs-search">
+    <input type="search" id="docs-search-input" class="docs-search-input" placeholder="${t.placeholder}" autocomplete="off" spellcheck="false" data-base="${base}" data-empty="${t.empty}">
+    <div id="docs-search-results" class="docs-search-results" hidden></div>
+  </div>`;
   for (const group of sidebar) {
     html += `<div class="sidebar-group">`;
     html += `<div class="sidebar-group-label">${group.label}</div>`;
     for (const item of group.items) {
       const active = item.slug === currentSlug ? " active" : "";
-      html += `<a class="sidebar-link${active}" href="${item.slug === 'index' ? '/docs/' : '/docs/' + item.slug + '/'}">${item.label}</a>`;
+      const href = item.slug === 'index' ? `${base}/docs/` : `${base}/docs/${item.slug}/`;
+      html += `<a class="sidebar-link${active}" href="${href}">${item.label}</a>`;
     }
     html += `</div>`;
   }
@@ -127,189 +205,295 @@ function buildSidebar(sidebar, currentSlug) {
   return html;
 }
 
-function buildDocsSingleFile(sidebar, files) {
-  const bySlug = new Map(files.map(f => [path.basename(f, ".md"), f]));
-  let combined = "";
-  for (const group of sidebar) {
-    combined += `\n\n# ${group.label}\n`;
-    for (const item of group.items) {
-      const src = bySlug.get(item.slug);
-      if (!src) continue;
-      combined += `\n\n## ${item.label}\n\n`;
-      combined += read(src);
-    }
-  }
-  write(path.join(DIST, "docs", "all.md"), combined.trim() + "\n");
-}
+// ── Per-locale build ──────────────────────────────────────────────────────────
 
-function buildDocs() {
-  const sidebarJson = path.join(SRC, "docs", "sidebar.json");
-  if (!fs.existsSync(sidebarJson)) {
-    console.log("docs: sidebar.json não encontrado, pulando");
+function buildLocale(locale) {
+  const { code, src: SRC, dist: DIST } = locale;
+
+  if (!fs.existsSync(SRC)) {
+    console.log(`[${code}] src não encontrado (${SRC}), pulando locale`);
     return;
   }
 
-  const sidebar  = JSON.parse(read(sidebarJson));
-  const template = read(path.join(SRC, "shell", "docs.html"));
-  const files    = walk(path.join(SRC, "docs"), ".md");
-
-  const labelBySlug = new Map(
-    sidebar.flatMap(g => g.items.map(i => [i.slug, i.label]))
-  );
-
-  for (const src of files) {
-    const slug = path.basename(src, ".md");
-    const body = md.render(read(src));
-    const sidebarHtml = buildSidebar(sidebar, slug);
-    const title = (labelBySlug.get(slug) || slug) + " - ManyBot Docs";
-
-    const html = template
-      .replace("<!-- TITLE -->",   title)
-      .replace("<!-- NAV -->",     nav)
-      .replace("<!-- FOOTER -->",  footer)
-      .replace("<!-- SIDEBAR -->", sidebarHtml)
-      .replace("<!-- CONTENT -->", `<div class="md">${body}</div>`);
-
-    const dest = slug === "index"
-      ? path.join(DIST, "docs", "index.html")
-      : path.join(DIST, "docs", slug, "index.html");
-    write(dest, html);
+  const navPath        = path.join(SRC, "shell", "nav.html");
+  const footerPath     = path.join(SRC, "shell", "footer.html");
+  const footerMiniPath = path.join(SRC, "shell", "footer-mini.html");
+  if (!fs.existsSync(navPath) || !fs.existsSync(footerPath)) {
+    console.log(`[${code}] shell/nav.html ou shell/footer.html ausente, pulando locale`);
+    return;
   }
-  buildDocsSingleFile(sidebar, files);
-  console.log(`docs: ${files.length} arquivos`);
-}
 
-// ── Blog ──────────────────────────────────────────────────────────────────────
-function buildBlog() {
-  const template = read(path.join(SRC, "shell", "post.html"));
-  const files    = walk(path.join(SRC, "blog"), ".md");
-  const posts    = [];
+  const base       = code === "pt" ? "" : `/${code}`;
+  const nav        = read(navPath);
+  const footer     = read(footerPath);
+  // footer-mini: versão reduzida usada em todas as páginas exceto a home.
+  // Se não existir, cai de volta pro footer completo (não quebra o build).
+  const footerMini = fs.existsSync(footerMiniPath) ? read(footerMiniPath) : footer;
 
-  for (const src of files) {
-    const slug           = path.basename(src, ".md");
-    const { meta, body } = parseFrontmatter(read(src));
-    const content        = md.render(body);
+  function injectShell(html, canonicalPath, footerHtml) {
+    let result = html
+      .replace("<!-- NAV -->", nav)
+      .replace("<!-- FOOTER -->", footerHtml ?? footerMini);
+    if (canonicalPath) {
+      result = addHreflang(result, canonicalPath);
+    }
+    result = addLocaleScript(result);
+    return result;
+  }
 
-    if (!meta.date) {
-      const today = new Date().toISOString().slice(0, 10);
-      const raw = read(src);
-      write(src, raw.replace(/^---/, `---\ndate: ${today}`));
-      meta.date = today;
-      console.log(`rss: injetou date em ${slug}`);
+  const sharedPath = path.join(SRC, "data", "shared.json");
+  const SHARED = fs.existsSync(sharedPath)
+    ? JSON.parse(read(sharedPath))
+    : { links: {}, requirements: {}, categories: [] };
+
+  function buildPages() {
+    const pages = walk(path.join(SRC, "pages"), ".html");
+    for (const src of pages) {
+      const rel  = path.relative(path.join(SRC, "pages"), src);
+      const dest = path.join(DIST, rel);
+      const dir = path.dirname(rel);
+      const canonicalPath = dir === "." ? "/" : `/${dir}/`;
+      const isHome = dir === ".";
+      write(dest, injectShell(read(src), canonicalPath, isHome ? footer : footerMini));
+    }
+    console.log(`[${code}] pages: ${pages.length} arquivos`);
+  }
+
+  function buildDocsSingleFile(sidebar, files) {
+    const bySlug = new Map(files.map(f => [path.basename(f, ".md"), f]));
+    let combined = "";
+    for (const group of sidebar) {
+      combined += `\n\n# ${group.label}\n`;
+      for (const item of group.items) {
+        const src = bySlug.get(item.slug);
+        if (!src) continue;
+        combined += `\n\n## ${item.label}\n\n`;
+        combined += applyTemplate(read(src), SRC, SHARED);
+      }
+    }
+    write(path.join(DIST, "docs", "all.md"), combined.trim() + "\n");
+  }
+
+  function buildDocs() {
+    const sidebarJson = path.join(SRC, "docs", "sidebar.json");
+    if (!fs.existsSync(sidebarJson)) {
+      console.log(`[${code}] docs: sidebar.json não encontrado, pulando`);
+      return;
+    }
+    const docsShellPath = path.join(SRC, "shell", "docs.html");
+    if (!fs.existsSync(docsShellPath)) {
+      console.log(`[${code}] docs: shell/docs.html não encontrado, pulando`);
+      return;
     }
 
-    const html = template
-      .replace("<!-- NAV -->",     nav)
-      .replace("<!-- FOOTER -->",  footer)
-      .replace("<!-- TITLE -->",   meta.title || slug)
-      .replace("<!-- DATE -->",    meta.date  || "")
-      .replace("<!-- CONTENT -->", `<div class="md">${content}</div>`);
+    const sidebar  = JSON.parse(read(sidebarJson));
+    const template = read(docsShellPath);
+    const docsDir  = path.join(SRC, "docs");
+    const files    = walk(docsDir, ".md")
+      .filter(f => !path.relative(docsDir, f).startsWith(`_partials${path.sep}`));
 
-    write(path.join(DIST, "blog", slug, "index.html"), html);
-    posts.push({ slug, ...meta });
+    const labelBySlug = new Map(
+      sidebar.flatMap(g => g.items.map(i => [i.slug, i.label]))
+    );
+
+    const searchIndex = [];
+
+    for (const src of files) {
+      const slug = path.basename(src, ".md");
+      const bodyMd = applyTemplate(read(src), SRC, SHARED);
+      const body = md.render(bodyMd);
+      const sidebarHtml = buildSidebar(sidebar, slug, base, code);
+      const label = labelBySlug.get(slug) || slug;
+      const title = label + " - ManyBot Docs";
+
+      const html = template
+        .replace("<!-- TITLE -->",   title)
+        .replace("<!-- NAV -->",     nav)
+        .replace("<!-- FOOTER -->",  footerMini)
+        .replace("<!-- SIDEBAR -->", sidebarHtml)
+        .replace("<!-- CONTENT -->", `<div class="md">${body}</div>`);
+
+      const canonicalPath = slug === "index" ? "/docs/" : `/docs/${slug}/`;
+
+      const dest = slug === "index"
+        ? path.join(DIST, "docs", "index.html")
+        : path.join(DIST, "docs", slug, "index.html");
+      write(dest, addLocaleScript(addHreflang(html, canonicalPath)));
+
+      searchIndex.push({
+        slug,
+        title: label,
+        href: canonicalPath,
+        text: stripMarkdown(bodyMd).slice(0, 6000),
+      });
+    }
+    buildDocsSingleFile(sidebar, files);
+    write(path.join(DIST, "docs", "search-index.json"), JSON.stringify(searchIndex));
+    console.log(`[${code}] docs: ${files.length} arquivos (+ search-index.json)`);
   }
 
-  // Ordena por data decrescente e atualiza blog/index.html com a lista
-  posts.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  function buildBlog() {
+    const templatePath = path.join(SRC, "shell", "post.html");
+    const files = walk(path.join(SRC, "blog"), ".md");
+    if (!files.length) {
+      console.log(`[${code}] blog: nenhum post, pulando`);
+      return;
+    }
+    if (!fs.existsSync(templatePath)) {
+      console.log(`[${code}] blog: shell/post.html não encontrado, pulando`);
+      return;
+    }
 
-  const listItems = posts.map(p => `
+    const template = read(templatePath);
+    const posts = [];
+
+    for (const src of files) {
+      const slug           = path.basename(src, ".md");
+      const { meta, body } = parseFrontmatter(read(src));
+      const content        = md.render(body);
+
+      if (!meta.date) {
+        const today = new Date().toISOString().slice(0, 10);
+        const raw = read(src);
+        write(src, raw.replace(/^---/, `---\ndate: ${today}`));
+        meta.date = today;
+        console.log(`[${code}] rss: injetou date em ${slug}`);
+      }
+
+      const html = template
+        .replace("<!-- NAV -->",     nav)
+        .replace("<!-- FOOTER -->",  footerMini)
+        .replace("<!-- TITLE -->",   meta.title || slug)
+        .replace("<!-- DATE -->",    meta.date  || "")
+        .replace("<!-- CONTENT -->", `<div class="md">${content}</div>`);
+
+      const canonicalPath = `/blog/${slug}/`;
+
+      write(path.join(DIST, "blog", slug, "index.html"), addLocaleScript(addHreflang(html, canonicalPath)));
+      posts.push({ slug, ...meta });
+    }
+
+    posts.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+    const listItems = posts.map(p => `
     <li>
-      <a class="blog-item" href="/blog/${p.slug}/">
-        <div class="blog-item-date">${p.date || date}</div>
+      <a class="blog-item" href="${base}/blog/${p.slug}/">
+        <div class="blog-item-date">${p.date || ""}</div>
         <div class="blog-item-title">${p.title || p.slug}</div>
         ${p.excerpt ? `<div class="blog-item-excerpt">${p.excerpt}</div>` : ""}
       </a>
     </li>`).join("\n");
 
-  // Injeta a lista na blog/index.html gerada pelo buildPages
-  const indexPath = path.join(DIST, "blog", "index.html");
-  if (fs.existsSync(indexPath)) {
-    const updated = read(indexPath).replace(
-      '<li><div class="empty-notice">nenhum post ainda.</div></li>',
-      listItems || '<li><div class="empty-notice">nenhum post ainda.</div></li>'
-    );
-    write(indexPath, updated);
+    const indexPath = path.join(DIST, "blog", "index.html");
+    if (fs.existsSync(indexPath)) {
+      const updated = read(indexPath).replace(
+        '<li><div class="empty-notice">nenhum post ainda.</div></li>',
+        listItems || '<li><div class="empty-notice">nenhum post ainda.</div></li>'
+      );
+      write(indexPath, updated);
+    }
+
+    console.log(`[${code}] blog: ${files.length} posts`);
   }
 
-  console.log(`blog: ${files.length} posts`);
-}
+  function buildFanarts() {
+    const dir = path.join("fanarts");
+    if (!fs.existsSync(dir)) { console.log(`[${code}] fanarts: pasta não encontrada, pulando`); return; }
 
-// ── Fanarts ───────────────────────────────────────────────────────────────────
+    const templatePath = path.join(SRC, "pages", "fanarts", "index.html");
+    if (!fs.existsSync(templatePath)) { console.log(`[${code}] fanarts: pages/fanarts/index.html não encontrado, pulando`); return; }
 
-function buildFanarts() {
-  const dir = path.join("fanarts");
-  if (!fs.existsSync(dir)) { console.log("fanarts: pasta não encontrada, pulando"); return; }
- 
-  const templatePath = path.join(SRC, "pages", "fanarts", "index.html");
-  if (!fs.existsSync(templatePath)) { console.log("fanarts: src/pages/fanarts/index.html não encontrado, pulando"); return; }
- 
-  const artistsPath = path.join(dir, "artists.json");
-  const artists = fs.existsSync(artistsPath) ? JSON.parse(read(artistsPath)) : {};
- 
-  const exts = [".jpg", ".jpeg", ".png", ".gif", ".webp"];
-  const images = fs.readdirSync(dir)
-    .filter(f => exts.includes(path.extname(f).toLowerCase()))
-    .sort()
-    .reverse();
- 
-  function extractArtist(filename) {
-    const base = path.basename(filename, path.extname(filename));
-    const match = base.match(/^\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-(.+)$/);
-    return match ? match[1] : base;
-  }
- 
-  fs.mkdirSync(path.join(DIST, "fanarts"), { recursive: true });
-  for (const img of images) {
-    fs.copyFileSync(path.join(dir, img), path.join(DIST, "fanarts", img));
-  }
- 
-  const grid = images.map(img => {
-    const artistKey = extractArtist(img);
-    const artist    = artists[artistKey];
-    const label     = artistKey.replace(/@.*/, "");
-    const overlay   = artist?.url
-      ? `<a class="fanart-overlay" href="${artist.url}" target="_blank" rel="noopener">${label} · ${artist.platform}</a>`
-      : `<div class="fanart-overlay">${label}</div>`;
- 
-    return `<div class="fanart-item">
+    const artistsPath = path.join(dir, "artists.json");
+    const artists = fs.existsSync(artistsPath) ? JSON.parse(read(artistsPath)) : {};
+
+    const exts = [".jpg", ".jpeg", ".png", ".gif", ".webp"];
+    const images = fs.readdirSync(dir)
+      .filter(f => exts.includes(path.extname(f).toLowerCase()))
+      .sort()
+      .reverse();
+
+    function extractArtist(filename) {
+      const base = path.basename(filename, path.extname(filename));
+      const match = base.match(/^\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-(.+)$/);
+      return match ? match[1] : base;
+    }
+
+    fs.mkdirSync(path.join(DIST, "fanarts"), { recursive: true });
+    for (const img of images) {
+      fs.copyFileSync(path.join(dir, img), path.join(DIST, "fanarts", img));
+    }
+
+    const altPrefix = code === "pt" ? "Fanart por" : "Fanart by";
+    const emptyNotice = code === "pt" ? "nenhuma fanart ainda." : "no fanarts yet.";
+
+    const grid = images.map(img => {
+      const artistKey = extractArtist(img);
+      const artist    = artists[artistKey];
+      const label     = artistKey.replace(/@.*/, "");
+      const overlay   = artist?.url
+        ? `<a class="fanart-overlay" href="${artist.url}" target="_blank" rel="noopener">${label} · ${artist.platform}</a>`
+        : `<div class="fanart-overlay">${label}</div>`;
+
+      return `<div class="fanart-item">
   <a href="/fanarts/${img}" target="_blank" rel="noopener">
-    <img src="/fanarts/${img}" alt="Fanart por ${label}" loading="lazy">
+    <img src="/fanarts/${img}" alt="${altPrefix} ${label}" loading="lazy">
   </a>
   ${overlay}
 </div>`;
-  }).join("\n");
- 
-  const html = injectShell(read(templatePath))
-    .replace("<!-- FANARTS_GRID -->", grid || '<div class="empty-notice">nenhuma fanart ainda.</div>');
- 
-  write(path.join(DIST, "fanarts", "index.html"), html);
-  console.log(`fanarts: ${images.length} imagens`);
+    }).join("\n");
+
+    const html = injectShell(read(templatePath), "/fanarts/")
+      .replace("<!-- FANARTS_GRID -->", grid || `<div class="empty-notice">${emptyNotice}</div>`);
+
+    write(path.join(DIST, "fanarts", "index.html"), html);
+    console.log(`[${code}] fanarts: ${images.length} imagens`);
+  }
+
+  buildPages();
+  buildDocs();
+  buildBlog();
+  buildFanarts();
 }
 
-// ── Plugins ───────────────────────────────────────────────────────────────────
+// ── Static ────────────────────────────────────────────────────────────────
+
+function buildStatic() {
+  console.log("static: nada para copiar (servido via express.static)");
+}
+
+// ── Plugins — pt-only (dirigido pelo registry, sem tradução por ora) ─────────
 
 function buildPlugins() {
-  const registryPath = path.join(__dirname, "mpindex.json");
-  const templatePath = path.join(SRC, "shell", "plugin-page.html");
+  const registryPath  = path.join(__dirname, "mpindex.json");
+  const templatePath  = path.join("src", "shell", "plugin-page.html");
+  const navPath       = path.join("src", "shell", "nav.html");
+  const footerPath    = path.join("src", "shell", "footer.html");
+  const footerMiniPath = path.join("src", "shell", "footer-mini.html");
 
   if (!fs.existsSync(registryPath)) { console.log("plugins: mpindex.json não encontrado, pulando"); return; }
   if (!fs.existsSync(templatePath)) { console.log("plugins: plugin-page.html não encontrado, pulando"); return; }
 
   const registry = JSON.parse(read(registryPath));
   const template = read(templatePath);
+  const nav      = read(navPath);
+  const footer   = fs.existsSync(footerMiniPath) ? read(footerMiniPath) : read(footerPath);
+
+  function injectShell(html) {
+    return html.replace("<!-- NAV -->", nav).replace("<!-- FOOTER -->", footer);
+  }
 
   for (const slug of Object.keys(registry.plugins)) {
     const html = injectShell(template).replace(/PLUGIN_SLUG/g, slug);
-    write(path.join(DIST, "plugins", ...slug.split("/"), "index.html"), html);
+    write(path.join(ROOT_DIST, "plugins", ...slug.split("/"), "index.html"), html);
   }
 
   console.log(`plugins: ${Object.keys(registry.plugins).length} páginas geradas`);
 }
 
-// ── RSS ───────────────────────────────────────────────────────────────────────
+// ── RSS — pt-only por ora ──────────────────────────────────────────────────────
 
 function buildRSS() {
-  const files = walk(path.join(SRC, "blog"), ".md");
+  const files = walk(path.join("src", "blog"), ".md");
   const posts = [];
 
   for (const src of files) {
@@ -320,7 +504,7 @@ function buildRSS() {
 
   posts.sort((a, b) => new Date(b.date ?? 0) - new Date(a.date ?? 0));
 
-  const SITE = "https://manybot.stxerr.dev";
+  const SITE = "https://manybot.org";
 
   const items = posts.map(p => {
     const url   = `${SITE}/blog/${p.slug}/`;
@@ -352,7 +536,7 @@ ${items}
   </channel>
 </rss>`;
 
-  write(path.join(DIST, "rss.xml"), xml);
+  write(path.join(ROOT_DIST, "rss.xml"), xml);
   console.log(`rss: ${posts.length} posts`);
 }
 
@@ -367,10 +551,10 @@ function escXml(str) {
 function buildSitemap() {
   const SITE = "https://manybot.org";
 
-  const pages = walk(DIST, ".html");
+  const pages = walk(ROOT_DIST, ".html");
 
   const urls = pages.map(file => {
-    let url = path.relative(DIST, file)
+    let url = path.relative(ROOT_DIST, file)
       .replace(/index\.html$/, "")
       .replace(/\\/g, "/");
 
@@ -394,15 +578,14 @@ ${urls}
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 
-fs.rmSync(DIST, { recursive: true, force: true });
-fs.mkdirSync(DIST);
+fs.rmSync(ROOT_DIST, { recursive: true, force: true });
+fs.mkdirSync(ROOT_DIST);
 
-buildPages();
-buildDocs();
-buildBlog();
-buildFanarts();
+buildStatic();
+for (const locale of LOCALES) buildLocale(locale);
 buildPlugins();
 buildRSS();
 buildSitemap();
 
 console.log("done → dist/");
+

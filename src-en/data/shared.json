@@ -1,0 +1,28 @@
+{
+  "links": {
+    "email": "manybot@pm.me",
+    "emailMailto": "mailto:manybot@pm.me",
+    "discord": "https://discord.gg/gC7aKChXmA",
+    "whatsappCommunity": "https://wa.manybot.org",
+    "officialBotNumber": "+55 16 99459-1903",
+    "mpindex": "https://manybot.org/manyplug/mpindex.json"
+  },
+  "requirements": {
+    "nodeVersion": "24"
+  },
+  "categories": [
+    { "value": "integration", "description": "Integrations with external APIs and services" },
+    { "value": "games",       "description": "Games and turn-based interactions" },
+    { "value": "media",       "description": "Media download, conversion, or sending" },
+    { "value": "utility",     "description": "General-purpose tools" },
+    { "value": "admin",       "description": "Group or bot administration tools" },
+    { "value": "fun",         "description": "Entertainment without a specific category" },
+    { "value": "moderation",  "description": "Anti-spam, content filters, automatic moderation" },
+    { "value": "ai",          "description": "Integrations with AI/LLM models" },
+    { "value": "education",   "description": "Educational tools, dictionaries, translators" },
+    { "value": "social",      "description": "Social interaction, profiles, rankings between users" },
+    { "value": "economy",     "description": "Virtual currencies, shops, points systems" },
+    { "value": "automation",  "description": "Automations and event-triggered flows" },
+    { "value": "tools",       "description": "Technical utilities (e.g. converters, generators)" }
+  ]
+}

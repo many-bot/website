@@ -1,0 +1,28 @@
+{
+  "links": {
+    "email": "manybot@pm.me",
+    "emailMailto": "mailto:manybot@pm.me",
+    "discord": "https://discord.gg/gC7aKChXmA",
+    "whatsappCommunity": "https://wa.manybot.org",
+    "officialBotNumber": "+55 16 99459-1903",
+    "mpindex": "https://manybot.org/manyplug/mpindex.json"
+  },
+  "requirements": {
+    "nodeVersion": "24"
+  },
+  "categories": [
+    { "value": "integration", "description": "Integrações com APIs e serviços externos" },
+    { "value": "games",       "description": "Jogos e interações por turnos" },
+    { "value": "media",       "description": "Download, conversão ou envio de mídia" },
+    { "value": "utility",     "description": "Ferramentas de uso geral" },
+    { "value": "admin",       "description": "Ferramentas de administração de grupos ou do próprio bot" },
+    { "value": "fun",         "description": "Entretenimento sem categoria específica" },
+    { "value": "moderation",  "description": "Anti-spam, filtros de conteúdo, moderação automática" },
+    { "value": "ai",          "description": "Integrações com modelos de IA/LLM" },
+    { "value": "education",   "description": "Ferramentas educacionais, dicionários, tradutores" },
+    { "value": "social",      "description": "Interação social, perfis, rankings entre usuários" },
+    { "value": "economy",     "description": "Moedas virtuais, lojas, sistemas de pontos" },
+    { "value": "automation",  "description": "Automatizações e fluxos disparados por eventos" },
+    { "value": "tools",       "description": "Utilitários técnicos (ex: conversores, geradores)" }
+  ]
+}

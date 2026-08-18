@@ -1,0 +1,31 @@
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+button { cursor: pointer; border: none; background: none; font: inherit; }
+
+/* ── Tokens ──────────────────────────────────────────────────────────────── */
+:root {
+  --bg:       #0d0d0f;
+  --bg-2:     #141418;
+  --bg-3:     #1c1c22;
+  --border:   #2e2e38;
+  --border-2: #3e3e4e;
+  --text:     #d4d0c8;
+  --text-2:   #8c8a84;
+  --text-3:   #5a5856;
+  --accent:   #7c6aff;
+  --accent-2: #5b4fd4;
+  --green:    #4ec94e;
+  --yellow:   #d4b44e;
+  --red:      #c94e4e;
+  --link:     #9d8fff;
+
+  --font-mono: "Courier New", Courier, monospace;
+  --font-sans: Georgia, "Times New Roman", serif;
+  --font-ui:   Verdana, Geneva, Tahoma, sans-serif;
+
+  --max-w:  860px;
+  --nav-h:  56px;
+}

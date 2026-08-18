@@ -1,43 +1,43 @@
 <nav id="nav">
-  <a class="nav-brand" href="/" aria-label="ManyBot">
+  <a class="nav-brand" href="/en/" aria-label="ManyBot">
     <img src="/assets/manybot-logo-icon-white.svg" alt="">
   </a>
   <ul class="nav-links" id="nav-links">
     <li class="nav-group">
       <button class="nav-group-trigger" aria-haspopup="true" aria-expanded="false">ManyBot</button>
       <ul class="nav-dropdown">
-        <li><a href="/docs/"><span class="nav-dropdown-title">Documentação</span><span class="nav-dropdown-desc">Guia completo e referência da API</span></a></li>
-        <li><a href="/colabore/"><span class="nav-dropdown-title">Colabore</span><span class="nav-dropdown-desc">Código, sugestões e API</span></a></li>
-        <li><a href="https://github.com/many-bot/manybot" target="_blank" rel="noopener"><span class="nav-dropdown-title">Código-fonte</span><span class="nav-dropdown-desc">Repositório no GitHub</span></a></li>
+        <li><a href="/en/docs/"><span class="nav-dropdown-title">Documentation</span><span class="nav-dropdown-desc">Full guide and API reference</span></a></li>
+        <li><a href="/en/colabore/"><span class="nav-dropdown-title">Contribute</span><span class="nav-dropdown-desc">Code, suggestions and API</span></a></li>
+        <li><a href="https://github.com/many-bot/manybot" target="_blank" rel="noopener"><span class="nav-dropdown-title">Source code</span><span class="nav-dropdown-desc">Repository on GitHub</span></a></li>
       </ul>
     </li>
     <li class="nav-group">
       <button class="nav-group-trigger" aria-haspopup="true" aria-expanded="false">ManyPlug</button>
       <ul class="nav-dropdown">
-        <li><a href="/plugins/"><span class="nav-dropdown-title">Repositório de plugins</span><span class="nav-dropdown-desc">Explore plugins feitos pela comunidade</span></a></li>
-        <li><a href="/manyplug/"><span class="nav-dropdown-title">CLI ManyPlug</span><span class="nav-dropdown-desc">Instale, gerencie e valide plugins</span></a></li>
-        <li><a href="/docs/how-to-make-a-plugin/"><span class="nav-dropdown-title">Como criar um plugin</span><span class="nav-dropdown-desc">Guia passo a passo</span></a></li>
+        <li><a href="/en/plugins/"><span class="nav-dropdown-title">Plugin repository</span><span class="nav-dropdown-desc">Browse community-made plugins</span></a></li>
+        <li><a href="/en/manyplug/"><span class="nav-dropdown-title">ManyPlug CLI</span><span class="nav-dropdown-desc">Install, manage and validate plugins</span></a></li>
+        <li><a href="/en/docs/how-to-make-a-plugin/"><span class="nav-dropdown-title">How to make a plugin</span><span class="nav-dropdown-desc">Step-by-step guide</span></a></li>
       </ul>
     </li>
     <li class="nav-group">
-      <button class="nav-group-trigger" aria-haspopup="true" aria-expanded="false">comunidade</button>
+      <button class="nav-group-trigger" aria-haspopup="true" aria-expanded="false">community</button>
       <ul class="nav-dropdown">
-        <li><a href="/blog/"><span class="nav-dropdown-title">Blog</span><span class="nav-dropdown-desc">Bastidores do desenvolvimento</span></a></li>
-        <li><a href="/fanarts/"><span class="nav-dropdown-title">Fanarts</span><span class="nav-dropdown-desc">Arte feita pela comunidade</span></a></li>
-        <li><a href="/donates/"><span class="nav-dropdown-title">Doações</span><span class="nav-dropdown-desc">Apoie o projeto com Pix ou Bitcoin</span></a></li>
+        <li><a href="/en/blog/"><span class="nav-dropdown-title">Blog</span><span class="nav-dropdown-desc">Development updates</span></a></li>
+        <li><a href="/en/fanarts/"><span class="nav-dropdown-title">Fanarts</span><span class="nav-dropdown-desc">Community-made art</span></a></li>
+        <li><a href="/en/donates/"><span class="nav-dropdown-title">Donations</span><span class="nav-dropdown-desc">Support the project via Pix or Bitcoin</span></a></li>
       </ul>
     </li>
-    <li class="nav-mobile-only"><a class="nav-mobile-cta" href="https://wa.manybot.org">entrar na comunidade</a></li>
+    <li class="nav-mobile-only"><a class="nav-mobile-cta" href="https://wa.manybot.org">join the community</a></li>
     <li class="nav-mobile-only"><a href="https://github.com/many-bot/manybot" target="_blank" rel="noopener">GitHub</a></li>
   </ul>
   <div class="nav-group nav-lang-group">
-    <button class="nav-group-trigger nav-lang-trigger" aria-haspopup="true" aria-expanded="false" aria-label="Idioma">文A</button>
+    <button class="nav-group-trigger nav-lang-trigger" aria-haspopup="true" aria-expanded="false" aria-label="Language">文A</button>
     <ul class="nav-dropdown nav-lang-dropdown">
-      <li><a href="/" class="active">Português</a></li>
-      <li><a href="/en/" onclick="localStorage.setItem('manybot_lang','en')">English</a></li>
+      <li><a href="/" onclick="localStorage.setItem('manybot_lang','pt')">Português</a></li>
+      <li><a href="/en/" class="active">English</a></li>
     </ul>
   </div>
-  <a class="nav-cta" href="https://wa.manybot.org">entrar na comunidade</a>
+  <a class="nav-cta" href="https://wa.manybot.org">join the community</a>
   <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -49,7 +49,7 @@
   var links = document.querySelectorAll(".nav-links > li > a");
   for (var i = 0; i < links.length; i++) {
     var href = links[i].getAttribute("href");
-    if (href !== "/" && href.indexOf("http") !== 0 && path.startsWith(href)) {
+    if (href !== "/en/" && href.indexOf("http") !== 0 && path.startsWith(href)) {
       links[i].classList.add("active");
       break;
     }
@@ -118,7 +118,7 @@
     });
   }
 
-  // navbar flutuante (só relevante na home, ver body.page-home)
+  // floating navbar (home page only, see body.page-home)
   var navEl = document.getElementById("nav");
   if (document.body.classList.contains("page-home")) {
     var onScroll = function(){

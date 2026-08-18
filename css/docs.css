@@ -1,0 +1,61 @@
+/* ── Docs layout ─────────────────────────────────────────────────────────── */
+.docs-layout {
+  display: flex;
+  min-height: calc(100vh - var(--nav-h));
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.docs-content {
+  flex: 1;
+  padding: 2rem 2rem 3rem;
+  min-width: 0;
+  max-width: 850px;
+}
+
+.docs-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 0;
+  position: sticky;
+  top: var(--nav-h);
+  max-height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  align-self: flex-start;
+}
+
+.docs-search { position: relative; padding: 0 1rem .75rem; }
+.docs-search-input {
+  width: 100%; font: inherit; font-size: 13px; color: var(--text);
+  background: var(--bg-2); border: 1px solid var(--border-2);
+  border-radius: 6px; padding: .45rem .6rem;
+}
+.docs-search-input::placeholder { color: var(--text-3); }
+.docs-search-input:focus { outline: none; border-color: var(--accent); }
+.docs-search-results {
+  position: absolute; left: 1rem; right: 1rem; top: calc(100% - .5rem);
+  background: var(--bg-2); border: 1px solid var(--border); border-radius: 6px;
+  box-shadow: 0 12px 30px rgba(0,0,0,.4);
+  max-height: 60vh; overflow-y: auto; z-index: 50;
+}
+.docs-search-result { display: block; padding: .6rem .75rem; text-decoration: none; border-bottom: 1px solid var(--border); }
+.docs-search-result:last-child { border-bottom: none; }
+.docs-search-result:hover { background: var(--bg-3); }
+.docs-search-result-title { font-size: 13px; color: var(--text); }
+.docs-search-result-excerpt { font-size: 12px; color: var(--text-3); margin-top: 2px; line-height: 1.4; }
+.docs-search-empty { padding: .75rem; font-size: 13px; color: var(--text-3); }
+
+.sidebar-group { margin-bottom: .25rem; }
+.sidebar-group-label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-3); padding: .5rem 1rem .25rem; }
+.sidebar-link { display: block; padding: .3rem 1rem; font-size: 14px; color: var(--text-2); text-decoration: none; border-left: 2px solid transparent; }
+.sidebar-link:hover { color: var(--text); border-left-color: var(--border-2); }
+.sidebar-link.active { color: var(--accent); border-left-color: var(--accent); background: var(--bg-2); }
+.sidebar-link:visited { color: var(--text-2); }
+.sidebar-link.active:visited { color: var(--accent); }
+
+.sidebar-group:first-child .sidebar-group-label {
+  padding-top: .5rem;
+}
+

@@ -26,6 +26,9 @@
     <loc>https://manybot.org/blog/update-manymedia/</loc>
   </url>
   <url>
+    <loc>https://manybot.org/colabore/</loc>
+  </url>
+  <url>
     <loc>https://manybot.org/docs/00-index/</loc>
   </url>
   <url>
@@ -44,10 +47,19 @@
     <loc>https://manybot.org/docs/05-ctx-contacts/</loc>
   </url>
   <url>
+    <loc>https://manybot.org/docs/06-ctx-events/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/07-ctx-polls/</loc>
+  </url>
+  <url>
     <loc>https://manybot.org/docs/08-ctx-utilities/</loc>
   </url>
   <url>
     <loc>https://manybot.org/docs/09-common-patterns/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/docs/10-command-routing/</loc>
   </url>
   <url>
     <loc>https://manybot.org/docs/about-plugins/</loc>
@@ -74,13 +86,73 @@
     <loc>https://manybot.org/docs/official-bot-about/</loc>
   </url>
   <url>
+    <loc>https://manybot.org/docs/official-bot-commands/</loc>
+  </url>
+  <url>
     <loc>https://manybot.org/docs/terms-and-privacy/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/donates/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/blog/a-many-nao-tem-nada-a-ver-com-o-manychat-e-o-manybot-io/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/blog/baileys/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/blog/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/blog/lancamento/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/blog/manybot5.2-e-manyplug2.4/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/blog/manyplug-repo-deprecated/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/blog/novo-visual/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/blog/update-manymedia/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/colabore/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/docs/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/donates/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/fanarts/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/legal/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/manyplug/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/en/plugins/</loc>
   </url>
   <url>
     <loc>https://manybot.org/fanarts/</loc>
   </url>
   <url>
     <loc>https://manybot.org/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/legal/</loc>
+  </url>
+  <url>
+    <loc>https://manybot.org/manyplug/</loc>
   </url>
   <url>
     <loc>https://manybot.org/plugins/</loc>

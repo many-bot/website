@@ -1,0 +1,8 @@
+[
+  {
+    "label": "Introduction",
+    "items": [
+      { "slug": "index", "label": "About the docs" }
+    ]
+  }
+]
