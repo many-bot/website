@@ -1,0 +1,151 @@
+---
+import { dictionaries, base, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = dictionaries[locale].nav;
+const b = base(locale);
+---
+
+<nav id="nav">
+  <a class="nav-brand" href={`${b}/`} aria-label="ManyBot">
+    <img src="/assets/icon-white.png" alt="">
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li class="nav-group">
+      <button class="nav-group-trigger" aria-haspopup="true" aria-expanded="false">ManyBot</button>
+      <ul class="nav-dropdown">
+        <li><a href={`${b}/docs/`}><span class="nav-dropdown-title">{t.docs}</span><span class="nav-dropdown-desc">{t.docsDesc}</span></a></li>
+        <li><a href={`${b}/colabore/`}><span class="nav-dropdown-title">{t.colabore}</span><span class="nav-dropdown-desc">{t.colaboreDesc}</span></a></li>
+        <li><a href="https://github.com/many-bot/manybot" target="_blank" rel="noopener"><span class="nav-dropdown-title">{t.sourceCode}</span><span class="nav-dropdown-desc">{t.sourceCodeDesc}</span></a></li>
+      </ul>
+    </li>
+    <li class="nav-group">
+      <button class="nav-group-trigger" aria-haspopup="true" aria-expanded="false">ManyPlug</button>
+      <ul class="nav-dropdown">
+        <li><a href={`${b}/plugins/`}><span class="nav-dropdown-title">{t.plugins}</span><span class="nav-dropdown-desc">{t.pluginsDesc}</span></a></li>
+        <li><a href={`${b}/manyplug/`}><span class="nav-dropdown-title">{t.manyplug}</span><span class="nav-dropdown-desc">{t.manyplugDesc}</span></a></li>
+        <li><a href={`${b}/docs/how-to-make-a-plugin/`}><span class="nav-dropdown-title">{t.howToPlugin}</span><span class="nav-dropdown-desc">{t.howToPluginDesc}</span></a></li>
+      </ul>
+    </li>
+    <li class="nav-group">
+      <button class="nav-group-trigger" aria-haspopup="true" aria-expanded="false">{t.community}</button>
+      <ul class="nav-dropdown">
+        <li><a href={`${b}/blog/`}><span class="nav-dropdown-title">{t.blog}</span><span class="nav-dropdown-desc">{t.blogDesc}</span></a></li>
+        <li><a href={`${b}/fanarts/`}><span class="nav-dropdown-title">{t.fanarts}</span><span class="nav-dropdown-desc">{t.fanartsDesc}</span></a></li>
+        <li><a href={`${b}/donates/`}><span class="nav-dropdown-title">{t.donates}</span><span class="nav-dropdown-desc">{t.donatesDesc}</span></a></li>
+      </ul>
+    </li>
+    <li class="nav-mobile-only"><a class="nav-mobile-cta" href="https://wa.manybot.org">{t.joinCommunity}</a></li>
+    <li class="nav-mobile-only"><a href="https://github.com/many-bot/manybot" target="_blank" rel="noopener">GitHub</a></li>
+  </ul>
+  <div class="nav-group nav-lang-group">
+    <button class="nav-group-trigger nav-lang-trigger" aria-haspopup="true" aria-expanded="false" aria-label={t.language}>文A</button>
+    <ul class="nav-dropdown nav-lang-dropdown">
+      <li><a href="/" class={locale === 'pt' ? 'active' : ''}>Português</a></li>
+      <li><a href="/en/" class={locale === 'en' ? 'active' : ''}>English</a></li>
+    </ul>
+  </div>
+  <a class="nav-cta" href="https://wa.manybot.org">{t.joinCommunity}</a>
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<script>
+  (function () {
+    var path = location.pathname;
+
+    var links = document.querySelectorAll<HTMLAnchorElement>('.nav-links > li > a');
+    for (var i = 0; i < links.length; i++) {
+      var href = links[i].getAttribute('href');
+      if (href && href !== '/' && href.indexOf('http') !== 0 && path.startsWith(href)) {
+        links[i].classList.add('active');
+        break;
+      }
+    }
+
+    var dropdownLinks = document.querySelectorAll<HTMLAnchorElement>('.nav-dropdown a');
+    for (var j = 0; j < dropdownLinks.length; j++) {
+      var dHref = dropdownLinks[j].getAttribute('href');
+      if (dHref && dHref !== '/' && dHref !== '/en/' && dHref.indexOf('http') !== 0 && path.startsWith(dHref)) {
+        dropdownLinks[j].classList.add('active');
+        dropdownLinks[j].closest('.nav-group')?.classList.add('active');
+      }
+    }
+
+    var groups = document.querySelectorAll<HTMLElement>('.nav-group');
+    groups.forEach(function (group) {
+      var trigger = group.querySelector<HTMLButtonElement>('.nav-group-trigger');
+      trigger?.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var thisGroup = (e.currentTarget as HTMLElement).closest('.nav-group') as HTMLElement;
+        var willOpen = !thisGroup.classList.contains('open');
+        groups.forEach(function (g) {
+          g.classList.remove('open');
+          g.querySelector('.nav-group-trigger')?.setAttribute('aria-expanded', 'false');
+        });
+        if (willOpen) {
+          thisGroup.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    function closeGroups() {
+      groups.forEach(function (g) {
+        g.classList.remove('open');
+        g.querySelector('.nav-group-trigger')?.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    var btn = document.getElementById('nav-hamburger');
+    var menu = document.getElementById('nav-links');
+    document.addEventListener('click', function (e) {
+      if (!(e.target as HTMLElement).closest('.nav-group')) closeGroups();
+      if (menu && menu.classList.contains('open') && !menu.contains(e.target as Node) && e.target !== btn) {
+        menu.classList.remove('open');
+        btn?.setAttribute('aria-expanded', 'false');
+        closeGroups();
+        document.body.classList.remove('nav-open');
+      }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeGroups();
+        menu?.classList.remove('open');
+        btn?.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('nav-open');
+      }
+    });
+    if (btn && menu) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = menu!.classList.toggle('open');
+        btn!.setAttribute('aria-expanded', String(open));
+        document.body.classList.toggle('nav-open', open);
+        if (!open) closeGroups();
+      });
+    }
+
+    // navbar flutuante (só relevante na home, ver body.page-home)
+    var navEl = document.getElementById('nav');
+    if (document.body.classList.contains('page-home') && navEl) {
+      var onScroll = function () {
+        navEl!.classList.toggle('nav-scrolled', window.scrollY > 40);
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  })();
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll<HTMLAnchorElement>('.md a[href^="http"]').forEach(function (a) {
+      a.target = '_blank';
+      a.rel = 'noopener';
+    });
+  });
+</script>

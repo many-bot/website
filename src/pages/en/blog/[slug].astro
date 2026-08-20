@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { render } from 'astro:content';
+import { getBlogList } from '../../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getBlogList('en');
+  return posts.map((item) => ({ params: { slug: item.slug }, props: item }));
+}
+
+const { post, isFallback } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} - ManyBot`} description={post.data.excerpt ?? ''}>
+  <main class="container">
+    <article class="md">
+      {isFallback && (
+        <p class="fallback-notice">This content is not available in your language yet.</p>
+      )}
+      <h1>{post.data.title}</h1>
+      <p class="post-date">{post.data.date.toISOString().slice(0, 10)}</p>
+      <Content />
+    </article>
+  </main>
+</BaseLayout>

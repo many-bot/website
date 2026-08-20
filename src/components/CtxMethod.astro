@@ -1,0 +1,58 @@
+---
+import { ctxMethods } from '../data/ctx-methods';
+
+interface Props {
+  id: keyof typeof ctxMethods;
+}
+
+const { id } = Astro.props;
+const method = ctxMethods[id];
+
+if (!method) {
+  throw new Error(`CtxMethod: id desconhecido "${id}" — cheque src/data/ctx-methods.ts`);
+}
+
+// pt é o locale raiz (sem prefixo /pt/), en vive em /en/
+const lang = Astro.currentLocale === 'en' ? 'en' : 'pt';
+
+const contextLabel = {
+  setup: lang === 'pt' ? 'apenas setup' : 'setup only',
+  runtime: lang === 'pt' ? 'apenas runtime' : 'runtime only',
+  both: lang === 'pt' ? 'setup + runtime' : 'setup + runtime',
+}[method.context];
+---
+
+<div class="ctx-method">
+  <div class="ctx-method-signature">
+    <code>{method.signature}</code>
+    <span class="ctx-method-context">{contextLabel}</span>
+  </div>
+  <p class="ctx-method-description">{method.description[lang]}</p>
+</div>
+
+<style>
+  .ctx-method {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    background: var(--sl-color-black);
+  }
+  .ctx-method-signature {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .ctx-method-context {
+    font-size: 0.75rem;
+    color: var(--sl-color-gray-3);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .ctx-method-description {
+    margin: 0.5rem 0 0;
+    color: var(--sl-color-gray-2);
+  }
+</style>

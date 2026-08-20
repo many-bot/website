@@ -1,11 +1,18 @@
 {
+  "name": "manybot-astro",
   "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev --port 3003",
+    "build": "astro build",
+    "preview": "astro preview --port 3003",
+    "astro": "astro"
+  },
   "dependencies": {
-    "express": "^5.2.1",
-    "highlight.js": "^11.11.1",
-    "markdown-it": "^14.2.0",
-    "markdown-it-anchor": "^9.2.0",
-    "marked": "^18.0.5",
-    "morgan": "^1.11.0"
+    "@astrojs/starlight": "^0.41.7",
+    "astro": "^7.2.2"
   }
 }

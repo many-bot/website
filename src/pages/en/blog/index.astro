@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getBlogList } from '../../../lib/blog';
+
+const posts = await getBlogList('en');
+---
+
+<BaseLayout title="Blog - ManyBot" description="ManyBot news and updates.">
+  <main class="container">
+    <h1>Blog</h1>
+    <ul class="blog-list">
+      {posts.map(({ slug, post, isFallback }) => (
+        <li>
+          <a class="blog-item" href={`/en/blog/${slug}/`}>
+            <div class="blog-item-date">{post.data.date.toISOString().slice(0, 10)}</div>
+            <div class="blog-item-title">{post.data.title}{isFallback && ' (PT)'}</div>
+            {post.data.excerpt && <div class="blog-item-excerpt">{post.data.excerpt}</div>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>

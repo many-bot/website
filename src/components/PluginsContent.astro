@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { dictionaries, base, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = dictionaries[locale].pluginsPage;
+const b = base(locale);
+---
+
+<BaseLayout title={t.title} description={t.description}>
+  <main><div class="container">
+    <div class="page-header">
+      <h1>{t.h1}</h1>
+      <p>{t.introPrefix} <a href={`${b}/manyplug/`}>ManyPlug</a> {t.installMid} <a href="/docs/how-to-make-a-plugin">{t.howToLink}</a></p>
+    </div>
+
+    <div id="plugins-grid" class="plugins-grid" data-loading={t.loading} data-error={t.error} data-by-author={t.byAuthor}>
+      <div class="empty-notice">{t.loading}</div>
+    </div>
+  </div></main>
+</BaseLayout>
+
+<script>
+  const API = 'https://api.manybot.org';
+
+  function escHtml(s: string) {
+    return String(s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  interface Plugin {
+    key: string;
+    name: string;
+    version?: string;
+    description?: string;
+    category?: string;
+    author: { name?: string };
+  }
+
+  function renderCard(p: Plugin, byAuthor: string) {
+    const author = p.author?.name;
+    return `<a class="plugin-card" href="/plugins/${escHtml(p.key)}/">`
+      + `<div class="plugin-card-header">`
+      + `<span class="plugin-card-name">${escHtml(p.name)}</span>`
+      + `<span class="plugin-card-version">v${escHtml(p.version || '?')}</span>`
+      + `</div>`
+      + `<div class="plugin-card-desc">${escHtml(p.description || '')}</div>`
+      + `<div class="plugin-card-footer">`
+      + (author ? `<span class="plugin-card-author">${byAuthor} ${escHtml(author)}</span>` : '')
+      + `<span class="plugin-tag">${escHtml(p.category || '')}</span>`
+      + `</div>`
+      + `</a>`;
+  }
+
+  async function load() {
+    const grid = document.getElementById('plugins-grid') as HTMLElement | null;
+    if (!grid) return;
+    const errorLabel = grid.dataset.error ?? 'error';
+    const byAuthor = grid.dataset.byAuthor ?? 'by';
+    let plugins: Plugin[];
+    try {
+      const res = await fetch(`${API}/plugins`);
+      if (!res.ok) throw new Error(String(res.status));
+      plugins = await res.json();
+    } catch (e) {
+      grid.innerHTML = `<div class="empty-notice">${errorLabel}</div>`;
+      return;
+    }
+    grid.innerHTML = plugins.map((p) => renderCard(p, byAuthor)).join('');
+  }
+
+  load();
+</script>

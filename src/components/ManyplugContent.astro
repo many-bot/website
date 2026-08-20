@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { dictionaries, base, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = dictionaries[locale].manyplugPage;
+const b = base(locale);
+---
+
+<BaseLayout title={t.title} description={t.description}>
+  <main><div class="container">
+
+    <div class="page-header">
+      <h1>{t.h1}</h1>
+      <p>{t.intro}</p>
+      <div class="hero-badges" style="margin-top:1rem">
+        <span class="hero-badge"><a href="https://www.npmjs.com/package/@manybot/manyplug" target="_blank" rel="noopener">npm: @manybot/manyplug</a></span>
+        <span class="hero-badge">{t.requiresNode}</span>
+        <span class="hero-badge">{t.runsAs} <code>manyplug</code> {locale === 'pt' ? 'ou' : 'or'} <code>mp</code></span>
+      </div>
+    </div>
+
+    <div class="md">
+<pre><code>npm install -g @manybot/manyplug</code></pre>
+    </div>
+
+    <div class="page-header" style="margin-top:2.5rem">
+      <h2>{t.mainCommandsTitle}</h2>
+      <p>{t.mainCommandsText}</p>
+    </div>
+
+    <div class="link-cards">
+      <a class="link-card" href="/docs/manyplug-cli/#init">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 8V21H3V8M1 3h22v5H1V3zM10 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title"><code>{t.initTitle}</code></div>
+          <div class="link-card-desc">{t.initDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="/docs/manyplug-cli/#install">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title"><code>{t.installTitle}</code></div>
+          <div class="link-card-desc">{t.installDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="/docs/manyplug-cli/#link">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 13a5 5 0 0 0 7.5.5l2-2a5 5 0 0 0-7-7l-1.5 1.5M14 11a5 5 0 0 0-7.5-.5l-2 2a5 5 0 0 0 7 7l1.5-1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title"><code>{t.linkTitle}</code></div>
+          <div class="link-card-desc">{t.linkDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="/docs/manyplug-cli/#search">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+          <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title"><code>{t.searchTitle}</code></div>
+          <div class="link-card-desc">{t.searchDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="/docs/manyplug-cli/#validate">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 12l2 2 4-4M12 3l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V7l7-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title"><code>{t.validateTitle}</code></div>
+          <div class="link-card-desc">{t.validateDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="/docs/manyplug-cli/#update">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 12a9 9 0 1 1-3-6.7M21 3v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title"><code>{t.updateTitle}</code></div>
+          <div class="link-card-desc">{t.updateDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="page-header" style="margin-top:2.5rem">
+      <h2>{t.keepGoingTitle}</h2>
+      {locale === 'en' && <p style="margin:0 0 0.5rem">{t.keepGoingText}</p>}
+    </div>
+    <div class="link-cards">
+      <a class="link-card" href="/docs/manyplug-cli">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.cliRefTitle}</div>
+          <div class="link-card-desc">{t.cliRefDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="/docs/how-to-make-a-plugin">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.howToTitle}</div>
+          <div class="link-card-desc">{t.howToDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href={`${b}/plugins/`}>
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 8V21H3V8M1 3h22v5H1V3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.explorePluginsTitle}</div>
+          <div class="link-card-desc">{t.explorePluginsDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+    </div>
+
+  </div></main>
+</BaseLayout>

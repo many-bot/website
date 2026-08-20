@@ -1,0 +1,43 @@
+21:18:12 [vite] connected.
+21:18:19 [types] Generated 3ms
+21:18:19 [vite] connected.
+21:18:22 [content] Syncing content
+21:18:22 [WARN] [starlight-i18n-loader] The base directory "/home/syntax/work/active/manybot/webpage/src/content/i18n/" does not exist.
+21:18:30 [content] Synced content
+ astro  v7.2.2 ready in 23045 ms
+┃ Local    http://localhost:4321/
+┃ Network  use --host to expose
+21:18:30 watching for file changes...
+21:18:59 [200] /docs/ 1185ms
+21:18:59 [200] /docs/getting-started/ 162ms
+21:18:59 [200] /docs/config/ 245ms
+21:19:00 [200] /docs/about-plugins/ 158ms
+21:19:00 [200] /docs/manyplug-cli/ 120ms
+21:19:00 [200] /docs/how-to-make-a-plugin/ 169ms
+21:19:01 [200] /docs/best-practices/ 108ms
+21:19:01 [200] /docs/official-bot-about/ 102ms
+21:19:01 [200] /docs/terms-and-privacy/ 75ms
+21:19:01 [200] /docs/api/ 82ms
+21:19:02 [200] /docs/api/plugins-basic/ 68ms
+21:19:02 [200] /docs/api/ctx-overview/ 64ms
+21:19:02 [ERROR] Error: Failed to load url ../../../components/CtxMethod.astro (resolved id: ../../../components/CtxMethod.astro) in /home/syntax/work/active/manybot/webpage/src/content/docs/docs/api/ctx-messaging.mdx. Does the file exist?
+    at loadAndTransform (file:///home/syntax/work/active/manybot/webpage/node_modules/vite/dist/node/chunks/node.js:20608:31)
+21:19:02 [ERROR] Failed to load url ../../../components/CtxMethod.astro (resolved id: ../../../components/CtxMethod.astro) in /home/syntax/work/active/manybot/webpage/src/content/docs/docs/api/ctx-messaging.mdx. Does the file exist?
+  Stack trace:
+    at loadAndTransform (file:///home/syntax/work/active/manybot/webpage/node_modules/vite/dist/node/chunks/node.js:20608:31)
+21:19:02 [200] /docs/api/ctx-chat-admin-me/ 59ms
+21:19:02 [200] /docs/api/ctx-contacts/ 68ms
+21:19:03 [200] /docs/api/ctx-utilities/ 84ms
+21:19:03 [ERROR] Error: Failed to load url ../../../components/CtxMethod.astro (resolved id: ../../../components/CtxMethod.astro) in /home/syntax/work/active/manybot/webpage/src/content/docs/docs/api/ctx-messaging.mdx. Does the file exist?
+    at loadAndTransform (file:///home/syntax/work/active/manybot/webpage/node_modules/vite/dist/node/chunks/node.js:20608:31)
+    at async fetchModule (file:///home/syntax/work/active/manybot/webpage/node_modules/vite/dist/node/chunks/node.js:34251:15)
+    at async handleInvoke (file:///home/syntax/work/active/manybot/webpage/node_modules/vite/dist/node/chunks/node.js:26817:21)
+    at async EventEmitter.listenerForInvokeHandler (file:///home/syntax/work/active/manybot/webpage/node_modules/vite/dist/node/chunks/node.js:26872:13)
+21:19:03 [ERROR] Failed to load url ../../../components/CtxMethod.astro (resolved id: ../../../components/CtxMethod.astro) in /home/syntax/work/active/manybot/webpage/src/content/docs/docs/api/ctx-messaging.mdx. Does the file exist?
+  Stack trace:
+    at loadAndTransform (file:///home/syntax/work/active/manybot/webpage/node_modules/vite/dist/node/chunks/node.js:20608:31)
+    [...] See full stack trace in the browser, or rerun with --verbose.
+21:19:19 [starlight-docs-loader] Reloaded data from docs/api/ctx-messaging.mdx
+21:19:26 [starlight-docs-loader] Reloaded data from docs/api/common-patterns.mdx
+21:19:40 [200] /docs/api/ctx-messaging/ 3311ms
+21:19:41 [200] /docs/api/common-patterns/ 780ms

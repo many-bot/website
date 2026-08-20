@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { dictionaries, base, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = dictionaries[locale].colabore;
+const b = base(locale);
+---
+
+<BaseLayout title={t.title} description={t.description}>
+  <main><div class="container">
+    <div class="page-header">
+      <h1>{t.h1}</h1>
+      <p>{t.intro}</p>
+    </div>
+
+    <div class="link-cards">
+      <a class="link-card" href={`${b}/manyplug/`}>
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8L12 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.manyplugTitle}</div>
+          <div class="link-card-desc">{t.manyplugDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="/docs/how-to-make-a-plugin">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.firstPluginTitle}</div>
+          <div class="link-card-desc">{t.firstPluginDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href={`${b}/blog/`}>
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.blogTitle}</div>
+          <div class="link-card-desc">{t.blogDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://github.com/many-bot/manybot" target="_blank" rel="noopener">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+        </svg>
+        <div>
+          <div class="link-card-title">{t.sourceTitle}</div>
+          <div class="link-card-desc">{t.sourceDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://github.com/many-bot/manybot/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 12l2 2 4-4M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.contributingTitle}</div>
+          <div class="link-card-desc">{t.contributingDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="page-header" style="margin-top:2.5rem">
+      <h2>{t.missingApiTitle}</h2>
+      <p>{t.missingApiText}</p>
+    </div>
+    <div class="link-cards">
+      <a class="link-card" href={`mailto:manybot@pm.me?subject=${locale === 'pt' ? 'Sugest%C3%A3o%20de%20API' : 'API%20Suggestion'}`}>
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+          <path d="M2 6l10 7 10-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.emailTitle}</div>
+          <div class="link-card-desc">manybot@pm.me</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://wa.manybot.org">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.communityTitle}</div>
+          <div class="link-card-desc">{t.communityDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+    </div>
+  </div></main>
+</BaseLayout>

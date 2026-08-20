@@ -1,0 +1,14 @@
+{
+	"pid": 43327,
+	"port": 3003,
+	"url": "http://localhost:3003",
+	"urls": {
+		"local": [
+			"http://localhost:3003/"
+		],
+		"network": [],
+		"networkInterfaceNames": []
+	},
+	"background": false,
+	"startedAt": "2026-08-19T20:52:01.892Z"
+}

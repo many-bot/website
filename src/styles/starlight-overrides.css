@@ -1,0 +1,5 @@
+/* overrides pontuais de tema — a ideia é herdar o visual de css/main.css
+   do site atual aqui, mantendo o Starlight só como motor de layout/busca/i18n */
+:root {
+  --sl-color-accent: #25d366;
+}

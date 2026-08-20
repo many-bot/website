@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { dictionaries, base, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = dictionaries[locale].donates;
+const b = base(locale);
+---
+
+<BaseLayout title={t.title} description={t.description}>
+  <main><div class="container">
+    <div class="page-header">
+      <h1>{t.h1}</h1>
+      <p>{t.intro}</p>
+    </div>
+
+    <div class="donate-cards">
+      <div class="donate-card">
+        <div class="donate-card-title">Pix</div>
+        <code class="donate-value" data-copy="SUA_CHAVE_PIX_AQUI">manybot@pm.me</code>
+        <button class="btn btn-ghost btn-sm donate-copy" data-copy-label={t.copy} data-copied-label={t.copied}>{t.copy}</button>
+      </div>
+      <div class="donate-card">
+        <div class="donate-card-title">Bitcoin</div>
+        <code class="donate-value" data-copy="SEU_ENDERECO_BTC_AQUI">bc1qcq8uudkus6w896rc47psf6yt43twxlwxsfwesd</code>
+        <button class="btn btn-ghost btn-sm donate-copy" data-copy-label={t.copy} data-copied-label={t.copied}>{t.copy}</button>
+      </div>
+    </div>
+
+    <p class="muted section-lead">{t.footerPrefix} <a href={`${b}/colabore/`}>{t.footerLink}</a> {t.footerSuffix}</p>
+  </div></main>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.donate-copy').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const valueEl = btn.previousElementSibling as HTMLElement | null;
+      const value = valueEl?.dataset.copy ?? '';
+      navigator.clipboard.writeText(value);
+      const original = btn.textContent;
+      btn.textContent = btn.dataset.copiedLabel ?? original;
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    });
+  });
+</script>

@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { dictionaries, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = dictionaries[locale].legal;
+---
+
+<BaseLayout title={t.title} description={t.description}>
+  <main><div class="container">
+    <div class="page-header">
+      <h1>{t.h1}</h1>
+      <p>{t.intro}</p>
+    </div>
+
+    <div class="link-cards">
+      <a class="link-card" href="https://github.com/many-bot/manybot/blob/master/LICENSE" target="_blank" rel="noopener">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2v20M5 6h5.5a2.5 2.5 0 0 1 0 5H5m0-5v10m0-10 3-2m0 12 3 2M19 6h-5.5a2.5 2.5 0 0 0 0 5H19m0-5v10m0-10-3-2m0 12-3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.manybotLicenseTitle}</div>
+          <div class="link-card-desc">{t.manybotLicenseDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://github.com/many-bot/manyplug/blob/master/LICENSE" target="_blank" rel="noopener">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8L12 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.manyplugLicenseTitle}</div>
+          <div class="link-card-desc">{t.manyplugLicenseDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="/docs/terms-and-privacy">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M9 13h6M9 17h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.termsTitle}</div>
+          <div class="link-card-desc">{t.termsDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+      <a class="link-card" href="https://github.com/many-bot/manybot/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">
+        <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="link-card-title">{t.contributingTitle}</div>
+          <div class="link-card-desc">{t.contributingDesc}</div>
+        </div>
+        <span class="link-card-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="page-header" style="margin-top:2.5rem">
+      <h2>{t.communityPluginsTitle}</h2>
+      <p>{t.communityPluginsText}</p>
+    </div>
+
+    <div class="page-header" style="margin-top:2.5rem">
+      <h2>{t.fanartsTitle}</h2>
+      <p>{t.fanartsText}</p>
+    </div>
+  </div></main>
+</BaseLayout>
