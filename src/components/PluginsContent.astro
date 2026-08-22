@@ -18,7 +18,7 @@ const b = base(locale);
       <p>{t.introPrefix} <a href={`${b}/manyplug/`}>ManyPlug</a> {t.installMid} <a href="/docs/how-to-make-a-plugin">{t.howToLink}</a></p>
     </div>
 
-    <div id="plugins-grid" class="plugins-grid" data-loading={t.loading} data-error={t.error} data-by-author={t.byAuthor}>
+    <div id="plugins-grid" class="plugins-grid" data-loading={t.loading} data-error={t.error} data-by-author={t.byAuthor} data-base={b}>
       <div class="empty-notice">{t.loading}</div>
     </div>
   </div></main>
@@ -42,9 +42,9 @@ const b = base(locale);
     author: { name?: string };
   }
 
-  function renderCard(p: Plugin, byAuthor: string) {
+  function renderCard(p: Plugin, byAuthor: string, base: string) {
     const author = p.author?.name;
-    return `<a class="plugin-card" href="/plugins/${escHtml(p.key)}/">`
+    return `<a class="plugin-card" href="${base}/plugins/${escHtml(p.key)}/">`
       + `<div class="plugin-card-header">`
       + `<span class="plugin-card-name">${escHtml(p.name)}</span>`
       + `<span class="plugin-card-version">v${escHtml(p.version || '?')}</span>`
@@ -62,6 +62,7 @@ const b = base(locale);
     if (!grid) return;
     const errorLabel = grid.dataset.error ?? 'error';
     const byAuthor = grid.dataset.byAuthor ?? 'by';
+    const base = grid.dataset.base ?? '';
     let plugins: Plugin[];
     try {
       const res = await fetch(`${API}/plugins`);
@@ -71,8 +72,9 @@ const b = base(locale);
       grid.innerHTML = `<div class="empty-notice">${errorLabel}</div>`;
       return;
     }
-    grid.innerHTML = plugins.map((p) => renderCard(p, byAuthor)).join('');
+    grid.innerHTML = plugins.map((p) => renderCard(p, byAuthor, base)).join('');
   }
 
   load();
 </script>
+

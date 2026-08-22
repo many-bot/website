@@ -38,3 +38,12 @@
 .plugin-meta-row     { display: flex; flex-direction: column; padding: .5rem .75rem; border-bottom: 1px solid var(--border); font-size: 12px; }
 .plugin-meta-row:last-child { border-bottom: none; }
 .plugin-meta-label   { font-family: var(--font-mono); font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 2px; }
+.plugin-meta-row a   { color: var(--text-2); text-decoration: none; }
+.plugin-meta-row a:hover { color: var(--text); }
+.plugin-meta-repos   { display: flex; flex-direction: column; gap: .35rem; }
+.plugin-meta-repo-link { display: flex; align-items: center; gap: .4rem; min-width: 0; }
+.plugin-meta-repo-link svg { width: 14px; height: 14px; flex-shrink: 0; }
+.plugin-meta-repo-url { font-family: var(--font-mono); font-size: 11px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.plugin-meta-repo-link:hover .plugin-meta-repo-url { color: var(--text); }
+.plugin-meta-deps    { color: var(--text-2); font-family: var(--font-mono); font-size: 11px; line-height: 1.6; word-break: break-word; }
+

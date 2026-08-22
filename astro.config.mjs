@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,14 +16,15 @@ export default defineConfig({
   integrations: [
     starlight({
       logo: {
-        src: './public/assets/manybot-docs-con.svg',
+        light: './public/assets/manybot-docs-light.svg',
+        dark: './public/assets/manybot-docs-dark.svg',
         alt: 'ManyBot Docs',
         replacesTitle: true,
       },
 
-      title: 'manybot docs',
+      title: 'ManyBot Docs',
 
-      favicon: './public/assets/favicon-white.svg',
+      favicon: './public/assets/favicon.svg',
       // Starlight tem o PRÓPRIO sistema de i18n (independente do i18n acima,
       // que é só pras páginas fora de /docs/). Mesma ideia: pt como root.
       defaultLocale: 'root',
@@ -73,6 +75,17 @@ export default defineConfig({
       ],
       // busca já vem com Pagefind embutido por padrão — não precisa configurar nada
       customCss: ['./src/styles/starlight-overrides.css'],
+    }),
+
+    // Gera sitemap-index.xml + sitemap-0.xml
+    sitemap({
+      i18n: {
+        defaultLocale: 'pt',
+        locales: {
+          pt: 'pt-BR',
+          en: 'en',
+        },
+      },
     }),
   ],
 });

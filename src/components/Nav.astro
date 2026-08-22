@@ -1,5 +1,6 @@
 ---
 import { dictionaries, base, type Locale } from '../i18n';
+import SocialIcon from './SocialIcon.astro';
 
 interface Props {
   locale: Locale;
@@ -39,8 +40,18 @@ const b = base(locale);
         <li><a href={`${b}/donates/`}><span class="nav-dropdown-title">{t.donates}</span><span class="nav-dropdown-desc">{t.donatesDesc}</span></a></li>
       </ul>
     </li>
-    <li class="nav-mobile-only"><a class="nav-mobile-cta" href="https://wa.manybot.org">{t.joinCommunity}</a></li>
-    <li class="nav-mobile-only"><a href="https://github.com/many-bot/manybot" target="_blank" rel="noopener">GitHub</a></li>
+    <li class="nav-mobile-only">
+      <div class="nav-social nav-social-mobile">
+        <a href="https://github.com/many-bot/manybot" target="_blank" rel="noopener" aria-label="GitHub">
+          <SocialIcon name="github" />
+          <span>GitHub</span>
+        </a>
+        <a href="https://codeberg.org/many-bot" target="_blank" rel="noopener" aria-label="Codeberg">
+          <SocialIcon name="codeberg" />
+          <span>Codeberg</span>
+        </a>
+      </div>
+    </li>
   </ul>
   <div class="nav-group nav-lang-group">
     <button class="nav-group-trigger nav-lang-trigger" aria-haspopup="true" aria-expanded="false" aria-label={t.language}>文A</button>
@@ -49,7 +60,14 @@ const b = base(locale);
       <li><a href="/en/" class={locale === 'en' ? 'active' : ''}>English</a></li>
     </ul>
   </div>
-  <a class="nav-cta" href="https://wa.manybot.org">{t.joinCommunity}</a>
+  <div class="nav-social nav-social-bar">
+    <a href="https://github.com/many-bot/manybot" target="_blank" rel="noopener" aria-label="GitHub">
+      <SocialIcon name="github" />
+    </a>
+    <a href="https://codeberg.org/many-bot" target="_blank" rel="noopener" aria-label="Codeberg">
+      <SocialIcon name="codeberg" />
+    </a>
+  </div>
   <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" aria-expanded="false">
     <span></span><span></span><span></span>
   </button>
@@ -149,3 +167,4 @@ const b = base(locale);
     });
   });
 </script>
+

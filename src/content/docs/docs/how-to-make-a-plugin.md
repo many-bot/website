@@ -12,6 +12,10 @@ Caso ainda não leu [sobre os plugins](/docs/about-plugins), é recomendado ler 
 > Depois de passar por essa página, vale a pena ler também
 > [boas práticas em plugins](/docs/best-practices) — principalmente a parte sobre dependências
 > nativas, que trava a instalação em bastante gente no Android/Termux se não for evitada.
+>
+> 🧪 Existe também uma nova forma **experimental** (ainda em testes) de declarar a identidade,
+> permissões e argumentos de um comando fora do código do plugin: veja
+> [`commands.yaml`](/docs/commands-yaml/).
 
 ## Índice
 
@@ -169,8 +173,9 @@ Alguns pontos importantes:
 - **Todos os plugins recebem todas as mensagens.** O bot não filtra por comando antes de
   chamar seu plugin — você mesmo decide se age ou ignora, geralmente com um `if (!msg.is(...)) return` no topo.
 - **Plugins rodam em sequência.** Cada mensagem passa por todos os plugins ativos, um por um.
-  Se o seu plugin lançar um erro não tratado, o kernel o desativa automaticamente para não
-  quebrar os outros.
+  Se o seu plugin lançar um erro não tratado, o kernel captura, loga um aviso e recarrega o
+  plugin — ele continua ativo e tenta de novo na próxima mensagem. Só depois de **3 falhas
+  seguidas** o plugin é desativado de verdade.
 - **O bot também recebe as próprias mensagens.** Se o seu plugin responde a qualquer coisa
   (não só comandos), filtre `ctx.msg.fromMe` para não entrar em loop:
 
@@ -220,9 +225,10 @@ mesmo em plugins privados.
 ### Campos
 
 #### `name` *(obrigatório)*
-Nome do plugin. Letras minúsculas, números, pontos, hífens e underscores — precisa começar e
-terminar com letra ou número. Deve ser único por autor. `manyplug init` já valida isso ao
-perguntar o nome; `manyplug validate` aplica a mesma regra depois.
+Nome do plugin. Só letras minúsculas, números e hífens (`[a-z0-9-]+` — sem pontos, sem
+underscore, sem regra de início/fim), entre 2 e 50 caracteres. Deve ser único por autor.
+`manyplug init` já valida isso ao perguntar o nome; `manyplug validate` aplica a mesma regra
+depois.
 
 #### `version` *(obrigatório)*
 Versão atual do plugin. Use o formato que preferir — SemVer, CalVer, tanto faz.
@@ -276,7 +282,7 @@ Nome do arquivo de entrada. Normalmente `"index.js"`. Se omitido, o ManyBot proc
 
 #### `dependencies`
 **Não é para pacotes npm** — isso é o `package.json` (próxima seção). Esse campo lista **outros
-plugins do ManyBot** que o seu usa via [`ctx.plugins.require()`](/docs/api/ctx-utilities/#ctxplugins):
+plugins do ManyBot** que o seu usa via [`ctx.plugins.require()`](/docs/api/ctx-plugins/):
 
 ```json
 {
@@ -456,7 +462,7 @@ export default async function (ctx) {
 
 > Locales não são obrigatórios, mas são incentivados. Sem locale, o plugin simplesmente não oferece suporte a múltiplos idiomas.
 
-Para mais detalhes sobre a API de i18n, veja [ctx.i18n](/docs/api/ctx-utilities/#ctxi18n).
+Para mais detalhes sobre a API de i18n, veja [ctx.i18n](/docs/api/ctx-i18n/).
 
 ---
 

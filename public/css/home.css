@@ -74,9 +74,6 @@ body.page-home .hero::before {
 .hero-logo { width: 200px; }
 .hero-tagline { color: var(--text-2); font-size: 17px; margin-top: .65rem; line-height: 1.7; max-width: 460px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
-.hero-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .85rem; }
-.hero-badge { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--text-2); border: 1px solid var(--border-2); padding: 3px 8px; border-radius: 3px; }
-.hero-badge a { text-decoration: none; }
 
 .home-mascot {
   width: 400px;

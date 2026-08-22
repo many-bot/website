@@ -1,0 +1,14 @@
+---
+import PluginDetailContent from '../../components/PluginDetailContent.astro';
+import { getAllPluginDetails } from '../../lib/plugins';
+
+export async function getStaticPaths() {
+  const plugins = await getAllPluginDetails();
+  return plugins.map((plugin) => ({ params: { slug: plugin.key }, props: { plugin } }));
+}
+
+const { plugin } = Astro.props;
+---
+
+<PluginDetailContent locale="pt" plugin={plugin} />
+

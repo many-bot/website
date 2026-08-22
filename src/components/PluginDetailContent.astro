@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SocialIcon from './SocialIcon.astro';
+import { dictionaries, base, type Locale } from '../i18n';
+import { createMarkdownProcessor } from '@astrojs/markdown-remark';
+import type { PluginDetail } from '../lib/plugins';
+
+interface Props {
+  locale: Locale;
+  plugin: PluginDetail;
+}
+
+const { locale, plugin } = Astro.props;
+const t = dictionaries[locale].pluginPage;
+const b = base(locale);
+
+const processor = await createMarkdownProcessor();
+const readmeHtml = plugin.readme ? (await processor.render(plugin.readme)).code : '';
+
+const repoEntries = Object.entries(plugin.repos ?? {})
+  .map(([host, repo]) => [host, typeof repo === 'string' ? repo : repo.master] as const)
+  .filter((entry): entry is [string, string] => Boolean(entry[1]));
+
+const depEntries = Object.entries(plugin.dependencies ?? {});
+---
+
+<BaseLayout title={`${plugin.name} - ManyBot`} description={plugin.description ?? ''}>
+  <main><div class="container">
+    <div class="plugin-page-hero">
+      <p class="muted"><a href={`${b}/plugins/`}>{t.back}</a></p>
+      <div class="plugin-page-title-row">
+        <h1 class="plugin-page-name">{plugin.name}</h1>
+        <span class="plugin-card-version">v{plugin.version ?? '?'}</span>
+        {plugin.category && <span class="plugin-tag">{plugin.category}</span>}
+        {plugin.service && <span class="plugin-tag">{t.service}</span>}
+      </div>
+      {plugin.description && <p class="plugin-page-desc">{plugin.description}</p>}
+
+      <div class="plugin-install-box">
+        <span class="plugin-install-label">{t.install}</span>
+        <code class="plugin-install-cmd" data-copy={`manyplug install ${plugin.key}`}>manyplug install {plugin.key}</code>
+        <button class="plugin-install-copy" data-copy-label={t.copy} data-copied-label={t.copied} aria-label={t.copy}>{t.copy}</button>
+      </div>
+    </div>
+
+    <div class="plugin-page-body">
+      <article class="plugin-page-readme md" set:html={readmeHtml} />
+
+      <aside class="plugin-page-meta">
+        <div class="plugin-meta-card">
+          {plugin.author?.name && (
+            <div class="plugin-meta-row">
+              <span class="plugin-meta-label">{t.author}</span>
+              {plugin.author.website ? (
+                <a href={plugin.author.website} target="_blank" rel="noopener">{plugin.author.name}</a>
+              ) : (
+                <span>{plugin.author.name}</span>
+              )}
+            </div>
+          )}
+          {plugin.license && (
+            <div class="plugin-meta-row">
+              <span class="plugin-meta-label">{t.license}</span>
+              <span>{plugin.license}</span>
+            </div>
+          )}
+          {plugin.category && (
+            <div class="plugin-meta-row">
+              <span class="plugin-meta-label">{t.category}</span>
+              <span>{plugin.category}</span>
+            </div>
+          )}
+          {repoEntries.length > 0 && (
+            <div class="plugin-meta-row">
+              <span class="plugin-meta-label">{t.repository}</span>
+              <div class="plugin-meta-repos">
+                {repoEntries.map(([host, url]) => (
+                  <a class="plugin-meta-repo-link" href={url} target="_blank" rel="noopener">
+                    {(host === 'github' || host === 'codeberg') && <SocialIcon name={host} />}
+                    <span class="plugin-meta-repo-url">{url}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+          {depEntries.length > 0 && (
+            <div class="plugin-meta-row">
+              <span class="plugin-meta-label">{t.dependencies}</span>
+              <span class="plugin-meta-deps">{depEntries.map(([name, ver]) => `${name}@${ver}`).join(', ')}</span>
+            </div>
+          )}
+        </div>
+      </aside>
+    </div>
+  </div></main>
+</BaseLayout>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.plugin-install-copy').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const valueEl = btn.previousElementSibling as HTMLElement | null;
+      const value = valueEl?.dataset.copy ?? '';
+      navigator.clipboard.writeText(value);
+      const original = btn.textContent;
+      btn.textContent = btn.dataset.copiedLabel ?? original;
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    });
+  });
+</script>
+

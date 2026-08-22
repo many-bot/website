@@ -1,6 +1,6 @@
 dist/
 node_modules/
-src/docs/
+src/content/docs/
 PROJECT_GUIDE.txt
 plugins-api/src/.env
 plugins-api/node_modules

@@ -3,7 +3,7 @@
   /* Logo centralizada, hamburguer na direita, idioma na esquerda */
   nav { position: sticky; }
   .nav-brand { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); margin: 0; }
-  .nav-cta { display: none; }
+  .nav-social-bar { display: none; }
   .nav-hamburger { display: flex; margin-left: auto; z-index: 102; position: relative; }
   .nav-lang-group { margin-right: auto; }
 
@@ -35,12 +35,16 @@
   .nav-links li { width: 100%; }
   .nav-links a { height: auto; line-height: 1; padding: .9rem 1.25rem; border-bottom: 1px solid var(--border); border-radius: 0; font-size: 16px; }
   .nav-mobile-only { display: block; }
-  .nav-mobile-cta {
-    display: block; margin: .75rem 1.25rem; padding: .7rem 1rem;
-    text-align: center; text-decoration: none; border-radius: 6px;
-    font-family: var(--font-mono); font-size: 14px;
-    color: #0a0a0a !important; background: var(--accent); border-bottom: none !important;
+  .nav-social-mobile {
+    display: flex; gap: .5rem; margin: .5rem 1.25rem .25rem;
   }
+  .nav-social-mobile a {
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: .5rem;
+    padding: .7rem 1rem; text-decoration: none; border-radius: 6px;
+    font-family: var(--font-mono); font-size: 14px;
+    color: var(--text) !important; background: var(--bg-3); border-bottom: none !important;
+  }
+  .nav-social-mobile a svg { width: 18px; height: 18px; }
 
   .nav-group-trigger {
     width: 100%; height: auto; line-height: 1; padding: .9rem 1.25rem;
