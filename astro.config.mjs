@@ -24,7 +24,7 @@ export default defineConfig({
 
       title: 'ManyBot Docs',
 
-      favicon: './public/assets/favicon.svg',
+      favicon: './public/assets/favicon.ico',
       // Starlight tem o PRÓPRIO sistema de i18n (independente do i18n acima,
       // que é só pras páginas fora de /docs/). Mesma ideia: pt como root.
       defaultLocale: 'root',
@@ -58,6 +58,7 @@ export default defineConfig({
           items: [
             { slug: 'docs/about-plugins' },
             { slug: 'docs/manyplug-cli' },
+            { slug: 'docs/commands-yaml' },
             { slug: 'docs/how-to-make-a-plugin' },
             { slug: 'docs/best-practices' },
           ],

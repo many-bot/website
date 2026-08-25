@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getChangelogList, PRODUCTS, PRODUCT_LABELS } from '../../lib/changelog';
+
+const sections = await Promise.all(
+  PRODUCTS.map(async (product) => ({
+    product,
+    label: PRODUCT_LABELS[product],
+    entries: (await getChangelogList(product)).slice(0, 5),
+  })),
+);
+---
+
+<BaseLayout title="Changelog - ManyBot" description="Histórico de releases e mudanças do ManyBot, ManyPlug e do site.">
+  <main class="container">
+    <div class="blog-header">
+      <h1>Changelog</h1>
+      <a class="rss-link" href="/changelog/rss.xml" target="_blank" rel="noopener">RSS</a>
+    </div>
+
+    {sections.map(({ product, label, entries }) => (
+      <section class="changelog-section">
+        <div class="changelog-section-header">
+          <h2>{label}</h2>
+          <a class="changelog-section-link" href={`/changelog/${product}/`}>ver tudo →</a>
+        </div>
+
+        {entries.length === 0 ? (
+          <p class="empty-notice">nenhuma release publicada ainda.</p>
+        ) : (
+          <ul class="changelog-list">
+            {entries.map((entry) => (
+              <li>
+                <a class="changelog-item" href={`/changelog/${product}/${entry.data.version}/`}>
+                  <div class="changelog-item-top">
+                    <span class="changelog-version">v{entry.data.version}</span>
+                    <span class="changelog-date">{entry.data.date.toISOString().slice(0, 10)}</span>
+                    {entry.data.breaking && <span class="changelog-breaking-badge">breaking</span>}
+                  </div>
+                  {entry.data.excerpt && <div class="changelog-item-excerpt">{entry.data.excerpt}</div>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    ))}
+  </main>
+</BaseLayout>
+

@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { render } from 'astro:content';
+import { getChangelogList, getChangelogEntry, PRODUCTS, PRODUCT_LABELS, type Product } from '../../../lib/changelog';
+
+export async function getStaticPaths() {
+  const lists = await Promise.all(PRODUCTS.map((product) => getChangelogList(product)));
+  return PRODUCTS.flatMap((product, i) =>
+    lists[i].map((entry) => ({ params: { product, slug: entry.data.version } })),
+  );
+}
+
+const { product, slug } = Astro.params as { product: Product; slug: string };
+const result = await getChangelogEntry(product, slug);
+if (!result) return Astro.redirect('/changelog/');
+const { entry, prev, next } = result;
+const label = PRODUCT_LABELS[product];
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  title={`v${entry.data.version} - Changelog · ${label} - ManyBot`}
+  description={entry.data.excerpt ?? `Notas da release v${entry.data.version} do ${label}.`}
+>
+  <main class="container">
+    <a class="back-link" href={`/changelog/${product}/`}>← changelog · {label}</a>
+
+    <article class="md">
+      <div class="post-header">
+        <h1>
+          {label} v{entry.data.version}
+          {entry.data.breaking && <span class="changelog-breaking-badge">breaking</span>}
+        </h1>
+        <p class="post-meta">{entry.data.date.toISOString().slice(0, 10)}</p>
+      </div>
+      <Content />
+    </article>
+
+    <nav class="changelog-pager">
+      {prev ? (
+        <a class="prev" href={`/changelog/${product}/${prev.data.version}/`}>← v{prev.data.version}</a>
+      ) : <span />}
+      {next ? (
+        <a class="next" href={`/changelog/${product}/${next.data.version}/`}>v{next.data.version} →</a>
+      ) : <span />}
+    </nav>
+  </main>
+</BaseLayout>
+

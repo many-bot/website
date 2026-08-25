@@ -19,4 +19,28 @@ export const collections = {
       image: z.string().optional(),
     }),
   }),
+
+  // changelog/*.md -> um arquivo por release (nome do arquivo = slug/versão).
+  // Só PT por enquanto (sem subpasta de locale), igual os docs.
+  // changelog/<produto>/*.md -> um arquivo por release. A subpasta é só
+  // organização; quem manda no produto é o campo `product` do frontmatter.
+  changelog: defineCollection({
+    loader: glob({
+      pattern: '**/*.md',
+      base: './src/content/changelog',
+      // id padrão do glob passa o caminho por um slugger que remove pontos
+      // (ex: "5.6.0.md" viraria "560") — usamos produto+versão do
+      // frontmatter como id pra não perder os pontos e garantir unicidade
+      // entre produtos (ex: manybot 5.6.0 e manyplug 5.6.0 não colidem).
+      generateId: ({ data }) => `${data.product}/${data.version}`,
+    }),
+    schema: z.object({
+      product: z.enum(['manybot', 'manyplug', 'website']),
+      version: z.string(),
+      date: z.coerce.date(),
+      excerpt: z.string().optional(),
+      breaking: z.boolean().optional(),
+    }),
+  }),
 };
+
