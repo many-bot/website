@@ -26,20 +26,23 @@ const entries = await getChangelogList(product);
     {entries.length === 0 ? (
       <p class="empty-notice">nenhuma release publicada ainda.</p>
     ) : (
-      <ul class="changelog-list">
+      <ol class="changelog-feed">
         {entries.map((entry) => (
-          <li>
-            <a class="changelog-item" href={`/changelog/${product}/${entry.data.version}/`}>
-              <div class="changelog-item-top">
-                <span class="changelog-version">v{entry.data.version}</span>
-                <span class="changelog-date">{entry.data.date.toISOString().slice(0, 10)}</span>
-                {entry.data.breaking && <span class="changelog-breaking-badge">breaking</span>}
+          <li class="changelog-feed-item">
+            <a class="changelog-feed-link" href={`/changelog/${product}/${entry.data.version}/`}>
+              <span class={`changelog-feed-dot changelog-dot--${product}`}></span>
+              <div class="changelog-feed-body">
+                <div class="changelog-feed-top">
+                  <span class="changelog-version">v{entry.data.version}</span>
+                  {entry.data.breaking && <span class="changelog-breaking-badge">breaking</span>}
+                  <span class="changelog-date">{entry.data.date.toISOString().slice(0, 10)}</span>
+                </div>
+                {entry.data.excerpt && <div class="changelog-item-excerpt">{entry.data.excerpt}</div>}
               </div>
-              {entry.data.excerpt && <div class="changelog-item-excerpt">{entry.data.excerpt}</div>}
             </a>
           </li>
         ))}
-      </ul>
+      </ol>
     )}
   </main>
 </BaseLayout>

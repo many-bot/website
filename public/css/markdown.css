@@ -1,6 +1,6 @@
 /* ── Markdown ─────────────────────────────────────────────────────────────── */
 .md {
-  font-size: 16px;
+  font-size: var(--fs-base);
   line-height: 1.7;
 }
 
@@ -63,6 +63,7 @@
 
 .md a[href^="http"]::after {
   content: " ↗";
-  font-size: 10px;
+  font-size: var(--fs-2xs);
   opacity: 0.6;
 }
+

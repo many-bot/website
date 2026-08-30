@@ -13,7 +13,7 @@ const { Content } = await render(post);
 ---
 
 <BaseLayout title={`${post.data.title} - ManyBot`} description={post.data.excerpt ?? ''}>
-  <main class="container">
+  <main class="container container--wide">
     <article class="md">
       {isFallback && (
         <p class="fallback-notice">This content is not available in your language yet.</p>
@@ -24,3 +24,4 @@ const { Content } = await render(post);
     </article>
   </main>
 </BaseLayout>
+

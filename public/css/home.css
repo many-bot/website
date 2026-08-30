@@ -72,8 +72,15 @@ body.page-home .hero::before {
 }
 .hero-text { flex: 1; min-width: 0; }
 .hero-logo { width: 200px; }
-.hero-tagline { color: var(--text-2); font-size: 17px; margin-top: .65rem; line-height: 1.7; max-width: 460px; }
+.hero-tagline { color: var(--text-2); font-size: var(--fs-lg); margin-top: .65rem; line-height: 1.7; max-width: 460px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+.hero-bot-contact {
+  display: inline-flex; align-items: center; gap: .4rem;
+  margin-top: .85rem; font-size: var(--fs-sm); color: var(--text-3);
+  text-decoration: none;
+}
+.hero-bot-contact svg { color: var(--green); flex-shrink: 0; }
+.hero-bot-contact:hover { color: var(--text-2); }
 
 .home-mascot {
   width: 400px;
@@ -96,7 +103,7 @@ body.page-home .hero::before {
   border-left: 3px solid var(--accent);
   border-radius: 6px;
   padding: .85rem 1.25rem;
-  font-size: 15px;
+  font-size: var(--fs-base);
   color: var(--text-2);
   margin-bottom: 1.5rem;
 }
@@ -110,20 +117,22 @@ body.page-home .hero::before {
   margin-bottom: 2rem;
 }
 .home-card {
-  padding: 1.25rem;
+  padding: var(--card-pad);
   border-right: 1px solid var(--border);
   display: flex; flex-direction: column; gap: .75rem;
+  transition: background var(--transition);
 }
+.home-card:hover { background: var(--bg-2); }
 .home-card:last-child { border-right: none; }
-.home-card-label { font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); }
-.home-card p { font-size: 15px; color: var(--text-2); line-height: 1.6; flex: 1; }
+.home-card-label { font-family: var(--font-mono); font-size: var(--fs-sm); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--accent); }
+.home-card p { font-size: var(--fs-base); color: var(--text-2); line-height: 1.6; flex: 1; }
 
 .home-honest {
   border: 1px solid var(--border);
   border-left: 3px solid var(--border-2);
   border-radius: 6px;
   padding: 1rem 1.25rem;
-  font-size: 15px;
+  font-size: var(--fs-base);
   color: var(--text-2);
   line-height: 1.7;
 }

@@ -31,6 +31,7 @@ export const en: typeof pt = {
     tagline: 'Framework for creating WhatsApp bots, extensible via community plugins!',
     getStarted: 'Get started',
     joinCommunity: 'Join group',
+    heroBotContact: 'or talk to our official bot on WhatsApp',
     newHerePrefix: 'New here?',
     newHereLink: 'Join the community',
     newHereSuffix: 'before picking your path — get the latest news and ask questions directly to users and developers.',

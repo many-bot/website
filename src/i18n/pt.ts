@@ -30,6 +30,7 @@ export const pt = {
     newHereLink: 'Entre na comunidade',
     getStarted: 'Começar',
     joinCommunity: 'Entrar no grupo',
+    heroBotContact: 'ou fale com o bot oficial no WhatsApp',
     newHerePrefix: 'Novo aqui?',
     newHereSuffix: 'antes de escolher seu caminho — fica sabendo de novidades e tira dúvidas direto com quem usa e desenvolve.',
     tryNowLabel: 'teste agora',

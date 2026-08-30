@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ManyBot Admin</title>
+<link rel="stylesheet" href="/panel.css">
+</head>
+<body>
+<header>
+  <h1>ManyBot Admin</h1>
+</header>
+
+<nav>
+  <button data-tab="blog" class="active">Blog</button>
+  <button data-tab="changelog">Changelog</button>
+</nav>
+
+<section id="tab-blog" class="tab active">
+  <form id="blogForm">
+    <label>Locale
+      <select name="locale">
+        <option value="pt">pt</option>
+        <option value="en">en</option>
+      </select>
+    </label>
+    <label>Título<input name="title" required></label>
+    <label>Slug (opcional)<input name="slug" placeholder="gerado do título se vazio"></label>
+    <label>Data<input name="date" type="date" required></label>
+    <label>Excerpt<input name="excerpt"></label>
+    <label>Imagem (url)<input name="image"></label>
+    <label>Conteúdo (markdown)<textarea name="content" rows="14" required></textarea></label>
+    <button type="submit">Publicar post</button>
+  </form>
+</section>
+
+<section id="tab-changelog" class="tab">
+  <form id="changelogForm">
+    <label>Produto
+      <select name="product">
+        <option value="manybot">manybot</option>
+        <option value="manyplug">manyplug</option>
+        <option value="website">website</option>
+      </select>
+    </label>
+    <label>Versão<input name="version" required placeholder="5.7.0"></label>
+    <label>Data<input name="date" type="date" required></label>
+    <label>Excerpt<input name="excerpt"></label>
+    <label class="checkbox"><input name="breaking" type="checkbox"> Breaking change</label>
+    <label>Conteúdo (markdown)<textarea name="content" rows="14" required placeholder="## Novidades&#10;- ..."></textarea></label>
+    <button type="submit">Publicar release</button>
+  </form>
+</section>
+
+<pre id="result"></pre>
+
+<script src="/panel.js"></script>
+</body>
+</html>
+

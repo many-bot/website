@@ -6,7 +6,7 @@ const posts = await getBlogList('en');
 ---
 
 <BaseLayout title="Blog - ManyBot" description="ManyBot news and updates.">
-  <main class="container">
+  <main class="container container--wide">
     <h1>Blog</h1>
     <ul class="blog-list">
       {posts.map(({ slug, post, isFallback }) => (
@@ -21,3 +21,4 @@ const posts = await getBlogList('en');
     </ul>
   </main>
 </BaseLayout>
+

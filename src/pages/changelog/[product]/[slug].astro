@@ -22,7 +22,7 @@ const { Content } = await render(entry);
   title={`v${entry.data.version} - Changelog · ${label} - ManyBot`}
   description={entry.data.excerpt ?? `Notas da release v${entry.data.version} do ${label}.`}
 >
-  <main class="container">
+  <main class="container container--wide">
     <a class="back-link" href={`/changelog/${product}/`}>← changelog · {label}</a>
 
     <article class="md">

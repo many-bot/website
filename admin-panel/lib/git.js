@@ -23,3 +23,4 @@ export function commitAndPush(repoRoot, filePath, message) {
 
   return result;
 }
+

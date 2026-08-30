@@ -6,7 +6,7 @@ export function isValidDate(value) {
 
 function formatValue(value) {
   if (typeof value === 'boolean') return String(value);
-  return JSON.stringify(String(value));
+  return JSON.stringify(String(value));  // string entre aspas, escapada
 }
 
 export function buildMarkdown(fields, body) {
@@ -16,3 +16,4 @@ export function buildMarkdown(fields, body) {
 
   return `---\n${lines.join('\n')}\n---\n\n${body.trim()}\n`;
 }
+
