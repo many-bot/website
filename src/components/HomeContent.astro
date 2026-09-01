@@ -15,62 +15,50 @@ const b = base(locale);
   <main>
     <div class="hero">
       <div class="hero-inner">
-        <div class="hero-text">
-          <img class="hero-logo" src="/assets/manybot-logo.svg" alt="ManyBot" />
-          <p class="hero-tagline">{t.tagline}</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="/docs/getting-started/">{t.getStarted}</a>
-            <a class="btn btn-secondary" href="https://wa.manybot.org">{t.joinCommunity}</a>
-          </div>
-          <a class="hero-bot-contact" href="https://wa.me/5516994591903">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.7-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.2-1.3-.8-.7-1.4-1.6-1.5-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.3 0 1.4 1 2.7 1.1 2.9.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.6.2-1.2.2-1.3-.1-.1-.3-.2-.5-.3z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3a8.2 8.2 0 1 1 7 3.9z"/></svg>
-            {t.heroBotContact}
-          </a>
+        <img class="hero-logo" src="/assets/manybot-logo.svg" alt="ManyBot" />
+        <h1 class="hero-tagline">{t.tagline}</h1>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/docs/getting-started/">{t.getStarted}</a>
+          <a class="btn btn-secondary" href="https://wa.manybot.org">{t.joinCommunity}</a>
         </div>
-        <img class="home-mascot" src="/assets/many-art-forever-friendship.png">
-      </div>
-
-      <div class="hero-scroll-indicator" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 9l6 6 6-6" />
-        </svg>
+        <img class="home-mascot" src="/assets/many-art-forever-friendship.png" alt="ManyBot Mascot">
       </div>
     </div>
 
     <div class="container">
-      <div class="home-community">
-        <p>{t.newHerePrefix} <a href="https://wa.manybot.org">{t.newHereLink}</a> {t.newHereSuffix}</p>
+<section class="features">
+          <h2>Principais Recursos</h2>
+          <ul class="feature-list">
+            <li><strong>Core Framework:</strong> Base robusta e modular para bots de WhatsApp.</li>
+            <li><strong>ManyPlug:</strong> Instalação de plugins em tempo real sem downtime.</li>
+            <li><strong>Modularidade:</strong> Lógica de negócio separada da infraestrutura.</li>
+            <li><strong>Performance:</strong> Baixa latência e alta concorrência.</li>
+            <li><strong>Open Source:</strong> Transparente, auditável e comunitário.</li>
+          </ul>
+        </section>
+
+      <div class="code-section">
+        <h2>Exemplo de plugin (API estável)</h2>
+          <div class="code-window">
+            <pre><code set:html={`// plugins/meu-plugin/index.js
+
+export async function setup(ctx) {
+  ctx.log.info("meu‑plugin inicializado!");
+}
+
+export default async function (ctx) {
+  if (ctx.msg.is("oi")) {
+    await ctx.send.text("Olá, mundo!");
+  }
+}`}"/></pre>
+          </div>
       </div>
 
-      <div class="home-cards">
-        <div class="home-card">
-          <div class="home-card-label">{t.tryNowLabel}</div>
-          <p>{t.tryNowText}</p>
-          <a class="btn btn-primary" href="https://wa.me/5516994591903">{t.tryNowCta}</a>
-          <p><a href={`${b}/docs/terms-and-privacy/`}>{t.termsLink}</a></p>
-        </div>
-
-        <div class="home-card">
-          <div class="home-card-label">{t.hostLabel}</div>
-          <p>{t.hostText}</p>
-          <a class="btn btn-ghost" href={`${b}/docs/`}>{t.hostCta}</a>
-        </div>
-
-        <div class="home-card">
-          <div class="home-card-label">{t.extensibleLabel}</div>
-          <p>{t.extensibleText}</p>
-          <a class="btn btn-ghost" href={`${b}/plugins/`}>{t.pluginsCta}</a>
-          <a class="btn btn-ghost" href={`${b}/docs/api/`}>{t.apiCta}</a>
-        </div>
-      </div>
-
-      <div class="home-honest">
-        <p><strong>{t.whatIsTitle}</strong><br />{t.whatIsText}</p>
-        <p>{t.openSourceText} <a href={`${b}/colabore/`}>{t.contributionsLink}</a> {t.contributionsSuffix} <a href={`${b}/donates/`}>{t.donateLink}</a>.</p>
-      </div>
-
-      <div class="home-honest">
-        <p><strong>{t.goalTitle}</strong><br />{t.goalText}</p>
+      <div class="home-footer-links">
+        <a href="/docs/">Documentação</a>
+        <a href="/plugins/">Plugins</a>
+        <a href="/colabore/">Colabore</a>
+        <a href="/donates/">Doações</a>
       </div>
     </div>
   </main>

@@ -2,18 +2,18 @@
 .btn {
   display: inline-block; font-family: var(--font-mono); font-size: var(--fs-md);
   padding: 6px 15px; text-decoration: none; border: 1px solid; cursor: pointer;
-  border-radius: 4px; transition: background var(--transition), border-color var(--transition), color var(--transition);
+  border-radius: 2px; transition: all var(--transition);
 }
-.btn-primary { border-color: var(--accent); color: var(--bg); background: var(--accent); }
-.btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: var(--bg); }
+.btn-primary { border-color: var(--accent); color: var(--bg); background: var(--accent); font-weight: 600; }
+.btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: var(--bg); transform: translateY(-1px); }
 .btn-primary:visited { color: var(--bg); }
 
-.btn-secondary { border-color: var(--accent); color: var(--accent); background: transparent; }
+.btn-secondary { border-color: var(--accent); color: var(--accent); background: transparent; font-weight: 500; }
 .btn-secondary:visited { color: var(--accent); }
-.btn-secondary:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.btn-secondary:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); transform: translateY(-1px); }
 
-.btn-ghost { border-color: var(--border-2); color: var(--text-2); background: transparent; }
-.btn-ghost:hover { border-color: var(--text-2); color: var(--text); background: var(--bg-3); }
+.btn-ghost { border-color: var(--border); color: var(--text-2); background: transparent; }
+.btn-ghost:hover { border-color: var(--text-2); color: var(--text); background: var(--bg-3); transform: translateY(-1px); }
 .btn-ghost:visited { color: var(--text-2); }
 .btn-sm { font-size: var(--fs-xs); padding: 3px 10px; }
 
@@ -46,29 +46,29 @@
 }
 
 /* ── Link cards ──────────────────────────────────────────────────────────── */
-.link-cards { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.link-cards { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
 .section-lead { margin: 2.5rem 0 1rem; font-size: var(--fs-sm); }
 .link-card {
   display: flex; align-items: center; gap: .75rem;
   padding: .75rem 1rem;
   border-bottom: 1px solid var(--border);
   text-decoration: none; color: inherit;
-  transition: background var(--transition), padding-left var(--transition);
+  transition: all var(--transition);
 }
 .link-card:last-child { border-bottom: none; }
-.link-card:hover { background: var(--bg-2); padding-left: 1.25rem; }
+.link-card:hover { background: var(--bg-3); padding-left: 1.25rem; }
 .link-card-icon { color: var(--text); font-size: var(--fs-base); flex-shrink: 0; width: 24px; text-align: center; }
-.link-card-title { color: var(--text); font-size: var(--fs-md); }
+.link-card-title { color: var(--text); font-size: var(--fs-md); font-weight: 500; }
 .link-card-desc  { color: var(--text-2); font-size: var(--fs-sm); margin-top: 1px; }
 .link-card-arrow { margin-left: auto; color: var(--text-3); font-size: var(--fs-sm); }
 .link-card:hover .link-card-arrow { color: var(--accent); }
 
 /* ── Doações ─────────────────────────────────────────────────────────────── */
 .donate-cards { display: flex; flex-wrap: wrap; gap: 1rem; }
-.donate-card { border: 1px solid var(--border); border-radius: 6px; padding: var(--card-pad); flex: 1; min-width: 220px; transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition); }
-.donate-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); border-color: var(--border-2); }
-.donate-card-title { font-family: var(--font-mono); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--accent); margin-bottom: .6rem; }
-.donate-value { display: block; font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--green); background: var(--bg-3); border: 1px solid var(--border); border-radius: 4px; padding: .5rem; word-break: break-all; margin-bottom: .6rem; }
+.donate-card { border: 1px solid var(--border); border-radius: 2px; padding: var(--card-pad); flex: 1; min-width: 220px; transition: all var(--transition); }
+.donate-card:hover { transform: translateY(-2px); border-color: var(--accent); background: var(--bg-3); }
+.donate-card-title { font-family: var(--font-mono); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--accent); margin-bottom: .6rem; font-weight: 700; }
+.donate-value { display: block; font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--green); background: var(--bg); border: 1px solid var(--border); border-radius: 2px; padding: .5rem; word-break: break-all; margin-bottom: .6rem; }
 
 /* ── Fanarts (masonry estilo Pinterest, por tamanho natural da imagem) ────── */
 .fanarts-grid {

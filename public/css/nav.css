@@ -7,10 +7,10 @@ nav {
   height: var(--nav-h);
   display: flex; align-items: center;
   padding: 0 1.25rem; gap: 1.5rem;
-  transition: background .2s ease, border-color .2s ease, backdrop-filter .2s ease;
+  transition: background .2s ease, border-color .2s ease;
 }
 
-/* Navbar flutuante — só na home (body.page-home), sem fundo até rolar a página */
+/* Navbar flutuante — só na home (body.page-home) */
 body.page-home nav {
   position: sticky;
   top: 7px;
@@ -25,13 +25,14 @@ body.page-home nav::before {
   inset: -7px -12px -7px;
   z-index: -1;
 
-  background: rgba(20, 20, 24, .82);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(10, 10, 18, .90);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 
   opacity: 0;
   transition: opacity .2s ease;
+  border-radius: 2px;
 }
 
 body.page-home nav.nav-scrolled::before {
@@ -40,18 +41,20 @@ body.page-home nav.nav-scrolled::before {
 
 .nav-mobile-only { display: none; }
 
-.nav-brand { opacity: 0.9; display: flex; align-items: center; margin-right: .25rem; }
-.nav-brand img { height: 35px; width: auto; }
+.nav-brand { opacity: 1; display: flex; align-items: center; margin-right: .25rem; }
+.nav-brand img { height: 32px; width: auto; filter: grayscale(0.2) brightness(1.2); }
 
 .nav-links { display: flex; align-items: center; list-style: none; flex: 1; gap: .25rem; }
 .nav-links a {
   display: block; padding: 0 .75rem;
   height: var(--nav-h); line-height: var(--nav-h);
   font-size: var(--fs-md); color: var(--text-2); text-decoration: none;
-  border-radius: 4px;
+  border-radius: 2px;
+  font-weight: 500;
+  transition: all var(--transition);
 }
-.nav-links a:hover { color: var(--text); }
-.nav-links a.active { color: var(--accent); }
+.nav-links a:hover { color: var(--text); background: var(--bg-3); }
+.nav-links a.active { color: var(--accent); background: var(--bg-3); }
 .nav-links a:visited { color: var(--text-2); }
 .nav-links a.active:visited { color: var(--accent); }
 

@@ -213,7 +213,11 @@ o bot se você trocar de app ou apagar a tela sem esses ajustes:
 
 ---
 
-## Conectando o bot
+
+## Servidor de status opcional
+
+Se `STATUS_ENABLED` estiver `true` no arquivo de configuração (`manybot.toml`), o ManyBot iniciará um pequeno servidor HTTP na porta `STATUS_PORT`. Ele expõe informações básicas de saúde (versão, uptime, número de plugins carregados) úteis para monitoramento em produção.
+
 
 Com tudo instalado, rode pela primeira vez:
 

@@ -7,16 +7,19 @@
 .md h1 {
   font-family: var(--font-mono);
   font-size: 1.8em;
+  font-weight: 700;
   color: var(--text); margin: 0 0 1rem; border-bottom: 1px solid var(--border); padding-bottom: .5rem;
 }
 .md h2 {
   font-family: var(--font-mono);
   font-size: 1.4em;
+  font-weight: 600;
   color: var(--text); margin: 2rem 0 .75rem;
 }
 .md h3 {
   font-family: var(--font-mono);
   font-size: 1.15em;
+  font-weight: 500;
   color: var(--text-2); margin: 1.5rem 0 .5rem;
 }
 .md h2::before { content: "## "; color: var(--text-3); }
