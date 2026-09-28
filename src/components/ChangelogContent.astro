@@ -1,0 +1,128 @@
+---
+import { getChangelogList, PRODUCTS, PRODUCT_LABELS, CHANGELOG_TABS, tabPath, tabRss, type ChangelogTab } from '../lib/changelog';
+
+interface Props {
+  initialTab: ChangelogTab;
+}
+
+const { initialTab } = Astro.props;
+const entries = await getChangelogList();
+const counts = Object.fromEntries(
+  PRODUCTS.map((p) => [p, entries.filter((e) => e.data.product === p).length]),
+);
+const showPlugins = initialTab === 'plugins';
+const rssHref = tabRss(initialTab);
+const rssHrefs = Object.fromEntries(CHANGELOG_TABS.map((t) => [t, tabRss(t)]));
+const paths = Object.fromEntries(CHANGELOG_TABS.map((t) => [t, tabPath(t)]));
+---
+
+<div class="changelog-hero">
+  <h1>Changelog</h1>
+</div>
+
+<div class="changelog-tabs" role="tablist" data-rss={JSON.stringify(rssHrefs)} data-paths={JSON.stringify(paths)}>
+  <a class:list={['changelog-tab', { active: initialTab === 'all' }]} href={tabPath('all')} data-tab="all" role="tab" aria-selected={initialTab === 'all'}>
+    All <span class="changelog-tab-count">{entries.length}</span>
+  </a>
+  {PRODUCTS.map((p) => (
+    <a class:list={['changelog-tab', { active: initialTab === p }]} href={tabPath(p)} data-tab={p} role="tab" aria-selected={initialTab === p}>
+      <span class={`changelog-dot changelog-dot--${p}`}></span>
+      {PRODUCT_LABELS[p]} <span class="changelog-tab-count">{counts[p]}</span>
+    </a>
+  ))}
+  <a class:list={['changelog-tab', { active: showPlugins }]} href={tabPath('plugins')} data-tab="plugins" role="tab" aria-selected={showPlugins}>Plugins</a>
+
+  <a id="changelog-rss" class="rss-link" href={rssHref ?? tabRss('all')} target="_blank" rel="noopener" hidden={showPlugins}>RSS</a>
+</div>
+
+{entries.length === 0 ? (
+  <p class="empty-notice">nenhuma release publicada ainda.</p>
+) : (
+  <ol class="changelog-feed" id="changelog-feed" hidden={showPlugins}>
+    {entries.map((entry) => (
+      <li
+        class="changelog-feed-item"
+        data-product={entry.data.product}
+        hidden={initialTab !== 'all' && initialTab !== entry.data.product}
+      >
+        <a class="changelog-feed-link" href={`/changelog/${entry.data.product}/${entry.data.version}/`}>
+          <span class={`changelog-feed-dot changelog-dot--${entry.data.product}`}></span>
+          <div class="changelog-feed-body">
+            <div class="changelog-feed-top">
+              <span class="changelog-feed-product">{PRODUCT_LABELS[entry.data.product]}</span>
+              <span class="changelog-version">v{entry.data.version}</span>
+              {entry.data.breaking && <span class="changelog-breaking-badge">breaking</span>}
+              <span class="changelog-date">{entry.data.date.toISOString().slice(0, 10)}</span>
+            </div>
+            {entry.data.excerpt && <div class="changelog-item-excerpt">{entry.data.excerpt}</div>}
+          </div>
+        </a>
+      </li>
+    ))}
+  </ol>
+)}
+
+<div class="changelog-plugins-panel" id="changelog-plugins-panel" hidden={!showPlugins}>
+  <h2>Changelog de plugins</h2>
+  <p>Mantém um plugin publicado? Manda a changelog dele pra gente revisar e publicar aqui.</p>
+  <a class="link-card" href="mailto:manybot@pm.me?subject=Changelog%20de%20plugin">
+    <svg class="link-card-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M20.5737 7L12 13L3.42635 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <div class="link-card-title">Mandar um email</div>
+      <div class="link-card-desc">manybot@pm.me</div>
+    </div>
+    <span class="link-card-arrow">→</span>
+  </a>
+</div>
+
+<script>
+  const tabsEl = document.querySelector<HTMLElement>('.changelog-tabs');
+  const rssHrefs: Record<string, string | null> = JSON.parse(tabsEl?.dataset.rss ?? '{}');
+  const paths: Record<string, string> = JSON.parse(tabsEl?.dataset.paths ?? '{}');
+
+  const tabs = document.querySelectorAll<HTMLAnchorElement>('.changelog-tab');
+  const items = document.querySelectorAll<HTMLLIElement>('.changelog-feed-item');
+  const feed = document.getElementById('changelog-feed');
+  const pluginsPanel = document.getElementById('changelog-plugins-panel');
+  const rss = document.getElementById('changelog-rss') as HTMLAnchorElement | null;
+
+  function select(key: string) {
+    tabs.forEach((t) => {
+      const active = t.dataset.tab === key;
+      t.classList.toggle('active', active);
+      t.setAttribute('aria-selected', String(active));
+    });
+
+    const isPlugins = key === 'plugins';
+    if (feed) feed.hidden = isPlugins;
+    if (pluginsPanel) pluginsPanel.hidden = !isPlugins;
+
+    const rssHref = rssHrefs[key];
+    if (rss) {
+      rss.hidden = !rssHref;
+      if (rssHref) rss.href = rssHref;
+    }
+
+    items.forEach((item) => {
+      item.hidden = key !== 'all' && item.dataset.product !== key;
+    });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      const key = tab.dataset.tab ?? 'all';
+      select(key);
+      history.pushState({ tab: key }, '', paths[key]);
+    });
+  });
+
+  window.addEventListener('popstate', () => {
+    const key = Object.keys(paths).find((k) => paths[k] === location.pathname) ?? 'all';
+    select(key);
+  });
+</script>

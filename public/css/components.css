@@ -2,18 +2,18 @@
 .btn {
   display: inline-block; font-family: var(--font-mono); font-size: var(--fs-md);
   padding: 6px 15px; text-decoration: none; border: 1px solid; cursor: pointer;
-  border-radius: 2px; transition: all var(--transition);
+  border-radius: 4px;
 }
 .btn-primary { border-color: var(--accent); color: var(--bg); background: var(--accent); font-weight: 600; }
-.btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: var(--bg); transform: translateY(-1px); }
+.btn-primary:hover { background: var(--accent-2); border-color: var(--accent-2); color: var(--bg); }
 .btn-primary:visited { color: var(--bg); }
 
 .btn-secondary { border-color: var(--accent); color: var(--accent); background: transparent; font-weight: 500; }
 .btn-secondary:visited { color: var(--accent); }
-.btn-secondary:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); transform: translateY(-1px); }
+.btn-secondary:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
 
 .btn-ghost { border-color: var(--border); color: var(--text-2); background: transparent; }
-.btn-ghost:hover { border-color: var(--text-2); color: var(--text); background: var(--bg-3); transform: translateY(-1px); }
+.btn-ghost:hover { border-color: var(--text-2); color: var(--text); background: var(--bg-2); }
 .btn-ghost:visited { color: var(--text-2); }
 .btn-sm { font-size: var(--fs-xs); padding: 3px 10px; }
 
@@ -30,7 +30,7 @@
 .comment-form { display: flex; flex-direction: column; gap: .5rem; margin-top: 1.5rem; max-width: 560px; }
 .comment-form input[type="text"],
 .comment-form textarea {
-  background: var(--bg-2); border: 1px solid var(--border);
+  background: var(--bg); border: 1px solid var(--border);
   color: var(--text); font-family: var(--font-ui); font-size: var(--fs-md);
   padding: .4rem .65rem; resize: vertical; width: 100%;
 }
@@ -46,17 +46,16 @@
 }
 
 /* ── Link cards ──────────────────────────────────────────────────────────── */
-.link-cards { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+.link-cards { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
 .section-lead { margin: 2.5rem 0 1rem; font-size: var(--fs-sm); }
 .link-card {
   display: flex; align-items: center; gap: .75rem;
   padding: .75rem 1rem;
   border-bottom: 1px solid var(--border);
   text-decoration: none; color: inherit;
-  transition: all var(--transition);
 }
 .link-card:last-child { border-bottom: none; }
-.link-card:hover { background: var(--bg-3); padding-left: 1.25rem; }
+.link-card:hover { background: var(--bg-2); }
 .link-card-icon { color: var(--text); font-size: var(--fs-base); flex-shrink: 0; width: 24px; text-align: center; }
 .link-card-title { color: var(--text); font-size: var(--fs-md); font-weight: 500; }
 .link-card-desc  { color: var(--text-2); font-size: var(--fs-sm); margin-top: 1px; }
@@ -65,10 +64,10 @@
 
 /* ── Doações ─────────────────────────────────────────────────────────────── */
 .donate-cards { display: flex; flex-wrap: wrap; gap: 1rem; }
-.donate-card { border: 1px solid var(--border); border-radius: 2px; padding: var(--card-pad); flex: 1; min-width: 220px; transition: all var(--transition); }
-.donate-card:hover { transform: translateY(-2px); border-color: var(--accent); background: var(--bg-3); }
+.donate-card { border: 1px solid var(--border); border-radius: 4px; padding: var(--card-pad); flex: 1; min-width: 220px; }
+.donate-card:hover { border-color: var(--accent); background: var(--bg-2); }
 .donate-card-title { font-family: var(--font-mono); font-size: var(--fs-xs); text-transform: uppercase; letter-spacing: var(--tracking-wide); color: var(--accent); margin-bottom: .6rem; font-weight: 700; }
-.donate-value { display: block; font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--green); background: var(--bg); border: 1px solid var(--border); border-radius: 2px; padding: .5rem; word-break: break-all; margin-bottom: .6rem; }
+.donate-value { display: block; font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--green); background: var(--bg-2); border: 1px solid var(--border); border-radius: 4px; padding: .5rem; word-break: break-all; margin-bottom: .6rem; }
 
 /* ── Fanarts (masonry estilo Pinterest, por tamanho natural da imagem) ────── */
 .fanarts-grid {
@@ -87,19 +86,31 @@
   overflow: hidden;
   border-radius: 6px;
   background: var(--bg-2);
+  border: 1px solid var(--border);
 }
-.fanart-item img { display: block; width: 100%; height: auto; transition: opacity var(--transition); }
-.fanart-item:hover img { opacity: .75; }
+.fanart-item img { display: block; width: 100%; height: auto; }
 .fanart-overlay {
-  position: absolute; bottom: 0; left: 0; right: 0;
+  position: static;
+  display: block;
   padding: .35rem .5rem;
-  background: linear-gradient(transparent, rgba(0,0,0,.8));
-  font-family: var(--font-mono); font-size: var(--fs-2xs); color: #ccc;
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono); font-size: var(--fs-2xs); color: var(--text-3);
   text-decoration: none;
-  opacity: 0; transition: opacity var(--transition);
 }
-.fanart-item:hover .fanart-overlay { opacity: 1; }
 .fanarts-submit { margin-top: 1rem; }
+
+/* ── Hash swatches ───────────────────────────────────────────────────────── */
+/* Deterministic color tag for content with no author-chosen color (plugin
+   avatars, blog thumbnails). A swatch-N class just sets --swatch; the
+   consuming component (.plugin-avatar, .plugin-tag, .blog-thumb) decides
+   how to use it, so the same 6-hue hash reads consistently across pages. */
+.swatch-0 { --swatch: var(--accent); }
+.swatch-1 { --swatch: var(--green); }
+.swatch-2 { --swatch: var(--yellow); }
+.swatch-3 { --swatch: var(--teal); }
+.swatch-4 { --swatch: var(--pink); }
+.swatch-5 { --swatch: var(--red); }
 
 /* ── Utilitários ─────────────────────────────────────────────────────────── */
 .mono  { font-family: var(--font-mono); }

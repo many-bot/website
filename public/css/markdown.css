@@ -1,6 +1,6 @@
 /* ── Markdown ─────────────────────────────────────────────────────────────── */
 .md {
-  font-size: var(--fs-base);
+  font-size: var(--fs-md);
   line-height: 1.7;
 }
 

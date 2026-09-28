@@ -17,11 +17,15 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   --text:     #e2e2f0;
   --text-2:   #a0a0c0;
   --text-3:   #6b6b8e;
+  --text-4:   #7d7d9e;
   --accent:   #8b5cf6;
   --accent-2: #6d28d9;
   --green:    #10b981;
+  --green-2:  #34d399;
   --yellow:   #f59e0b;
   --red:      #ef4444;
+  --teal:     #2dd4bf;
+  --pink:     #f472b6;
   --link:     #a78bfa;
 
   --font-mono: "JetBrains Mono", monospace;
@@ -29,7 +33,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   --font-ui:   "Plus Jakarta Sans", sans-serif;
 
   /* type scale — use these instead of raw px everywhere */
-  --fs-2xs: 0.6875rem; /* 11px — micro labels, tags */
+  --fs-2xs: 0.8rem; /* 11px — micro labels, tags */
   --fs-xs:  0.75rem;   /* 12px — meta, dates, badges */
   --fs-sm:  0.8125rem; /* 13px — secondary text, descriptions */
   --fs-md:  0.875rem;  /* 14px — nav, buttons, UI text */
@@ -56,10 +60,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   --space-12: 3rem;   /* 48px */
 
   --card-pad: var(--space-4) var(--space-5); /* standard bordered-card padding */
-
-  --transition: .15s ease;
-  --shadow-sm: 0 4px 14px rgba(0,0,0,.25);
-  --shadow-md: 0 12px 30px rgba(0,0,0,.4);
+  --radius-md: 8px; /* elevated cards: plugin grid, blog rows */
 
   --max-w:  860px;
   --nav-h:  56px;

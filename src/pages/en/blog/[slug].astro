@@ -14,13 +14,17 @@ const { Content } = await render(post);
 
 <BaseLayout title={`${post.data.title} - ManyBot`} description={post.data.excerpt ?? ''}>
   <main class="container container--wide">
-    <article class="md">
+    <article>
       {isFallback && (
         <p class="fallback-notice">This content is not available in your language yet.</p>
       )}
-      <h1>{post.data.title}</h1>
-      <p class="post-date">{post.data.date.toISOString().slice(0, 10)}</p>
-      <Content />
+      <div class="post-header">
+        <h1>{post.data.title}</h1>
+        <p class="post-meta">{post.data.date.toISOString().slice(0, 10)}</p>
+      </div>
+      <div class="md">
+        <Content />
+      </div>
     </article>
   </main>
 </BaseLayout>

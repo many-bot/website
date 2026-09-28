@@ -1,36 +1,93 @@
 server {
     server_name manybot.stxerr.dev;
+    listen 443 ssl; # managed by Certbot
+
+    # Mantemos os certificados do antigo para o handshake SSL funcionar antes do redirect
+    ssl_certificate /etc/letsencrypt/live/manybot.stxerr.dev/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/manybot.stxerr.dev/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    # Redireciona tudo permanentemente para o domínio novo com HTTPS
+    return 301 https://manybot.org$request_uri;
+}
+
+server {
+    listen 80;
+    server_name manybot.stxerr.dev;
+
+    # Se alguém acessar via HTTP antigo, já vai direto para o HTTPS novo
+    return 301 https://manybot.org$request_uri;
+}
+
+server {
+    listen 80;
+    server_name manybot.org www.manybot.org;
+
+    return 301 https://manybot.org$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name manybot.org www.manybot.org;
+
+    # --- Segurança: HSTS ---
+    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+
+    # --- Segurança: Content-Security-Policy ---
+    add_header Content-Security-Policy "
+        default-src 'self';
+        script-src 'self'
+            'sha256-igwz3KwQywC+fV+rpLO+LxA4SZvpuJSr3MOMptfbFjk='
+            'sha256-024W+/XGCRSbnZsGBbjJ8RHt2pFHRfUKtJ07YRxuYrg='
+            'sha256-VWo5Wp4aqSj6nSgMpeAp9cKieaoIfwFUAunAVugI5gA='
+            'sha256-f/zAUE74ucc3JYp4r4QQvkJofoQdkOIhHYK+jeZ6eko='
+            'sha256-GkZBRnvSuhtx/cvzvukVkX2JJZW+DdPlVr7BX8Tefqo='
+            'sha256-nVO98WGdJA5yup1/MAdukGqUlS6Psuf7JJFF5ikWqbQ='
+            'sha256-hP48sUywTAXyg22qvpdOC/cYIA8MfPdKEbPC/mvGk4M='
+            'sha256-8ExWCfnHzM5vuWpfW95/zihZc3u6zBmy7zQwSmg0VvY='
+            'sha256-wX2yOADeV+NMngflD5uYi3vl50SHC4sfM1EmylVjlX4='
+            'sha256-7eCV4jtsr4t4knb3c4FCRPeu7GGZeOUGE3XvWix0XOQ='
+            'sha256-VgrgcKBvIM3XpiLJ6fEv1Vy6YHBwlKLkYtFdfBMouTo='
+            'sha256-VN1iufDTKa36oK6YDYCRDDvXuT5PSMSvZhL9lidMDg8='
+            'sha256-A31LkcaHDFaYS5DPqGCyHMvKegdfqzxzfKGhKMnVQ1g='
+            'sha256-Sv9N59lsuXe5lk97aOAQzvj3ka8D7flaCn415gjwNzs=';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
+        img-src 'self' data:;
+        connect-src 'self' https://api.manybot.org;
+        object-src 'none';
+        base-uri 'self';
+        frame-ancestors 'self';
+    " always;
+
+    root /srv/manybot-webpage/dist;
+    index index.html;
 
     error_page 404 /404.html;
     error_page 403 /403.html;
     error_page 500 /500.html;
     error_page 503 /503.html;
 
-    location / {
-      proxy_pass http://127.0.0.1:3003;
+    location = /404.html { internal; }
+    location = /403.html { internal; }
+    location = /500.html { internal; }
+    location = /503.html { internal; }
 
-      proxy_set_header Host $host;
-      proxy_set_header X-Real-IP $remote_addr;
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Proto $scheme;
+    location / {
+        try_files $uri $uri/ $uri/index.html =404;
     }
 
-    listen 443 ssl; # managed by Certbot
-    ssl_certificate /etc/letsencrypt/live/manybot.stxerr.dev/fullchain.pem; # managed by Certbot
-    ssl_certificate_key /etc/letsencrypt/live/manybot.stxerr.dev/privkey.pem; # managed by Certbot
-    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    location /_astro/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
 
-}
+    location /pagefind/ {
+        expires 1d;
+    }
 
-server {
-    if ($host = manybot.stxerr.dev) {
-        return 301 https://$host$request_uri;
-    } # managed by Certbot
-
-
-    server_name manybot.stxerr.dev;
-    listen 80;
-    return 404; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/manybot.org/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/manybot.org/privkey.pem; # managed by Certbot
 }
 

@@ -8,7 +8,6 @@
   .nav-lang-group { margin-right: auto; }
 
   /* Hamburguer vira "X" quando o menu está aberto */
-  .nav-hamburger span { transition: transform .2s ease, opacity .2s ease; transform-origin: center; }
   body.nav-open .nav-hamburger span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
   body.nav-open .nav-hamburger span:nth-child(2) { opacity: 0; }
   body.nav-open .nav-hamburger span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
@@ -17,23 +16,21 @@
   body.nav-open { overflow: hidden; }
   body.nav-open::before {
     content: ""; position: fixed; inset: 0; z-index: 98;
-    background: rgba(0,0,0,.55);
+    background: rgba(0,0,0,.4);
   }
 
-  /* Drawer deslizando da direita, inspirado no menu mobile do discord.com */
+  /* Drawer da direita, inspirado no menu mobile do discord.com */
   .nav-links {
-    display: flex; flex-direction: column;
+    display: none; flex-direction: column;
     position: fixed; top: var(--nav-h); right: 0; bottom: 0;
     width: min(85vw, 340px);
-    background: var(--bg-2); border-left: 1px solid var(--border);
+    background: var(--bg); border-left: 1px solid var(--border);
     z-index: 101; overflow-y: auto;
-    transform: translateX(100%);
-    transition: transform .25s ease;
     padding: .5rem 0 1.5rem;
   }
-  .nav-links.open { transform: translateX(0); }
+  .nav-links.open { display: flex; }
   .nav-links li { width: 100%; }
-  .nav-links a { height: auto; line-height: 1; padding: .9rem 1.25rem; border-bottom: 1px solid var(--border); border-radius: 0; font-size: var(--fs-base); }
+  .nav-links a { height: auto; line-height: 1; padding: .9rem 1.25rem; border-bottom: 1px solid var(--border); font-size: var(--fs-base); }
   .nav-mobile-only { display: block; }
   .nav-social-mobile {
     display: flex; gap: .5rem; margin: .5rem 1.25rem .25rem;
@@ -42,21 +39,21 @@
     flex: 1; display: flex; align-items: center; justify-content: center; gap: .5rem;
     padding: .7rem 1rem; text-decoration: none; border-radius: 6px;
     font-family: var(--font-mono); font-size: var(--fs-md);
-    color: var(--text) !important; background: var(--bg-3); border-bottom: none !important;
+    color: var(--text) !important; background: var(--bg-2); border-bottom: none !important;
   }
   .nav-social-mobile a svg { width: 18px; height: 18px; }
 
   .nav-group-trigger {
     width: 100%; height: auto; line-height: 1; padding: .9rem 1.25rem;
-    border-bottom: 1px solid var(--border); border-radius: 0;
+    border-bottom: 1px solid var(--border);
     font-size: var(--fs-base); justify-content: space-between;
   }
   .nav-group:hover .nav-dropdown { display: none; }
   .nav-group.open .nav-dropdown { display: flex; }
   .nav-dropdown {
     position: static; min-width: 0; margin-top: 0;
-    border: none; border-radius: 0; box-shadow: none;
-    background: var(--bg-3);
+    border: none; border-radius: 0;
+    background: var(--bg-2);
   }
   .nav-dropdown a { padding: .75rem 1.25rem .75rem 2rem; }
   .nav-dropdown-title { font-size: var(--fs-base); }
@@ -67,8 +64,8 @@
   }
   .nav-lang-dropdown {
     position: absolute; left: 0; right: auto; min-width: 130px; margin-top: 4px;
-    border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow-sm);
-    background: var(--bg-2);
+    border: 1px solid var(--border); border-radius: 6px;
+    background: var(--bg);
   }
   .nav-lang-dropdown a { padding: .6rem .9rem; }
 
@@ -88,19 +85,23 @@
   .md table { display: block; overflow-x: scroll; }
 
   .hero { padding: 2.5rem 1.25rem 3rem; }
+  body.page-home .hero { padding-top: calc(2.5rem + var(--nav-h)); }
   .hero-logo { margin: 0 auto; }
-  .hero-text { text-align: center; }
-  .hero-tagline { margin-left: auto; margin-right: auto; }
-  .hero-actions { justify-content: center; }
-  .hero-inner { flex-direction: column-reverse; gap: 1.75rem; }
-  .hero-mock { width: 100%; }
+  .hero-text { text-align: center; display: contents; }
+  .hero-tagline { margin-left: auto; margin-right: auto; order: 1; }
+  .hero-subtitle { order: 2; }
+  .hero-mock { width: 100%; order: 3; display: flex; justify-content: center; }
+  .home-compare-grid { grid-template-columns: 1fr; }
+  .compare-code { max-height: 320px; }
+  .home-mascot { width: 210px; }
+  .hero-actions { justify-content: center; order: 4; }
+  .hero-inner { flex-direction: column; gap: 1.75rem; }
   .home-cards { grid-template-columns: 1fr; }
   .home-card { border-right: none; border-bottom: 1px solid var(--border); }
   .home-card-label { font-size: var(--fs-md); }
   .home-card p { font-size: var(--fs-md); }
   .home-honest p { font-size: var(--fs-base); }
   .home-card:last-child { border-bottom: none; }
-  .home-mascot { width: 210px; }
   .hero-tagline { font-size: var(--fs-base); }
 
   .fanarts-grid { column-count: 2; column-gap: 8px; }

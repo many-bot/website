@@ -27,6 +27,11 @@ Edite esse arquivo para configurar o bot — não existe comando `manybot config
 | `EXCLUDE_CHATS` | `[]`       | Lista de JIDs a **ignorar**, mesmo que passem pelo filtro de `CHATS`. Útil pra excluir um chat específico sem restringir todo o resto. |
 | `SECURITY_LEVEL` | `"medium"` | `"low"` / `"medium"` / `"high"` — quão cauteloso o bot é pra não parecer automatizado. Níveis mais altos deixam o bot mais lento (menos chats simultâneos, atrasos maiores), mas reduzem o risco do WhatsApp sinalizar a conta. Valor inválido cai pro padrão. |
 | `LOG_LEVEL` | `"normal"` | `"normal"` (tudo) / `"clean"` (esconde ruído de rotina, mantém sucesso/avisos/erros) / `"minimal"` (só avisos e erros). Valor inválido cai pro padrão. |
+| `AUTO_READ_MESSAGES` | `false` | Quando `true`, marca toda mensagem recebida pelo bot como "lida" (dois tiques azuis). |
+| `HISTORY_MAX_PER_CHAT` | `200` | Quantas mensagens `ctx.chat.history` mantém em memória por chat. |
+| `CRASH_NOTICE_ENABLED` | `true` | Liga/desliga os [avisos de crash](#avisos-de-crash) — uma mensagem no chat quando um plugin quebra ou uma execução é interrompida por um restart, em vez de silêncio. |
+| `CRASH_NOTICE_MESSAGE` | `""` | Texto customizado do aviso de crash (vazio = mensagem padrão no idioma do chat). Aceita os placeholders `{{command}}` e `{{plugin}}`. |
+| `CRASH_NOTICE_MAX_AGE_SECONDS` | `600` | Depois de um restart, um comando interrompido mais antigo que isso é descartado silenciosamente, sem aviso atrasado. |
 | `OWNER_NUMBER` | `""`     | Número (ou JID) tratado como dono do bot — é contra esse valor que a permissão `owner: true` do [`commands.yaml`](/docs/commands-yaml/) checa. String vazia é tratada como "não configurado". |
 | `ADMIN_JID` | `""`        | Número/JID que recebe alertas via WhatsApp quando o bot sobe (alertas críticos, aviso de update). Vazio desliga esse canal — o log e a notificação do SO continuam funcionando mesmo assim. |
 | `SMTP_HOST` / `SMTP_PORT` / `SMTP_SEC` / `SMTP_USER` / `SMTP_PASS` / `SMTP_FROM` / `SMTP_TO` | `""` / `587` / `"starttls"` / `""` / `""` / `""` / `""` | Canal de alerta por e-mail, opcional — deixe `SMTP_HOST` em branco pra desligar. `SMTP_SEC`: `"starttls"` (porta 587, upgrade após conectar), `"ssl"` (porta 465, criptografado desde o início) ou `"none"`. |
@@ -36,9 +41,9 @@ Edite esse arquivo para configurar o bot — não existe comando `manybot config
 | `STATUS_ENABLED` | `true`  | Liga uma página HTTP local mostrando se o bot está online ou offline. |
 | `STATUS_PORT` | `8080`     | Porta da página de status, quando `STATUS_ENABLED = true`. |
 
-> As chaves de driver (`driver_primary`, `driver_baileys_enabled`, `driver_fallback_cooldown_ms`,
-> `driver_verify_window_ms`) controlam a seleção/fallback de driver de conexão. Hoje só o driver
-> Baileys existe, então na prática só valem os padrões — não há necessidade de mexer nelas.
+> O ManyBot roda só com Baileys — o caminho de fallback entre dois drivers (e suas chaves
+> `driver_fallback_cooldown_ms`/`driver_verify_window_ms`) foi removido. A única chave de driver
+> que resta é `driver_baileys_enabled` (padrão `true`), que na prática você nunca precisa mexer.
 
 > Essas são as chaves que o próprio ManyBot lê. Plugins podem definir e ler
 > chaves adicionais no mesmo arquivo via `ctx.config.get("MINHA_CHAVE")` — veja
@@ -83,6 +88,29 @@ para colar em `CHATS`.
 > que o ManyBot expõe em `ctx.chat.id` e no `CHATS` deste arquivo. Identidade de **pessoa**
 > (`ctx.msg.sender`, `id` nos objetos de contato) é diferente: usa `@lid`, não `@c.us` — veja a
 > nota completa em [ctx.msg](/docs/api/ctx-msg/).
+
+### Saindo da sessão (logout)
+
+```bash
+manybot --logout
+```
+
+Apaga a sessão salva do `CLIENT_ID` atual (`~/.manybot/sessions/<CLIENT_ID>`) e encerra — não
+entra no fluxo normal do bot. Use isso pra forçar um login novo por QR/código de pareamento em
+vez de reconectar com as credenciais salvas.
+
+## Avisos de crash
+
+Quando um plugin lança um erro respondendo a um comando, ou o bot reinicia no meio de uma
+execução, o chat agora recebe uma mensagem pedindo pra tentar de novo, em vez de silêncio —
+controlado por `CRASH_NOTICE_ENABLED`, `CRASH_NOTICE_MESSAGE` e `CRASH_NOTICE_MAX_AGE_SECONDS`
+acima.
+
+> É um aviso, não uma retentativa automática — plugins podem ter efeitos colaterais. Só comandos
+> roteados pelo registro de comandos, ou plugins legados `run(ctx)` que rodaram por mais de um
+> segundo numa mensagem com prefixo que o registro não conhece, são reportados; erros de
+> background/event-handler não são. Cada mensagem é reportada no máximo uma vez, mesmo entre
+> restarts.
 
 ## Arquivos legados
 

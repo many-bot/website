@@ -24,9 +24,23 @@ const canonicalPtPath = locale === 'en' ? Astro.url.pathname.replace(/^\/en/, ''
   <meta name="description" content={description} />
   <link rel="icon" href="/assets/favicon.ico" media="(prefers-color-scheme: light)" />
   <link rel="stylesheet" href="/css/main.css" />
+  <link rel="canonical" href={`https://manybot.org${b}${canonicalPtPath}`} />
   <link rel="alternate" hreflang="pt-BR" href={`https://manybot.org${canonicalPtPath}`} />
   <link rel="alternate" hreflang="en" href={`https://manybot.org/en${canonicalPtPath}`} />
   <link rel="alternate" hreflang="x-default" href={`https://manybot.org${canonicalPtPath}`} />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ManyBot" />
+  <meta property="og:locale" content={locale === 'pt' ? 'pt_BR' : 'en_US'} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={`https://manybot.org${b}${canonicalPtPath}`} />
+  <meta property="og:image" content="https://manybot.org/assets/manybot-banner.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content="https://manybot.org/assets/manybot-banner.png" />
 </head>
 <body class={bodyClass}>
   <Nav locale={locale} />

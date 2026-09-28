@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -76,17 +75,6 @@ export default defineConfig({
       ],
       // busca já vem com Pagefind embutido por padrão — não precisa configurar nada
       customCss: ['./src/styles/starlight-overrides.css'],
-    }),
-
-    // Gera sitemap-index.xml + sitemap-0.xml
-    sitemap({
-      i18n: {
-        defaultLocale: 'pt',
-        locales: {
-          pt: 'pt-BR',
-          en: 'en',
-        },
-      },
     }),
   ],
 });

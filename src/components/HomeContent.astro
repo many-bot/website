@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { dictionaries, base, type Locale } from '../i18n';
+import { Code } from 'astro:components';
 
 interface Props {
   locale: Locale;
@@ -9,56 +10,162 @@ interface Props {
 const { locale } = Astro.props;
 const t = dictionaries[locale].home;
 const b = base(locale);
+
+const baileysCode = `const {
+  default: makeWASocket,
+  useMultiFileAuthState,
+  DisconnectReason
+} = require("@whiskeysockets/baileys");
+
+async function start() {
+  const { state, saveCreds } = await useMultiFileAuthState("./auth");
+
+  const sock = makeWASocket({
+    auth: state,
+    printQRInTerminal: true
+  });
+
+  sock.ev.on("creds.update", saveCreds);
+
+  sock.ev.on("connection.update", ({ connection, lastDisconnect }) => {
+    if (connection === "open") {
+      console.log("Connected to WhatsApp");
+    }
+
+    if (connection === "close") {
+      const shouldReconnect =
+        lastDisconnect?.error?.output?.statusCode !==
+        DisconnectReason.loggedOut;
+
+      if (shouldReconnect) start();
+    }
+  });
+
+  sock.ev.on("messages.upsert", async ({ messages, type }) => {
+    if (type !== "notify") return;
+
+    const message = messages[0];
+    if (!message.message || message.key.fromMe) return;
+
+    const jid = message.key.remoteJid;
+
+    const text =
+      message.message.conversation ||
+      message.message.extendedTextMessage?.text ||
+      "";
+
+    if (text === "!ping") {
+      await sock.sendMessage(jid, {
+        text: "Pong!"
+      });
+    }
+  });
+}
+
+start();`;
+
+const manybotCode = `export default async function (ctx) {
+  const { msg } = ctx;
+  if (!msg.is("ping")) return;
+  msg.reply.text("Pong!");
+}`;
 ---
 
 <BaseLayout title={t.title} description={t.description} bodyClass="page-home">
   <main>
     <div class="hero">
       <div class="hero-inner">
-        <img class="hero-logo" src="/assets/manybot-logo.svg" alt="ManyBot" />
-        <h1 class="hero-tagline">{t.tagline}</h1>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="/docs/getting-started/">{t.getStarted}</a>
-          <a class="btn btn-secondary" href="https://wa.manybot.org">{t.joinCommunity}</a>
+        <div class="hero-text">
+          <h1 class="hero-tagline">{t.tagline}</h1>
+          <p class="hero-subtitle">{t.subtitle}</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href={`${b}/docs/getting-started/`}>{t.getStarted}</a>
+            <a class="btn btn-secondary" href={`${b}/docs/official-bot-about/`}>{t.officialBot}</a>
+          </div>
         </div>
-        <img class="home-mascot" src="/assets/many-art-forever-friendship.png" alt="ManyBot Mascot">
+        <div class="hero-mock">
+          <a href="https://www.instagram.com/mistmoon.ink" target="_blank">
+            <img class="home-mascot" src="/assets/many-art-forever-friendship.png" alt="Many: ManyBot mascot" />
+          </a>
+        </div>
       </div>
     </div>
 
     <div class="container">
-<section class="features">
-          <h2>Principais Recursos</h2>
-          <ul class="feature-list">
-            <li><strong>Core Framework:</strong> Base robusta e modular para bots de WhatsApp.</li>
-            <li><strong>ManyPlug:</strong> Instalação de plugins em tempo real sem downtime.</li>
-            <li><strong>Modularidade:</strong> Lógica de negócio separada da infraestrutura.</li>
-            <li><strong>Performance:</strong> Baixa latência e alta concorrência.</li>
-            <li><strong>Open Source:</strong> Transparente, auditável e comunitário.</li>
-          </ul>
-        </section>
-
-      <div class="code-section">
-        <h2>Exemplo de plugin (API estável)</h2>
-          <div class="code-window">
-            <pre><code set:html={`// plugins/meu-plugin/index.js
-
-export async function setup(ctx) {
-  ctx.log.info("meu‑plugin inicializado!");
-}
-
-export default async function (ctx) {
-  if (ctx.msg.is("oi")) {
-    await ctx.send.text("Olá, mundo!");
-  }
-}`}"/></pre>
-          </div>
+      <div class="home-honest">
+        <p>{t.honestText1}</p>
+        <p>{t.honestText2}</p>
       </div>
 
-      <div class="home-footer-links">
-        <a href="/docs/">Documentação</a>
-        <a href="/plugins/">Plugins</a>
-        <a href="/colabore/">Colabore</a>
-        <a href="/donates/">Doações</a>
+      <div class="home-compare">
+        <div class="home-compare-header">
+          <h2>Baileys vs ManyBot</h2>
+          <p>{t.compareIntro}</p>
+        </div>
+        <div class="home-compare-grid">
+          <div class="compare-block compare-block-before">
+            <div class="compare-block-head">
+              <span class="compare-block-label">{t.compareBaileysLabel}</span>
+              <span class="compare-block-lines">{t.compareBaileysLines}</span>
+            </div>
+            <Code code={baileysCode} lang="js" theme="tokyo-night" class="compare-code" />
+          </div>
+          <div class="compare-block compare-block-after">
+            <div class="compare-block-head">
+              <span class="compare-block-label">{t.compareManybotLabel}</span>
+              <span class="compare-block-lines">{t.compareManybotLines}</span>
+            </div>
+            <Code code={manybotCode} lang="js" theme="tokyo-night" class="compare-code" />
+          </div>
+        </div>
+      </div>
+
+      <div class="home-features-header">
+        <h2>{t.featuresTitle}</h2>
+        <p>{t.featuresIntro}</p>
+      </div>
+
+      <div class="home-cards">
+        <div class="home-card">
+          <span class="home-card-label">{t.modularityLabel}</span>
+          <p>{t.modularityText}</p>
+        </div>
+        <div class="home-card">
+          <span class="home-card-label">{t.resilienceLabel}</span>
+          <p>{t.resilienceText}</p>
+        </div>
+        <div class="home-card">
+          <span class="home-card-label">{t.toolingLabel}</span>
+          <p>{t.toolingText}</p>
+        </div>
+        <div class="home-card">
+          <span class="home-card-label">{t.jsTsLabel}</span>
+          <p>{t.jsTsText}</p>
+        </div>
+      </div>
+
+      <div class="home-links">
+        <a href="https://wa.manybot.org" class="link-item">
+          <strong>{t.linksCommunityTitle}</strong>
+          <span>{t.linksCommunityDesc}</span>
+        </a>
+        <a href={`${b}/docs/`} class="link-item">
+          <strong>{t.linksDocsTitle}</strong>
+          <span>{t.linksDocsDesc}</span>
+        </a>
+        <a href="https://github.com/anomalyco/manybot" class="link-item">
+          <strong>{t.linksSourceTitle}</strong>
+          <span>{t.linksSourceDesc}</span>
+        </a>
+      </div>
+
+      <div class="home-cta">
+        <h2>{t.ctaTitle}</h2>
+        <p>{t.ctaText}</p>
+        <div class="home-cta-actions">
+          <a class="btn btn-primary" href="https://wa.manybot.org">{t.ctaContribute}</a>
+          <a class="btn btn-secondary" href={`${b}/colabore/`}>{t.ctaDonate}</a>
+        </div>
       </div>
     </div>
   </main>

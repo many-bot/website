@@ -12,8 +12,7 @@
   display: inline-flex; align-items: center; gap: .4rem;
   font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--text-2);
   border: 1px solid var(--border); border-radius: 999px;
-  padding: 5px 12px; background: transparent;
-  transition: border-color .15s, color .15s, background .15s;
+  padding: 5px 12px; background: transparent; text-decoration: none;
 }
 .changelog-tab:hover { color: var(--text); border-color: var(--border-2); }
 .changelog-tab.active { color: var(--bg); background: var(--accent); border-color: var(--accent); }
@@ -37,10 +36,10 @@
 .changelog-feed-item { position: relative; margin-bottom: .25rem; }
 .changelog-feed-link {
   display: block; padding: .9rem 1rem .9rem .85rem; margin-left: -.85rem;
-  border-radius: 6px; text-decoration: none; color: inherit;
-  transition: background var(--transition);
+  border-radius: var(--radius-md); border: 1px solid transparent;
+  text-decoration: none; color: inherit;
 }
-.changelog-feed-link:hover { background: var(--bg-2); }
+.changelog-feed-link:hover { background: var(--bg-2); border-color: var(--border); }
 
 .changelog-feed-dot {
   position: absolute; left: -1.4rem; top: 1.15rem;
@@ -67,7 +66,7 @@
 
 /* Plugins tab */
 .changelog-plugins-panel {
-  border: 1px dashed var(--border); border-radius: 8px;
+  border: 1px dashed var(--border); border-radius: var(--radius-md);
   padding: 2rem; text-align: center; max-width: 460px; margin: 1rem auto 0;
 }
 .changelog-plugins-panel h2 { font-family: var(--font-mono); font-size: var(--fs-lg); margin-bottom: .5rem; }

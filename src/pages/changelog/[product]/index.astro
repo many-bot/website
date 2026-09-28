@@ -1,49 +1,20 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getChangelogList, PRODUCTS, PRODUCT_LABELS, type Product } from '../../../lib/changelog';
+import ChangelogContent from '../../../components/ChangelogContent.astro';
+import { CHANGELOG_TABS, PRODUCT_LABELS, type ChangelogTab, type Product } from '../../../lib/changelog';
 
 export async function getStaticPaths() {
-  return PRODUCTS.map((product) => ({ params: { product } }));
+  return CHANGELOG_TABS.filter((tab) => tab !== 'all').map((product) => ({ params: { product } }));
 }
 
-const { product } = Astro.params as { product: Product };
-const label = PRODUCT_LABELS[product];
-const entries = await getChangelogList(product);
+const { product } = Astro.params as { product: Exclude<ChangelogTab, 'all'> };
+const label = product === 'plugins' ? 'Plugins' : PRODUCT_LABELS[product as Product];
+const description =
+  product === 'plugins' ? 'Changelog de plugins do ManyBot.' : `Histórico de releases do ${label}.`;
 ---
 
-<BaseLayout
-  title={`Changelog · ${label} - ManyBot`}
-  description={`Histórico de releases do ${label}.`}
->
-  <main class="container">
-    <a class="back-link" href="/changelog/">← changelog</a>
-
-    <div class="blog-header">
-      <h1>Changelog · {label}</h1>
-      <a class="rss-link" href={`/changelog/${product}/rss.xml`} target="_blank" rel="noopener">RSS</a>
-    </div>
-
-    {entries.length === 0 ? (
-      <p class="empty-notice">nenhuma release publicada ainda.</p>
-    ) : (
-      <ol class="changelog-feed">
-        {entries.map((entry) => (
-          <li class="changelog-feed-item">
-            <a class="changelog-feed-link" href={`/changelog/${product}/${entry.data.version}/`}>
-              <span class={`changelog-feed-dot changelog-dot--${product}`}></span>
-              <div class="changelog-feed-body">
-                <div class="changelog-feed-top">
-                  <span class="changelog-version">v{entry.data.version}</span>
-                  {entry.data.breaking && <span class="changelog-breaking-badge">breaking</span>}
-                  <span class="changelog-date">{entry.data.date.toISOString().slice(0, 10)}</span>
-                </div>
-                {entry.data.excerpt && <div class="changelog-item-excerpt">{entry.data.excerpt}</div>}
-              </div>
-            </a>
-          </li>
-        ))}
-      </ol>
-    )}
+<BaseLayout title={`Changelog · ${label} - ManyBot`} description={description}>
+  <main class="container container--wide">
+    <ChangelogContent initialTab={product} />
   </main>
 </BaseLayout>
-
