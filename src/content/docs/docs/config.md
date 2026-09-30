@@ -10,6 +10,13 @@ Na primeira execução, o ManyBot cria `~/.manybot/manybot.toml` (no Windows,
 Edite esse arquivo para configurar o bot — não existe comando `manybot config`,
 é só um arquivo de texto.
 
+Para usar um diretório diferente de `~/.manybot`, defina a variável de ambiente
+`MANYBOT_CONFIG_DIR` antes de iniciar o bot:
+
+```bash
+MANYBOT_CONFIG_DIR=/caminho/do/diretorio manybot
+```
+
 > 🧪 Comandos têm seu próprio arquivo, `~/.manybot/commands.yaml` — separado deste e em YAML,
 > não TOML. É a nova arquitetura de comandos, ainda **experimental**: veja
 > [`commands.yaml`](/docs/commands-yaml/).
