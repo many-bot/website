@@ -1,7 +1,11 @@
 import fetch from "node-fetch";
 import db from "./db/index.js";
 
-const registry = await fetch(`https://manybot.org/manyplug/mpindex.json`).then(r => r.json());
+async function loadRegistry() {
+  const res = await fetch("https://manybot.org/manyplug/mpindex.json");
+  if (!res.ok) throw new Error(`registry ${res.status}`);
+  return res.json();
+}
 
 const CONCURRENCY = 4;
 const RETRIES = 2;
@@ -51,15 +55,16 @@ async function fetchRegistryFile(registry, slug, type, parser = r => r.text()) {
   }
 }
 
-async function fetchReadme(slug) {
+async function fetchReadme(registry, slug) {
 	return fetchRegistryFile(registry, slug, 'readme');
 }
 
-async function fetchManifest(slug) {
+async function fetchManifest(registry, slug) {
 	return fetchRegistryFile(registry, slug, 'manifest', r => r.json());
 }
 
 export async function syncRegistry() {
+  const registry = await loadRegistry();
   const entries = Object.entries(registry.plugins);
   const toSettled = promise =>
     promise.then(
@@ -68,10 +73,10 @@ export async function syncRegistry() {
     );
 
   const readmes = await withLimit(entries, CONCURRENCY, ([slug]) =>
-    toSettled(fetchReadme(slug))
+    toSettled(fetchReadme(registry, slug))
   );
   const manifests = await withLimit(entries, CONCURRENCY, ([slug]) =>
-    toSettled(fetchManifest(slug))
+    toSettled(fetchManifest(registry, slug))
   );
 
   const upsert = db.prepare(`
@@ -131,3 +136,4 @@ if (process.argv[1].endsWith("sync.js")) {
   await syncRegistry();
   process.exit(0);
 }
+

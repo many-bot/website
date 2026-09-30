@@ -46,18 +46,21 @@ app.get("/download-chrome-win", (req, res) => {
   res.download(chromeWin);
 });
 
-try {
+app.listen(PORT, () => console.log(`ManyPlug API listening ${PORT}`));
+
+let syncing = false;
+async function runSync() {
+  if (syncing) return;
+  syncing = true;
+  try {
     await syncRegistry();
-} catch (err) {
-    console.error("Initial registry sync failed:", err);
+  } catch (err) {
+    console.error("Registry sync failed:", err);
+  } finally {
+    syncing = false;
+  }
 }
 
-setInterval(async () => {
-    try {
-        await syncRegistry();
-    } catch (err) {
-        console.error("Registry sync failed:", err);
-    }
-}, SYNC_INTERVAL_MS);
+runSync();
+setInterval(runSync, SYNC_INTERVAL_MS);
 
-app.listen(PORT, () => console.log(`ManyPlug API listening ${PORT}`));
