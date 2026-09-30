@@ -24,6 +24,7 @@
   width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
 }
 .changelog-dot--manybot  { background: var(--accent); }
+.changelog-dot--many     { background: var(--pink); }
 .changelog-dot--manyplug { background: var(--green); }
 .changelog-dot--website  { background: var(--yellow); }
 

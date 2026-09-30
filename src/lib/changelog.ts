@@ -3,11 +3,12 @@ import type { CollectionEntry } from 'astro:content';
 
 export type ChangelogEntry = CollectionEntry<'changelog'>;
 
-export const PRODUCTS = ['manybot', 'manyplug', 'website'] as const;
+export const PRODUCTS = ['manybot', 'many', 'manyplug', 'website'] as const;
 export type Product = (typeof PRODUCTS)[number];
 
 export const PRODUCT_LABELS: Record<Product, string> = {
   manybot: 'ManyBot',
+  many: 'Many',
   manyplug: 'ManyPlug',
   website: 'Website',
 };

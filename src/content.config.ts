@@ -35,7 +35,7 @@ export const collections = {
       generateId: ({ data }) => `${data.product}/${data.version}`,
     }),
     schema: z.object({
-      product: z.enum(['manybot', 'manyplug', 'website']),
+      product: z.enum(['manybot', 'many', 'manyplug', 'website']),
       version: z.string(),
       date: z.coerce.date(),
       excerpt: z.string().optional(),

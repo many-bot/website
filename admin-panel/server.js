@@ -10,7 +10,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
 const BLOG_DIR = path.join(REPO_ROOT, 'src', 'content', 'blog');
 const CHANGELOG_DIR = path.join(REPO_ROOT, 'src', 'content', 'changelog');
-const PRODUCTS = ['manybot', 'manyplug', 'website'];
+const PRODUCTS = ['manybot', 'many', 'manyplug', 'website'];
 
 const PORT = process.env.PORT || 5173;
 
